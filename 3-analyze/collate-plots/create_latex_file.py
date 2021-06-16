@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-## ADAPT TO YOUR CODE
-CODE_NAME = "quantum_espresso"
+## ADAPT TO YOUR PLUGIN NAME
+PLUGIN_NAME = "quantum_espresso"
 
 ## ADAPT TO THE CORRECT LIST OF ELEMENTS
 element_list = [
@@ -25,8 +25,8 @@ with open('tex-template/results.tex', 'w') as fhandle:
 
     for element in element_list:
         for configuration in ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']:
-            fhandle.write("\\IfFileExists{../../outputs/plots-%s/%s-%s.png}"  % (CODE_NAME, element, configuration))
-            fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s/%s-%s}}" % (CODE_NAME, element, configuration))
+            fhandle.write("\\IfFileExists{../../outputs/plots-%s/%s-%s.png}"  % (PLUGIN_NAME, element, configuration))
+            fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s/%s-%s}}" % (PLUGIN_NAME, element, configuration))
             fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
         fhandle.write("\n")
 

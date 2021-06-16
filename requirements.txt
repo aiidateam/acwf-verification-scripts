@@ -1,0 +1,5 @@
+numpy
+matplotlib
+tqdm
+ase
+git+https://github.com/aiidateam/aiida-submission-controller@v0.1.0#egg=aiida_submission_controller

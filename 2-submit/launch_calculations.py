@@ -12,12 +12,11 @@ from aiida_submission_controller import FromGroupSubmissionController
 
 DRY_RUN = True
 MAX_CONCURRENT = 200
-
 PLUGIN_NAME = 'quantum_espresso'
+CODE_LABEL = 'qe-6.7-pw@daint-mc'
 
 STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
 WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
-CODE_LABEL = 'qe-6.7-pw@daint-mc'
 
 class QEEOSSubmissionController(FromGroupSubmissionController):
     """A SubmissionController for submitting EOS with Quantum ESPRESSO common workflows."""
@@ -61,16 +60,7 @@ class QEEOSSubmissionController(FromGroupSubmissionController):
                 }
             }
 
-        try:
-            generator.get_builder(structure, engines)
-        except ValueError:
-            # Typically this happens because I don't have the pseudo -
-            # I return None to skip this system.
-            # This might need to be adapted if the same issue occurs in a different
-            # way. Alternatively, you can create a different subgroup e.g. 
-            # `commonwf-oxides/set1/structures/quantum-espresso-subset` and start
-            # from that as STRUCTURES_GROUP_LABEL.
-            return None
+        generator.get_builder(structure, engines)
 
         inputs = {
             'structure': structure,
