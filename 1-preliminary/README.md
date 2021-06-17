@@ -14,6 +14,9 @@ for node in Group.get(label='commonwf-oxides/set1/structures').nodes:
     print(node.extras)
 ```
 
+For reference, a CSV file with the element name, the configuration (`XO`, `XO2`, `X2O3`, ...) and
+the UUID of the structure is also provided, for convenience, in the file `set1_structures_uuids.csv`.
+
 # Create the actual (sub)group of structures that you want to run
 It is highly probable that your code might not be able to deal with *all* systems (e.g.
 you might not have the pseudos for elements with high Z; or you might first want to run
