@@ -29,7 +29,7 @@ These scripts are a template (based on Quantum ESPRESSO) that can be adapted rel
 - Install needed quantities (e.g. `aiida-pseudo install sssp -v 1.1 -x PBE -p precision`) and document them (if we need to report them in the paper, similarly to the supplementary of the first paper)
 
 At this point, you can already submit some tests if you want to check if everything is correclty setup:
-  - `aiida-common-workflows launch eos YOUR_CODE_TYPE -p precise -S Si -X YOUR_CODE_LABEL@YOUR_COMPUTER_LABEL -r none -s collinear -m 1 -w 3600 -d`
+  - `aiida-common-workflows launch eos YOUR_CODE_TYPE -p precise -S Si -X YOUR_CODE_LABEL@YOUR_COMPUTER_LABEL -r none -m 1 -w 3600 -d`
     - Note: if you have to add options in the metadata of the calculations, you can use this command line flag that we recently introduced: `--engine-options='{"relax": {"account": "mr0"}}'`
 
 
