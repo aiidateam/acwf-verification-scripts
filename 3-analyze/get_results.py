@@ -134,13 +134,13 @@ if __name__ == "__main__":
                 dense_volumes = np.linspace(min(volumes), max(volumes), 100)
                 if fit_ok:
                     eos_fit_energy = birch_murnaghan(dense_volumes, E0, min_volume, bulk_modulus_ev_ang3, bulk_deriv)
-                # Note: Use the same E0 for the WIEN2K, this is how the Delta is supposed to be computed
-                eos_fit_energy_WIEN2K = birch_murnaghan(
-                    dense_volumes, E0, 
-                    cottenier_data_this_material[0], # min_volume
-                    cottenier_data_this_material[1] / 160.21766208, # bulk_modulus_ev_ang3
-                    cottenier_data_this_material[2] # bulk_deriv
-                )
+                    # Note: Use the same E0 for the WIEN2K, this is how the Delta is supposed to be computed
+                    eos_fit_energy_WIEN2K = birch_murnaghan(
+                        dense_volumes, E0, 
+                        cottenier_data_this_material[0], # min_volume
+                        cottenier_data_this_material[1] / 160.21766208, # bulk_modulus_ev_ang3
+                        cottenier_data_this_material[2] # bulk_deriv
+                    )
 
                 if PLOT:
                     fig = pl.figure()

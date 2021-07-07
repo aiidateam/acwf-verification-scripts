@@ -4,7 +4,7 @@ from aiida import orm
 PLUGIN_NAME = 'quantum_espresso'
 
 STRUCTURES_FULL_GROUP_LABEL = 'commonwf-oxides/set1/structures'
-STRUCTURES_GROUP_LABEL = 'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
 
 group = orm.Group.objects.get(label=STRUCTURES_FULL_GROUP_LABEL)
 subgroup, _ = orm.Group.objects.get_or_create(label=STRUCTURES_GROUP_LABEL)
