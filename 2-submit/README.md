@@ -4,7 +4,7 @@ You now need to prepare the script of the common workflow to run the calculation
 
 In principle, being the common interface generic, the amount of changes should be small: but there might still be code-specific changes to do (e.g. for optimal parallelization).
 
-You can change the file `first-tests/launch_example_one_calc_only.py`. 
+You can change the example file `first-tests/launch_example_one_calc_only_template.py`. 
 
 This will keep running the same system (Ag2O), so you can check if the script is correct.
 
@@ -16,9 +16,8 @@ When you are done, just execute the script with `verdi run` and adapt it until w
 
 # Preparing the script to run all systems
 
-You are now ready to modify the `launch_calculations.py` script.
-
-Open it, and modify the following aspects:
+You are now ready to create your own launch script.
+We suggest that you copy the file `launch_calculations_qe.py`, rename it as `launch_calculations_<PLUGIN_NAME>.py` and modify as follows:
 
 - `DRY_RUN = True`: Change it to False when you are ready to run. At the beginning you can keep it to True to check if the script is correct without running.
 - `MAX_CONCURRENT = 200`: change to the maximum number of workchains that are allowed to run at any time (note! this is the number of *workchains* - the actual number of CalcJobs submitted to the queue will be 6 times larger at the end of the EOS as points are submitted in parallel)

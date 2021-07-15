@@ -22,7 +22,10 @@ It is highly probable that your code might not be able to deal with *all* system
 you might not have the pseudos for elements with high Z; or you might first want to run
 for a very small set).
 
-Then edit the `create_starting_subgroup.py` replacing the `PLUGIN_NAME = 'quantum_espresso'`,
-and changing the logic to set the `valid_elements` list.
+As a first step, in the main directory of the repository (i.e., one level above the folder
+named `1-preliminary`), create a `plugin_name.txt` file, containing on a single line the
+exact plugin name (referred as `PLUGIN_NAME` in the following) of your plugin (e.g., `quantum_espresso` for Quantum ESPRESSO).
+
+Then, adapt the `create_starting_subgroup.py`, changing the logic to set the `valid_elements` list.
 
 Then, run the script to create the appropriate subgroup `commonwf-oxides/set1/structures/PLUGIN_NAME`.
