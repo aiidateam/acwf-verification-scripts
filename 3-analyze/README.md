@@ -22,6 +22,6 @@ If you want to create a single PDF from all PNG plots:
 - adapt the `create_latex_file.py` to use your plugin name
 - run the `create_latex_file.py`
 - enter the `tex-template` subfolder
-- run `latex results.tex`
+- run `pdflatex results.tex`
 - inspect the output `results.pdf`
 
