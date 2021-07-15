@@ -31,11 +31,16 @@ group = orm.Group.objects.get(label=STRUCTURES_FULL_GROUP_LABEL)
 subgroup, _ = orm.Group.objects.get_or_create(label=STRUCTURES_GROUP_LABEL)
 
 #####################################################################################
-## Adapt here
-query = orm.QueryBuilder()
-query.append(orm.Node, project="attributes.element", tag='pseudo')
-query.append(orm.Group, filters={'label': 'SSSP/1.1/PBE/precision'}, with_node='pseudo')
-valid_elements = query.all(flat=True)
+## PLUGIN-SPECIFIC PART: ADD THE ELIF FOR YOUR CODE
+if PLUGIN_NAME == 'quantum_espresso':
+    query = orm.QueryBuilder()
+    query.append(orm.Node, project="attributes.element", tag='pseudo')
+    query.append(orm.Group, filters={'label': 'SSSP/1.1/PBE/precision'}, with_node='pseudo')
+    valid_elements = query.all(flat=True)
+#elif PLUGIN_NAME == 'xxx':
+#    yyy
+else:
+    raise ValueError(f"Unknown plugin name `{PLUGIN_NAME}`!")
 #####################################################################################
 
 print(f"Number of valid elements: {len(valid_elements)}")

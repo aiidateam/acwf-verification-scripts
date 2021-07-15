@@ -26,6 +26,6 @@ As a first step, in the main directory of the repository (i.e., one level above 
 named `1-preliminary`), create a `plugin_name.txt` file, containing on a single line the
 exact plugin name (referred as `PLUGIN_NAME` in the following) of your plugin (e.g., `quantum_espresso` for Quantum ESPRESSO).
 
-Then, adapt the `create_starting_subgroup.py`, changing the logic to set the `valid_elements` list.
+Then, adapt the `create_starting_subgroup.py`, addign the logic to set the `valid_elements` list for your specific plugin (add an `elif` statement for your plugin where marked by the comments). Feel free to push back your changes if you want (in that case, make sure that all imports that only your code might need are within the `if` statement, so other people can still run the script).
 
 Then, run the script to create the appropriate subgroup `commonwf-oxides/set1/structures/PLUGIN_NAME`.
