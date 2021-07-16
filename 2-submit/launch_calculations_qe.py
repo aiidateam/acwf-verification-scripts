@@ -18,7 +18,7 @@ CODE_LABEL = 'qe-6.7-pw@daint-mc'
 STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
 WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
 
-class QEEOSSubmissionController(FromGroupSubmissionController):
+class EosSubmissionController(FromGroupSubmissionController):
     """A SubmissionController for submitting EOS with Quantum ESPRESSO common workflows."""
     def __init__(self, code_label, *args, **kwargs):
         """Pass also a code label, that should be a code associated to an `quantumespresso.pw` plugin."""
@@ -86,7 +86,7 @@ class QEEOSSubmissionController(FromGroupSubmissionController):
         return inputs, self._process_class
 
 if __name__ == "__main__":
-    controller = QEEOSSubmissionController(
+    controller = EosSubmissionController(
         parent_group_label=STRUCTURES_GROUP_LABEL,
         code_label=CODE_LABEL,
         group_label=WORKFLOWS_GROUP_LABEL,
