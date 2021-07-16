@@ -23,10 +23,9 @@ We suggest that you copy the file `launch_calculations_qe.py`, rename it as `lau
 - `MAX_CONCURRENT = 200`: change to the maximum number of workchains that are allowed to run at any time (note! this is the number of *workchains* - the actual number of CalcJobs submitted to the queue will be 6 times larger at the end of the EOS as points are submitted in parallel)
 - `PLUGIN_NAME = 'quantum_espresso'`: replace with your plugin name
 - `CODE_LABEL = 'qe-6.7-pw@daint-mc'`: replace with your code name
-`aiida-submission-controller` 
-The rest of the script uses the classes to manage submission.
-You will need to adapt the content of the `get_inputs_and_processclass_from_extras` method reusing/copying
-the code that you wrote in the previous step in the file `launch_example_one_calc_only.py`.
+-  adapt the content of the `get_inputs_and_processclass_from_extras` method of the EosSubmissionController class reusing/copying the code that you wrote in the previous step in the file `launch_example_one_calc_only.py`.
+
+NOTE: the script uses classes of the `aiida-submission-controller` package that must be installed before running the script (see ../requirements.txt)
 
 When you are ready, you can execute it to see if everything works as expected.
 The output will contain information on how many simulations are still to run, how many

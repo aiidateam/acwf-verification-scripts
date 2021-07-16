@@ -23,7 +23,6 @@ If you want to create a single PDF from all PNG plots, to inspect graphically th
 directly perform a cross-code validation):
 
 - go in the folder `collate-plots`
-- adapt the `create_latex_file.py` to use your plugin name
 - run the `create_latex_file.py`
 - enter the `tex-template` subfolder
 - run `pdflatex results.tex`

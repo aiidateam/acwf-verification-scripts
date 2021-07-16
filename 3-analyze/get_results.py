@@ -166,7 +166,7 @@ if __name__ == "__main__":
                 if PLOT:
                     fig = pl.figure()
                     if fit_ok:
-                        pl.plot(volumes, energies - E0, 'ob', label='QE')
+                        pl.plot(volumes, energies - E0, 'ob', label=f'{PLUGIN_NAME}')
                     else:
                         # No -E0 since it's not computed; moreover I don't plot even Wien2K
                         # since I wouldn't know how to align it
@@ -174,7 +174,7 @@ if __name__ == "__main__":
                     
                     if fit_ok:
                         pl.plot(dense_volumes, eos_fit_energy_WIEN2K - E0, '-r', label='WIEN2K data')
-                        pl.plot(dense_volumes, eos_fit_energy - E0, '-b', label='QE fit')
+                        pl.plot(dense_volumes, eos_fit_energy - E0, '-b', label=f'{PLUGIN_NAME} fit')
                         pl.fill_between(dense_volumes, eos_fit_energy - E0, eos_fit_energy_WIEN2K - E0, alpha=0.5, color='red')
                     
                     pl.legend(loc='upper center')
