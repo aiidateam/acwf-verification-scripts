@@ -1,8 +1,6 @@
 # commonwf-oxides-scripts
 Scripts to facilitate the common-workflow project on oxides
 
-Author: Giovanni Pizzi (EPFL)
-
 ## Content of the folders
 
 These scripts are a template (based on Quantum ESPRESSO) that can be adapted relatively simply for any other code.
