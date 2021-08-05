@@ -1,12 +1,11 @@
+#!/usr/bin/env runaiida
 import os
+import json
 
 from aiida import orm
-from aiida.common import LinkType
-from aiida.common import LinkType
-from aiida.tools.graph.graph_traversers import traverse_graph
+from aiida.cmdline.utils.common import get_workchain_report
 
 def get_plugin_name():
-    import os
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
         os.pardir, 'plugin_name.txt'
@@ -42,10 +41,20 @@ group_node_query = orm.QueryBuilder().append(
 group_node_query.distinct()
 wf_nodes = group_node_query.all(flat=True)
 
+data = {}
+for node in wf_nodes:
+    structure = node.inputs.structure
+    print(f"{structure.extras['element']} {structure.extras['configuration']} ({structure.pk}) -> {node.pk}: {node.process_state.value} ({node.exit_status})")
+    data[f"{structure.extras['element']}-{structure.extras['configuration']}"] = {
+        'structure': structure.uuid, 
+        'eos_workflow': node.uuid, 
+        'eos_workflow_report': get_workchain_report(node, levelname='REPORT'),
+        'process_state': node.process_state.value,
+        'exit_status': node.exit_status
+    }
+
+fname = f"outputs/errors-{PLUGIN_NAME}.json"
 os.makedirs('outputs', exist_ok=True)
-fname = f"outputs/errors-{PLUGIN_NAME}.txt"
 with open(fname, 'w') as fhandle:
-    for node in wf_nodes:
-        structure = node.inputs.structure
-        fhandle.write(f"{structure.extras['element']} {structure.extras['configuration']} ({structure.pk}) -> {node.pk}: {node.process_state.value} ({node.exit_status})\n")
+    json.dump(data, fhandle, indent=2, sort_keys=True)
 print(f"'{fname}' written.")
