@@ -1,0 +1,4 @@
+results-*.json
+results-*.txt
+errors-*.json
+plots-*

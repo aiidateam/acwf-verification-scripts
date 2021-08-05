@@ -45,6 +45,15 @@ if __name__ == "__main__":
         print(f"NOTE: If you want to use the plot comparing with another plugin, pass the other")
         print(f"      plugin name as a command-line parameter.")
 
+    if not os.path.exists(
+        os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), os.pardir,
+             "outputs", "plots-%s%s" % (PLUGIN_NAME, compare_with_string))):
+        print("ERROR! No folder ../outputs/plots-%s%s found." % (PLUGIN_NAME, compare_with_string))
+        print("       Did you run the `../outputs/generate_plots.py` script?")
+        sys.exit(1)
+
+
     with open('tex-template/results.tex', 'w') as fhandle:
         fhandle.write(r"""\documentclass{article}
         \usepackage[top=0.5cm, bottom=1.5cm, left=1.5cm, right=0.5cm, landscape]{geometry}

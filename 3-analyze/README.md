@@ -21,9 +21,9 @@ In particular, it will create:
 - `results-warnings-<PLUGIN_NAME>.txt` with some textual information on warnings (the same that are also printed on screen when running the `get_results.py` script).
 
 ## Generating the plots
-In the `outputs` folder you will find a file `plot_compare.py`. Just run it to create a number of PNG plots of the systems you have run. These PNGs will be stored in a subfolder `plots-<PLUGIN_NAME>`, and each PNG will contain the data points and the fit, if successful, for those systems where the EOS workchains succeeded and generated the EOS energy-vs-volume points.
+In the `outputs` folder you will find a file `generate_plots.py`. Just run it to create a number of PNG plots of the systems you have run. These PNGs will be stored in a subfolder `plots-<PLUGIN_NAME>`, and each PNG will contain the data points and the fit, if successful, for those systems where the EOS workchains succeeded and generated the EOS energy-vs-volume points.
 
-If you want to generate comparison plots of your code with one of the other codes, you can then instead pass an additional parameter to the `plot_compare.py` with the code you want to compare with (i.e. `./plot_compare.py <OTHER_PLUGIN>`, where `<OTHER_PLUGIN>` is e.g. `quantum_espresso`, `cottenier-wien2k`, ...). NOTE: You need to first put the corresponding `results-warnings-<PLUGIN_NAME>.txt` in the same folder.
+If you want to generate comparison plots of your code with one of the other codes, you can then instead pass an additional parameter to the `generate_plots.py` with the code you want to compare with (i.e. `./generate_plots.py <OTHER_PLUGIN>`, where `<OTHER_PLUGIN>` is e.g. `quantum_espresso`, `cottenier-wien2k`, ...). NOTE: You need to first put the corresponding `results-warnings-<PLUGIN_NAME>.txt` in the same folder.
 These PNGs will be stored in a subfolder `plots-<PLUGIN_NAME>-vs-<OTHER_PLUGIN>`. The PNGs will be very similar to those without comparison, but in addition (where available) the fit of the other plugin will be shown, as well as a red region highlighting the difference in EOS between the two plugins.
 
 ## Creating a single collated PDF
