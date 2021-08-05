@@ -1,15 +1,14 @@
+#!/usr/bin/env runaiida
 from collections import Counter
-from eos_utils.eosfit_31_adapted import BM, echarge
+import json
 import os
 
 import numpy as np
-import pylab as pl
 import tqdm
+from eos_utils.eosfit_31_adapted import BM, echarge
 
-PLOT = True
 
 def get_plugin_name():
-    import os
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
         os.pardir, 'plugin_name.txt'
@@ -37,56 +36,9 @@ WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
 from aiida import orm
 from aiida.common import LinkType
 
-from aiida.common import LinkType
-
-def validate_element(element_name):
-    from ase.data import atomic_numbers
-    assert element_name in atomic_numbers.keys(), f"Invalid element name {element_name}"
-
-def get_conf_nice(configuration_string):
-    ret_pieces = []
-    for char in configuration_string:
-        if char in "0123456789":
-            ret_pieces.append(f"$_{char}$")
-        else:
-            ret_pieces.append(char)
-    return "".join(ret_pieces)
-
-def get_cottenier_data():
-    all_data = {}
-
-    # volume_factor is there because we compute per unit-cell, while the data
-    # from Stefaan is per atom
-    for configuration, volume_factor in [('X2O3', 10), ('X2O5', 14), ('X2O', 3), ('XO2', 3), ('XO3', 4), ('XO', 2)]:
-        with open(os.path.join(os.path.dirname(__file__), 'cottenier_data_set1', f'{configuration}_temps.dat')) as fhandle:
-            lines = fhandle.readlines()
-
-        for line in lines:
-            pieces = line.split()
-            # I only take the first columns, more columns are typically comments
-            element = pieces[0]
-            validate_element(element)
-            V0 = float(pieces[1]) * volume_factor
-            B0_GPa = float(pieces[2])
-            B0prime = float(pieces[3])
-
-            all_data[(element, configuration)] = (V0, B0_GPa, B0prime)
-
-    return all_data
-
-def birch_murnaghan(V,E0,V0,B0,B01):
-    r = (V0/V)**(2./3.)
-    return (E0 +
-            9./16. * B0 * V0 * (
-            (r-1.)**3 * B01 + 
-            (r-1.)**2 * (6. - 4.* r)))
-   
 
 if __name__ == "__main__":
-    if PLOT:
-        PLOT_FOLDER = f'outputs/plots-{PLUGIN_NAME}'
-        os.makedirs(PLOT_FOLDER, exist_ok=True)
-
+    # Get all nodes in the output group (EOS workflows)
     group_node_query = orm.QueryBuilder().append(
         orm.Group, filters={'label': WORKFLOWS_GROUP_LABEL}, tag='groups',
     ).append(orm.Node, project='*', with_group='groups')
@@ -94,34 +46,53 @@ if __name__ == "__main__":
     wf_nodes = group_node_query.all(flat=True)
 
     states = []
-    completely_off = []
-    good_cnt = 0
-    bad_pks = []
-    cottenier_data = get_cottenier_data()
     data_to_print = {}
-    output_lines = []
+    warning_lines = []
 
+    uuid_mapping = {}
+    all_missing_outputs = []
+    completely_off = []
+    failed_wfs = []
+    all_eos_data = {}
+    all_BM_fit_data = {}
+
+    # Initialize the progress bar as a variable so we can dynamically set its description
     progress_bar = tqdm.tqdm(wf_nodes)
     for node in progress_bar:
         structure = node.inputs.structure
-        description = f"{structure.extras['element']} {structure.extras['configuration']} ({structure.pk})"
-        # Using 16s to minimize length change of the description
+        element = structure.extras['element']
+        configuration = structure.extras['configuration']
+
+        uuid_mapping[f'{element}-{configuration}'] = {
+            'structure': structure.uuid,
+            'eos_workflow': node.uuid
+        }
+
+        # Set the progress bar description; using :16s to minimize length change of the description
+        description = f"{element} {configuration} ({structure.pk})"
         progress_bar.set_description(f"{description:16s}")
         progress_bar.refresh()
 
+        # Get the state (possibly adding the exit status if it's finished) and add to a list
         state = node.process_state.value
         if state == 'finished':
             state = f'{state}.{node.exit_status}'
         states.append(state)
+
+        # Initialize to None if the outputs are not there
+        eos_data = None
+        BM_fit_data = None
+
+        # For successfully finished workflows, fit the EOS
         if node.process_state.value == 'finished' and node.exit_status == 0:
-            energies = {}
-            volumes = {}
-            pks = {}
+            # Check if the required outputs are there
             outputs = node.get_outgoing(link_type=LinkType.RETURN).nested()
             missing_outputs = tuple(output for output in ('structures', 'total_energies') if output not in outputs)
             if missing_outputs:
-                output_lines.append(f"  WARNING! MISSING OUTPUTS: {missing_outputs}")
+                all_missing_outputs.append({'element': element, 'configuration': configuration, 'missing': missing_outputs})
+                warning_lines.append(f"  WARNING! MISSING OUTPUTS: {missing_outputs}")
             else:
+                # Extract volumes and energies for this system
                 volumes = []
                 energies = []
                 for index, sub_structure in sorted(outputs['structures'].items()):
@@ -129,93 +100,92 @@ if __name__ == "__main__":
                     energies.append(outputs['total_energies'][index].value)
                 energies = [e for _, e in sorted(zip(volumes, energies))]
                 volumes = sorted(volumes)
+                # List as I need to JSON-serialize it
+                eos_data = (np.array([volumes, energies]).T).tolist()
+
+                # Check if the central point was completely off (i.e. the minimum of the energies is
+                # on the very left or very right of the volume range)
                 min_loc = np.array(energies).argmin()
-                if min_loc == 0 or min_loc == len(energies) - 1:
-                    completely_off.append((structure.extras['element'], structure.extras['configuration']))
-                good_cnt += 1
-                    
-                data = np.array([volumes, energies]).T
+                if min_loc == 0:
+                    # Side is whether the minimum occurs on the left side (small volumes) or right side (large volumes)
+                    completely_off.append({'element': element, 'configuration': configuration, 'side': 'left'})
+                elif min_loc == len(energies) - 1:
+                    completely_off.append({'element': element, 'configuration': configuration, 'side': 'right'})   
+
                 try:
-                    min_volume, E0, bulk_modulus_internal, bulk_deriv, residuals = BM(data)
+                    # I need to pass a numpy array
+                    min_volume, E0, bulk_modulus_internal, bulk_deriv, residuals = BM(np.array(eos_data))
                     bulk_modulus_GPa = bulk_modulus_internal * echarge * 1.0e21
                     #1 eV/Angstrom3 = 160.21766208 GPa
                     bulk_modulus_ev_ang3 = bulk_modulus_GPa / 160.21766208
                     data_to_print[(structure.extras['element'], structure.extras['configuration'])] = (
                         min_volume, E0, bulk_modulus_GPa, bulk_deriv)
+                    BM_fit_data = {
+                        'min_volume': min_volume,
+                        'E0': E0,
+                        'bulk_modulus_ev_ang3': bulk_modulus_ev_ang3,
+                        'bulk_deriv': bulk_deriv,
+                        'residuals': residuals[0]
+                    }
                     if residuals[0] > 1.e-6:
-                        output_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
-                    fit_ok = True
+                        warning_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
                 except ValueError:
                     # If we cannot find a minimum
-                    output_lines.append(f"WARNING! Unable to fit for {structure.extras['element']} {structure.extras['configuration']}")
-                    fit_ok = False
-
-                cottenier_data_this_material = cottenier_data[(structure.extras['element'], structure.extras['configuration'])]
-
-                dense_volumes = np.linspace(min(volumes), max(volumes), 100)
-                if fit_ok:
-                    eos_fit_energy = birch_murnaghan(dense_volumes, E0, min_volume, bulk_modulus_ev_ang3, bulk_deriv)
-                    # Note: Use the same E0 for the WIEN2K, this is how the Delta is supposed to be computed
-                    eos_fit_energy_WIEN2K = birch_murnaghan(
-                        dense_volumes, E0, 
-                        cottenier_data_this_material[0], # min_volume
-                        cottenier_data_this_material[1] / 160.21766208, # bulk_modulus_ev_ang3
-                        cottenier_data_this_material[2] # bulk_deriv
-                    )
-
-                if PLOT:
-                    fig = pl.figure()
-                    if fit_ok:
-                        pl.plot(volumes, energies - E0, 'ob', label=f'{PLUGIN_NAME}')
-                    else:
-                        # No -E0 since it's not computed; moreover I don't plot even Wien2K
-                        # since I wouldn't know how to align it
-                        pl.plot(volumes, energies, 'ob', label='QE')
-                    
-                    if fit_ok:
-                        pl.plot(dense_volumes, eos_fit_energy_WIEN2K - E0, '-r', label='WIEN2K data')
-                        pl.plot(dense_volumes, eos_fit_energy - E0, '-b', label=f'{PLUGIN_NAME} fit')
-                        pl.fill_between(dense_volumes, eos_fit_energy - E0, eos_fit_energy_WIEN2K - E0, alpha=0.5, color='red')
-                    
-                    pl.legend(loc='upper center')
-                    pl.xlabel("Cell volume ($\\AA^2$)")
-                    if fit_ok:
-                        pl.ylabel("$E_{tot} - E_0$ (eV)")
-                    else:
-                        pl.ylabel("$E_{tot} - E_0$ (eV)")
-                    conf_nice = get_conf_nice(structure.extras['configuration'])
-                    if fit_ok:
-                        pl.title(f"{structure.extras['element']} ({conf_nice})")
-                    else:
-                        pl.title(f"{structure.extras['element']} ({conf_nice}) [FIT FAILED, PLOTTING ABSOLUTE ENERGIES]")
-                    pl.savefig(f"{PLOT_FOLDER}/{structure.extras['element']}-{structure.extras['configuration']}.png")
-                    pl.close(fig)
+                    # Note that BM_fit_data was already set to None at the top
+                    warning_lines.append(f"WARNING! Unable to fit for {structure.extras['element']} {structure.extras['configuration']}")
 
         elif (node.process_state.value == 'finished' and node.exit_status != 0) or (node.process_state.value == 'excepted'):
-            bad_pks.append(node.pk)
+            failed_wfs.append({
+                'element': element,
+                'configuration': configuration,
+                'process_state': node.process_state.value,
+                'exit_status': node.exit_status,
+            })
+        all_eos_data[f'{element}-{configuration}'] = eos_data
+        all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
 
-    os.makedirs('outputs', exist_ok=True)
-    fitted_params_fname = f"outputs/fitted_parameters-{PLUGIN_NAME}.dat"
-    with open(fitted_params_fname, "w") as f:
-        f.write(f'# Element Configuration V0 E0 B0 B0prime\n')
-        for element in sorted(data_to_print):
-            data = data_to_print[element]
-            f.write(f'{element[0]} {element[1]} {data[0]} {data[1]} {data[2]} {data[3]}\n')
-    print(f"Fitted parameters written to: '{fitted_params_fname}'")
-    print(f"Plots written to: '{PLOT_FOLDER}'")
-    
-    output_lines.append("")
-    output_lines.append("Counter of states: " + str(Counter(states)))
+    data = {
+        # Mapping from strings like "He-X2O" to a dictionary with the UUIDs of the structure and the EOS workflow
+        'uuid_mapping': uuid_mapping,
+        # A list of dictionaries with information on the workchains that did not finish with a 0 exit code
+        'failed_wfs': failed_wfs,
+        # A list of dictionaries that indicate for which elements and configurations there are missing outputs,
+        # if any (for the workchains that finished with 0 exit code)
+        'missing_outputs': all_missing_outputs,
+        # A list of dictionaries that indicate which elements and configurations have been computed completely
+        # off-centre (meaning that the minimum of all computed energies is on either of the two edges, i.e. for
+        # the smallest or largest volume)
+        'completely_off': completely_off,
+        # Dictionary with the EOS data (volumes and energies datapoints). The keys are the same as the `uuid_mapping`.
+        # Values can be None.
+        'eos_data': all_eos_data,
+        # Birch-Murnaghan fit data. See above for the keys. Can be None.
+        'BM_fit_data': all_BM_fit_data
+    }
 
-    output_lines.append("")
-    output_lines.append(f"Minimum completely off for {len(completely_off)}/{good_cnt}")
-    output_lines.append("Completely off systems:")
-    for system in completely_off:
-        output_lines.append(f"- {system[0]} {system[1]}")
-    
-    os.makedirs('outputs', exist_ok=True)
-    fname = f"outputs/results-{PLUGIN_NAME}.txt"
+    # Print some statistics on the results
+    warning_lines.append("")
+    warning_lines.append("Counter of states: " + str(Counter(states)))
+    good_cnt = len([eos_data for eos_data in data['eos_data'] if eos_data is not None])
+    warning_lines.append("")
+    warning_lines.append(f"Minimum completely off for {len(completely_off)}/{good_cnt}")
+    warning_lines.append("Completely off systems (symbol indicates if the minimum is on the very left or right):")
+    for system in data['completely_off']:
+        warning_lines.append(
+            f"- {system['element']} {system['configuration']} "
+            f"({'<' if system['side'] == 'left' else '>'})"
+        )
+
+    fname = f"outputs/results-warnings-{PLUGIN_NAME}.txt"
     with open(fname, 'w') as fhandle:
-        for line in output_lines:
+        for line in warning_lines:
             fhandle.write(f"{line}\n")
-    print(f"'{fname}' written.")
+            print(line)
+    print(f"Warning log written to: '{fname}'.")
+
+    # Output results to file
+    os.makedirs('outputs', exist_ok=True)
+    fname = f"outputs/results-{PLUGIN_NAME}.json"
+    with open(fname, 'w') as fhandle:
+        json.dump(data, fhandle, indent=2, sort_keys=True)
+    print(f"Output results written to: '{fname}'.")

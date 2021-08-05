@@ -1,7 +1,8 @@
 #!/usr/bin/env python
+import os
+import sys
 
 def get_plugin_name():
-    import os
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
         os.pardir, os.pardir, 'plugin_name.txt'
@@ -21,8 +22,6 @@ def get_plugin_name():
             "expected by the aiida-common-workflows project"
         ) from exc
 
-
-## ADAPT TO YOUR PLUGIN NAME
 PLUGIN_NAME = get_plugin_name()
 
 ## ADAPT TO THE CORRECT LIST OF ELEMENTS
@@ -35,22 +34,41 @@ element_list = [
     'Se', 'Si', 'Sm', 'Sn', 'Sr', 'Ta', 'Tb', 'Tc', 'Te', 'Ti', 'Tl', 'Tm', 'V',
     'W', 'Xe', 'Y', 'Yb', 'Zn', 'Zr']
 
-with open('tex-template/results.tex', 'w') as fhandle:
-    fhandle.write(r"""\documentclass{article}
-    \usepackage[top=0.5cm, bottom=1.5cm, left=1.5cm, right=0.5cm, landscape]{geometry}
+if __name__ == "__main__":
+    print(f"Creating LaTeX file for the PNGs of plugin '{PLUGIN_NAME}',")
+    try: 
+        compare_with_string = f"-vs-{sys.argv[1]}"
+        print(f"using plots where the plugin is compared with '{sys.argv[1]}'.")
+    except IndexError:
+        compare_with_string = ""
+        print(f"using plots where the plugin is not compared with any other plugin.")
+        print(f"NOTE: If you want to use the plot comparing with another plugin, pass the other")
+        print(f"      plugin name as a command-line parameter.")
 
-    \usepackage{graphicx}
+    with open('tex-template/results.tex', 'w') as fhandle:
+        fhandle.write(r"""\documentclass{article}
+        \usepackage[top=0.5cm, bottom=1.5cm, left=1.5cm, right=0.5cm, landscape]{geometry}
 
-    \begin{document}
+        \usepackage{graphicx}
 
-    """)
+        \begin{document}
 
-    for element in element_list:
-        for configuration in ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']:
-            fhandle.write("\\IfFileExists{../../outputs/plots-%s/%s-%s.png}"  % (PLUGIN_NAME, element, configuration))
-            fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s/%s-%s}}" % (PLUGIN_NAME, element, configuration))
-            fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
+        """)
+
+        for element in element_list:
+            for configuration in ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']:
+                fhandle.write("\\IfFileExists{../../outputs/plots-%s%s/%s-%s.png}"  % (PLUGIN_NAME, compare_with_string, element, configuration))
+                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s%s/%s-%s}}" % (PLUGIN_NAME, compare_with_string, element, configuration))
+                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
+            fhandle.write("\n")
+
+        fhandle.write(r"\end{document}")
         fhandle.write("\n")
 
-    fhandle.write(r"\end{document}")
-    fhandle.write("\n")
+    print()
+    print("-"*72)
+    print("LaTeX file generated. Now you can:")
+    print("  1. enter the `tex-template` subfolder;")
+    print("  2. run `pdflatex results.tex`.")
+    print("  3. inspect the `results.pdf` file.")
+    print("(Don't forget to rename the file to include the plugin name(s) if you are going to share it).")

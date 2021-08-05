@@ -9,7 +9,7 @@ These scripts are a template (based on Quantum ESPRESSO) that can be adapted rel
 
 - `2-submit`: scripts to submit (in batches) the common EOS workflows for all systems
 
-- `3-analyze`: scripts to analyze the results and create some output (plots, fitting parameters, ...)
+- `3-analyze`: scripts to analyze the results and create some output (plots, JSON with data and fitting parameters, ...)
 
 - `4-export`: bash script to export the group with all results.
 
