@@ -86,7 +86,7 @@ if __name__ == "__main__":
     if compare_with:
         all_systems.update(compare_plugin_data['BM_fit_data'].keys())
 
-    progress_bar = tqdm.tqdm(sorted(all_systems)[:10])
+    progress_bar = tqdm.tqdm(sorted(all_systems))
     for element_and_configuration in progress_bar:
         progress_bar.set_description(f"{element_and_configuration:12s}")
         progress_bar.refresh()
