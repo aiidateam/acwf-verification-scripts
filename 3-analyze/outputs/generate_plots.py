@@ -86,7 +86,7 @@ if __name__ == "__main__":
     if compare_with:
         all_systems.update(compare_plugin_data['BM_fit_data'].keys())
 
-    progress_bar = tqdm.tqdm(sorted(all_systems))
+    progress_bar = tqdm.tqdm(sorted(all_systems)[:10])
     for element_and_configuration in progress_bar:
         progress_bar.set_description(f"{element_and_configuration:12s}")
         progress_bar.refresh()
@@ -132,6 +132,11 @@ if __name__ == "__main__":
             if compare_with is not None:
                 try:
                     compare_BM_fit_data = compare_plugin_data['BM_fit_data'][f'{element}-{configuration}']
+                    if compare_BM_fit_data is None:
+                        # No fitting data in the plugin to compare with.
+                        # Raise this exception that is catched one line below, so
+                        # it will set `compare_eos_fit_energy` to None.
+                        raise KeyError                    
                 except KeyError:
                     # Set to None if fit data is missing (if we are here, the EOS points
                     # are there, so it means that the fit failed). I will still plot the
