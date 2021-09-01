@@ -36,11 +36,16 @@ element_list = [
 
 if __name__ == "__main__":
     print(f"Creating LaTeX file for the PNGs of plugin '{PLUGIN_NAME}',")
-    try: 
-        compare_with_string = f"-vs-{sys.argv[1]}"
-        print(f"using plots where the plugin is compared with '{sys.argv[1]}'.")
+    try:
+        arg = sys.argv[1]
+        if arg == "many":
+            folder_string = "many"
+            print(f"using plots where the plugin is compared with many others")
+        else:
+            folder_string = f"{PLUGIN_NAME}-vs-{sys.argv[1]}"
+            print(f"using plots where the plugin is compared with '{sys.argv[1]}'.")
     except IndexError:
-        compare_with_string = ""
+        folder_string = PLUGIN_NAME
         print(f"using plots where the plugin is not compared with any other plugin.")
         print(f"NOTE: If you want to use the plot comparing with another plugin, pass the other")
         print(f"      plugin name as a command-line parameter.")
@@ -48,8 +53,8 @@ if __name__ == "__main__":
     if not os.path.exists(
         os.path.join(
             os.path.dirname(os.path.realpath(__file__)), os.pardir,
-             "outputs", "plots-%s%s" % (PLUGIN_NAME, compare_with_string))):
-        print("ERROR! No folder ../outputs/plots-%s%s found." % (PLUGIN_NAME, compare_with_string))
+             "outputs", "plots-%s" % (folder_string))):
+        print("ERROR! No folder ../outputs/plots-%s found." % (folder_string))
         print("       Did you run the `../outputs/generate_plots.py` script?")
         sys.exit(1)
 
@@ -66,8 +71,8 @@ if __name__ == "__main__":
 
         for element in element_list:
             for configuration in ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']:
-                fhandle.write("\\IfFileExists{../../outputs/plots-%s%s/%s-%s.png}"  % (PLUGIN_NAME, compare_with_string, element, configuration))
-                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s%s/%s-%s}}" % (PLUGIN_NAME, compare_with_string, element, configuration))
+                fhandle.write("\\IfFileExists{../../outputs/plots-%s/%s-%s.png}"  % (folder_string, element, configuration))
+                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s/%s-%s}}" % (folder_string, element, configuration))
                 fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
             fhandle.write("\n")
 
