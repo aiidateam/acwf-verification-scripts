@@ -33,6 +33,11 @@ for `siesta`, `quantum_espresso` and `cottenier-wien2k` given that the files `re
 `results-cottenier-wien2k` are present in the folder.
 The plots graphs will be gathered in the `plot-many` folder.
 
+## Interactively inspecting the plots
+In the `outputs` folder you will also find a `show-plots-GUI.ipynb` jupyter notebook.
+You can use it to compare quickly plots for different materials and codes.
+You need to start jupyter from the same folder. The notebook best works if run with [appmode](https://github.com/oschuett/appmode).
+There are a few dependencies to install, mentioned at the top of the notebook itself.
 
 ## Creating a single collated PDF
 If you want to create a single PDF from all PNG plots, to inspect graphically the results do the following:
