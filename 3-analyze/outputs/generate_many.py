@@ -8,7 +8,7 @@ import pylab as pl
 import tqdm
 
 
-colors_list = ["b", "g", "r", "c", "m", "y", "k", "darkorange", "dimgrey", "sienna", "crimson", "gold"]
+colors_list = ["b", "g", "r", "c", "m", "y", "k", "darkorange", "dimgrey", "sienna", "deeppink", "gold", "lime"]
 
 def get_conf_nice(configuration_string):
     """Convert the configuration string to a nicely typeset string in LaTeX."""
@@ -114,7 +114,7 @@ if __name__ == "__main__":
                 pl.plot(dense_volumes, eos_fit_energy, label=f'{plug_name} fit', color=colors[plug_name])
 
 
-        pl.legend(loc='upper center')
+        pl.legend(loc='upper center', fontsize=8)
         pl.xlabel("Cell volume ($\\AA^2$)")
         pl.ylabel("$E_{tot}$ (eV)")
 
