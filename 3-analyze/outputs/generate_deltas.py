@@ -71,8 +71,8 @@ def calcDelta(v0w, b0w, b1w, v0f, b0f, b1f):
 
 if __name__ == "__main__":
 
-    #DELTA_FOLDER = 'deltas'
-    #os.makedirs(PLOT_FOLDER, exist_ok=True)
+    DELTA_FOLDER = 'deltas'
+    os.makedirs(DELTA_FOLDER, exist_ok=True)
 
     all_args = sys.argv[1:]
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
             print(f"No data found for plugin '{PLUGIN_NAME}'. A file 'results-{PLUGIN_NAME}' must be in this folder.")
             sys.exit(1)
  
-    #Create a set with all the systems calculated
+    #Create a set with all the systems calculated, only the materials whose birch murnaghan fit is reported
     all_systems = set([])
     for plug_name, plug_data in data.items():
         all_systems.update(set(plug_data['BM_fit_data'].keys()))
@@ -102,6 +102,10 @@ if __name__ == "__main__":
         progress_bar.refresh()
     
         element, configuration = element_and_configuration.split('-')
+        list_plugins_1 = []
+        ind_1=0
+        #This matrix will gather the results, I initialize it as a big matrix
+        collect = [ [ 0 for i in range(50) ] for j in range(50) ]
 
         #loop over plugin 1
         for plug_name_1, plug_data_1 in data.items():
@@ -113,9 +117,17 @@ if __name__ == "__main__":
             if not BM_fit_data_1:
                 continue
 
+            list_plugins_1.append(plug_name_1)
+            ind_2 = 0
+            #list_plugins_2 = []
+
             #loop over plugin 2
             for plug_name_2, plug_data_2 in data.items():
+                
                 if plug_name_2 == plug_name_1:
+                    #list_plugins_2.append(plug_name_2)
+                    collect[ind_1][ind_2] = "same"
+                    ind_2 = ind_2 + 1
                     continue
 
                 try:
@@ -135,6 +147,18 @@ if __name__ == "__main__":
 
                 delta = calcDelta(V0_1, B0_1, B01_1, V0_2, B0_2, B01_2)
 
-                print(element, configuration, plug_name_1, plug_name_2, delta)
-    
+                #list_plugins_2.append(plug_name_2)
+                collect[ind_1][ind_2] = delta.round(5)
+                ind_2 = ind_2 + 1
 
+            ind_1 = ind_1 + 1
+                
+
+        fil = open(f"{DELTA_FOLDER}/{element}-{configuration}.txt","w")
+
+        fil.write(f'{element}-{configuration} \n')
+        fil.write("      plugins       " + "".join(f'{nam:20}' for nam in list_plugins_1) + "\n")
+        for i in range(ind_1):
+            fil.write(f'{list_plugins_1[i]:20}' + "".join(f'{str(collect[i][j]):20}' for j in range(ind_1)) + "\n")
+
+        fil.close()
