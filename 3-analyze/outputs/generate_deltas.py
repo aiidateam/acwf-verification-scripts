@@ -6,6 +6,19 @@ import sys
 import numpy as np
 import pylab as pl
 import tqdm
+#import matplotlib
+import matplotlib.pyplot as plt
+
+
+def get_conf_nice(configuration_string):
+    """Convert the configuration string to a nicely typeset string in LaTeX."""
+    ret_pieces = []
+    for char in configuration_string:
+        if char in "0123456789":
+            ret_pieces.append(f"$_{char}$")
+        else:
+            ret_pieces.append(char)
+    return "".join(ret_pieces)
 
 
 def calcDelta(v0w, b0w, b1w, v0f, b0f, b1f):
@@ -126,7 +139,7 @@ if __name__ == "__main__":
                 
                 if plug_name_2 == plug_name_1:
                     #list_plugins_2.append(plug_name_2)
-                    collect[ind_1][ind_2] = "same"
+                    collect[ind_1][ind_2] = 0.00
                     ind_2 = ind_2 + 1
                     continue
 
@@ -148,17 +161,38 @@ if __name__ == "__main__":
                 delta = calcDelta(V0_1, B0_1, B01_1, V0_2, B0_2, B01_2)
 
                 #list_plugins_2.append(plug_name_2)
-                collect[ind_1][ind_2] = delta.round(5)
+                collect[ind_1][ind_2] = delta.round(2)
                 ind_2 = ind_2 + 1
 
             ind_1 = ind_1 + 1
                 
+        to_plot = []
+        for i in range(len(list_plugins_1)):
+            to_plot.append([collect[i][j] for j in range(len(list_plugins_1))])
 
-        fil = open(f"{DELTA_FOLDER}/{element}-{configuration}.txt","w")
+        to_plot = np.array(to_plot)
 
-        fil.write(f'{element}-{configuration} \n')
-        fil.write("      plugins       " + "".join(f'{nam:20}' for nam in list_plugins_1) + "\n")
-        for i in range(ind_1):
-            fil.write(f'{list_plugins_1[i]:20}' + "".join(f'{str(collect[i][j]):20}' for j in range(ind_1)) + "\n")
+        fig, ax = plt.subplots()
+        im = ax.imshow(to_plot,cmap="Reds")
 
-        fil.close()
+        # We want to show all ticks...
+        ax.set_xticks(np.arange(len(list_plugins_1)))
+        ax.set_yticks(np.arange(len(list_plugins_1)))
+        # ... and label them with the respective list entries
+        ax.set_xticklabels(list_plugins_1)
+        ax.set_yticklabels(list_plugins_1)
+
+        # Rotate the tick labels and set their alignment.
+        plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+
+        # Loop over data dimensions and create text annotations.
+        for i in range(len(list_plugins_1)):
+            for j in range(len(list_plugins_1)):
+                text = ax.text(j, i, to_plot[i, j], ha="center", va="center", color="black")
+
+        conf_nice = get_conf_nice(configuration)
+        ax.set_title(f"{element} ({conf_nice})")
+        fig.tight_layout()
+        fig.savefig(f"{DELTA_FOLDER}/{element}-{configuration}.png")
+        plt.close()
+
