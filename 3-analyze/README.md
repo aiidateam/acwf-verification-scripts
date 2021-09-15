@@ -33,6 +33,11 @@ for `siesta`, `quantum_espresso` and `cottenier-wien2k` given that the files `re
 `results-cottenier-wien2k` are present in the folder.
 The plots graphs will be gathered in the `plot-many` folder.
 
+## Generating heatmaps with delta comparison
+In the `outputs` folder you will find a file `generate_deltas.py` that can be used to generate heatmaps that visualize the code VS code comparison based on the delta value.
+To obtain them, just run `runanida generate_deltas.py` followed by the list of plugin names you want to consider for the comparison. For instance `runaiida generate_deltas.py siesta quantum_espresso cottenier-wien2k`.
+A png picture with the heatmap will be produced for each material and stored in the `deltas` folder with appropriate name.
+
 ## Interactively inspecting the plots
 In the `outputs` folder you will also find a `show-plots-GUI.ipynb` jupyter notebook.
 You can use it to compare quickly plots for different materials and codes.
