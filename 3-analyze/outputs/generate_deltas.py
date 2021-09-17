@@ -75,6 +75,8 @@ def calcDelta(v0w, b0w, b1w, v0f, b0f, b1f):
 
     Delta = 1000. * np.sqrt((Ff - Fi) / (Vf - Vi))
     #Deltarel = 100. * np.sqrt((Ff - Fi) / (Gf - Gi))
+    #vref = 30.
+    #bref = 100. * 10.**9. / 1.602176565e-19 / 10.**30. #100 GPa in ev_ang3
     #Delta1 = 1000. * np.sqrt((Ff - Fi) / (Vf - Vi)) \
     #    / (v0w + v0f) / (b0w + b0f) * 4. * vref * bref
 
