@@ -1,4 +1,9 @@
 #!/usr/bin/env runaiida
+
+# The version of the script will be placed in the json file containing the results.
+# We should change this number anytime this script or `eos_utils.eosfit_31_adapted` is modified.
+__version__ = "0.0.1"
+
 from collections import Counter
 import json
 import os
@@ -6,7 +11,6 @@ import os
 import numpy as np
 import tqdm
 from eos_utils.eosfit_31_adapted import BM, echarge
-
 
 def get_plugin_name():
     file_name = os.path.join(
@@ -145,6 +149,7 @@ if __name__ == "__main__":
         all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
 
     data = {
+        'script_version': __version__,
         # Mapping from strings like "He-X2O" to a dictionary with the UUIDs of the structure and the EOS workflow
         'uuid_mapping': uuid_mapping,
         # A list of dictionaries with information on the workchains that did not finish with a 0 exit code
