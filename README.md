@@ -5,6 +5,8 @@ Scripts to facilitate the common-workflow project on oxides
 
 These scripts are a template (based on Quantum ESPRESSO) that can be adapted relatively simply for any other code.
 
+- `0-preliminary-do-not-run`: ignore this folder - these are helper scripts to create the import the structures from CIF into AiiDA nodes and create initial AiiDA archive file. The scripts will be run only once by one of us.
+
 - `1-preliminary`: scripts to import the group with the initial structures, and to create a subgroup containing only the nodes you actually want to run.
 
 - `2-submit`: scripts to submit (in batches) the common EOS workflows for all systems
