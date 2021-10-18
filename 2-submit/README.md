@@ -42,6 +42,6 @@ Continue with the next folder when all simulations are done.
 
 ## Note: failed simulations, or simulations to re-run
 The `aiida-submission-controller` will put submitted workchains in a group
-`commonwf-oxides/set1/workflows/PLUGIN_NAME`. 
+`commonwf-oxides/set2/workflows/PLUGIN_NAME` (the set name, here `set2`, could be different - use the most recent set available).   
 
-If you want to rerun one or more workflows, just remove it from the group (I suggest to create another group `commonwf-oxides/set1/workflows/PLUGIN_NAME/failed`, and actually also add the nodes there, so you don't lose track of them, they might be useful for futher analysis). Or you can just delete the workflows.
+If you want to rerun one or more workflows, just remove it from the group (I suggest to create another group `commonwf-oxides/set2/workflows/PLUGIN_NAME/failed` [remember to use the correct set name], and actually also add the nodes there, so you don't lose track of them, they might be useful for futher analysis). Or you can just delete the workflows.

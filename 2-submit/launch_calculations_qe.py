@@ -14,9 +14,10 @@ DRY_RUN = True
 MAX_CONCURRENT = 200
 PLUGIN_NAME = 'quantum_espresso'
 CODE_LABEL = 'qe-6.7-pw@daint-mc'
+SET_NAME = 'set2'
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 class EosSubmissionController(FromGroupSubmissionController):
     """A SubmissionController for submitting EOS with Quantum ESPRESSO common workflows."""
