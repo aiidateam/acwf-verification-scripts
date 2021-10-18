@@ -4,7 +4,7 @@ from ase.data import chemical_symbols
 from aiida.plugins import DataFactory
 from aiida import orm
 
-SET_NAME = 'set1'
+SET_NAME = 'set2'
 
 STRUCTURES_FULL_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures'
 

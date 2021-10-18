@@ -1,4 +1,4 @@
-SET_NAME = 'set1'
+SET_NAME = 'set2'
 
 out_lines = []
 for node in Group.get(label=f'commonwf-oxides/{SET_NAME}/structures').nodes:

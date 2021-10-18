@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SET_NAME=set1
+SET_NAME=set2
 
-verdi archive create -G commonwf-oxides/set1/structures -- commonwf-oxides_${SET_NAME}_structures.aiida
+verdi archive create -G commonwf-oxides/${SET_NAME}/structures -- commonwf-oxides_${SET_NAME}_structures.aiida
 
 ## To check the nodes that were imported: you can e.g. use:
 ##
