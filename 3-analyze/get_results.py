@@ -2,7 +2,9 @@
 
 # The version of the script will be placed in the json file containing the results.
 # We should change this number anytime this script or `eos_utils.eosfit_31_adapted` is modified.
-__version__ = "0.0.1"
+__version__ = "0.0.2"
+
+SET_NAME = 'set2'
 
 from collections import Counter
 import json
@@ -34,8 +36,8 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 from aiida import orm
 from aiida.common import LinkType
@@ -150,6 +152,7 @@ if __name__ == "__main__":
 
     data = {
         'script_version': __version__,
+        'set_name': SET_NAME,
         # Mapping from strings like "He-X2O" to a dictionary with the UUIDs of the structure and the EOS workflow
         'uuid_mapping': uuid_mapping,
         # A list of dictionaries with information on the workchains that did not finish with a 0 exit code

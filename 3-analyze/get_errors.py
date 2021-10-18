@@ -5,6 +5,8 @@ import json
 from aiida import orm
 from aiida.cmdline.utils.common import get_workchain_report
 
+SET_NAME = 'set2'
+
 def get_plugin_name():
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
@@ -27,8 +29,8 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/set1/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/set1/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 group_node_query = orm.QueryBuilder().append(
     orm.Group, filters={'label': WORKFLOWS_GROUP_LABEL}, tag='groups',
