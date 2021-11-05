@@ -46,7 +46,7 @@ class EosSubmissionController(FromGroupSubmissionController):
         sub_process_cls_name = get_entry_point_name_from_class(sub_process_cls).name
         generator = sub_process_cls.get_input_generator()
 
-        engine_types = generator.get_engine_types()
+        engine_types = generator.spec().inputs['engines']
         engines = {}
         # There should be only one
         for engine in engine_types:
