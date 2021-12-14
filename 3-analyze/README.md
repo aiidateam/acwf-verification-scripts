@@ -56,3 +56,12 @@ If you want to create a single PDF from all PNG plots, to inspect graphically th
 - run `pdflatex results.tex`
 - inspect the output `results.pdf`, possibly rename it appropriately (with your plugin name and possibly the plugin you are comparing with) and share it on the Google Drive.
 
+## Generating histograms with comparison
+In the `outputs` folder you will find a file `generate_histos.py` that can be used to generate histograms that visualize the 
+distribution of a quantity that compares the plugin with one or more codes.
+Just run `runanida generate_histos.py QUANTITY` followed by the list of plugin names you want to compare with your plugin. 
+For instance `runaiida generate_histos.py rel_deiff_V0 quantum_espresso`.
+Few quantities are now supported, do `runaiida generate_histos.py` to see them.
+A png picture with the histogram is produced and put in the folder where the script is run.
+It is suggested to not compare with more than 3 plugins since the histograms are all on the same plot.
+
