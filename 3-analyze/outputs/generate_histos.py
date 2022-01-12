@@ -38,6 +38,8 @@ DEFAULT_wb1 = 0.01
 
 
 quantity_for_comparison_map = {
+    "delta": qc.delta,
+    "delta_per_atom": qc.delta_per_atom,
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
@@ -106,8 +108,6 @@ if __name__ == "__main__":
     for index, compare_plugin in enumerate(compare_plugin_data):
         
         collect = []
-        collectSmall = []
-        collectBig = []
 
         print(f"comparing with {all_args[index]}")
         progress_bar = tqdm.tqdm(sorted(all_systems))
@@ -145,31 +145,47 @@ if __name__ == "__main__":
             CB0=compare_BM_fit_data['bulk_modulus_ev_ang3']
             CB01=compare_BM_fit_data['bulk_deriv']
 
-            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,element_and_configuration, DEFAULT_PREFACTOR, DEFAULT_wb0, DEFAULT_wb1)
-
-            if quant < -0.04:
-                collectSmall.append(f'{element}-{configuration}')
-            if quant > 0.04:
-            #if quant > 0.8:
-                collectBig.append(f'{element}-{configuration}')
+            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,configuration,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
 
             collect.append(quant)
-    
-        pl.hist(collect, bins=BINS, range=[-0.04, 0.04], label=f"{all_args[index]}", alpha=0.5)
-        #pl.hist(collect, bins=BINS, range=[0.0, 0.6], label=f"{all_args[index]}", alpha=0.5)
 
-        if collectBig:
-            pl.annotate(f"{len(collectBig)} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-0.03, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
-        if collectSmall:
-            pl.annotate(f"{len(collectSmall)} more for {all_args[index]}", xy=(pl.xlim()[0], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[0]+0.01, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+        mini = min(collect)
+
+        if mini >= 0:
+            sta_dev=np.sqrt(np.mean(np.array(collect)**2))
+            pl.hist(collect, bins=BINS, range=[0, sta_dev], label=f"{all_args[index]}", alpha=0.5)
+            countBig = 0
+            for alls in collect:
+                if alls > sta_dev:
+                    countBig = countBig + 1
+            if countBig > 0:
+                pl.annotate(f"{countBig} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-0.5*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+
+        else:
+            sta_dev = np.std(np.array(collect))
+            pl.hist(collect, bins=BINS, range=[-2*sta_dev, 2*sta_dev], label=f"{all_args[index]}", alpha=0.5)
+            countBig = 0
+            countSmall = 0
+            for alls in collect:
+                if alls > 2*sta_dev:
+                    countBig = countBig + 1
+                if alls < -2*sta_dev:
+                    countSmall = countSmall + 1
+            if countBig > 0:
+                pl.annotate(f"{countBig} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-1.5*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+            if countSmall:
+                pl.annotate(f"{countSmall} more for {all_args[index]}", xy=(pl.xlim()[0], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[0]+0.2*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
    
     
     pl.legend(loc='upper right')
-    pl.xlabel(f"{QUANTITY}")
+    if QUANTITY in ["delta_per_atom","delta"]:
+        pl.xlabel(f"{QUANTITY}")
+    elif QUANTITY == "rel_errors_vec_lenght":
+        pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}({DEFAULT_wb0},{DEFAULT_wb1})")
+    else:
+        pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}")
     pl.ylabel("Frequency")
     pl.title(f"{PLUGIN_NAME}")
     pl.tight_layout()
     pl.savefig(f"{name_file}")
     pl.close(fig)
-
-    print("ok")
