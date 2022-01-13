@@ -43,7 +43,7 @@ quantity_for_comparison_map = {
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
-    "rel_errors_vec_lenght": qc.rel_errors_vec_lenght,
+    "rel_errors_vec_length": qc.rel_errors_vec_length,
     "epsilon2": qc.epsilon2
 }
 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     pl.legend(loc='upper right')
     if QUANTITY in ["delta_per_atom","delta"]:
         pl.xlabel(f"{QUANTITY}")
-    elif QUANTITY == "rel_errors_vec_lenght":
+    elif QUANTITY == "rel_errors_vec_length":
         pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}({DEFAULT_wb0},{DEFAULT_wb1})")
     else:
         pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}")

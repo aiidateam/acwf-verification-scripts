@@ -241,9 +241,9 @@ def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0,
     """
     return prefact*2*(b1w-b1f)/(b1w+b1f)
 
-def rel_errors_vec_lenght(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def rel_errors_vec_length(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
     """
-    Returns the lenght of the vector formed by the relative error of V0, B0, B1
+    Returns the length of the vector formed by the relative error of V0, B0, B1
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
     RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
     Even though config_string is not usd
