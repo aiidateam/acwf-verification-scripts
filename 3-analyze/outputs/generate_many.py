@@ -7,6 +7,7 @@ import numpy as np
 import pylab as pl
 import tqdm
 
+from quantities_for_comparison import birch_murnaghan
 
 colors_list = ["b", "g", "r", "c", "m", "y", "k", "darkorange", "dimgrey", "sienna", "deeppink", "gold", "lime"]
 
@@ -20,14 +21,6 @@ def get_conf_nice(configuration_string):
             ret_pieces.append(char)
     return "".join(ret_pieces)
 
-
-def birch_murnaghan(V,E0,V0,B0,B01):
-    r = (V0/V)**(2./3.)
-    return (E0 +
-            9./16. * B0 * V0 * (
-            (r-1.)**3 * B01 + 
-            (r-1.)**2 * (6. - 4.* r)))
-   
 
 if __name__ == "__main__":
 
@@ -122,5 +115,3 @@ if __name__ == "__main__":
         pl.title(f"{element} ({conf_nice})")
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration}.png")
         pl.close(fig)
-
-
