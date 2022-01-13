@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
         mini = min(collect)
 
-        if mini >= 0:
+        if mini > -0.001:
             sta_dev=np.sqrt(np.mean(np.array(collect)**2))
             pl.hist(collect, bins=BINS, range=[0, sta_dev], label=f"{all_args[index]}", alpha=0.5)
             countBig = 0
