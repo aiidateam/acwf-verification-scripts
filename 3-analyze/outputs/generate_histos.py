@@ -7,6 +7,8 @@ import numpy as np
 import pylab as pl
 import tqdm
 
+import quantities_for_comparison as qc
+
 def get_plugin_name():
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
@@ -30,193 +32,19 @@ def get_plugin_name():
 PLUGIN_NAME = get_plugin_name()
 
 BINS = 100
+DEFAULT_PREFACTOR = 100
+DEFAULT_wb0 = 0.1
+DEFAULT_wb1 = 0.01
 
-
-def birch_murnaghan(V,E0,V0,B0,B01):
-    """
-    Return the energy for given volume (V - it can be a vector) according to
-    the Birch Murnaghan function with parameters E0,V0,B0,B01.
-    """
-    r = (V0/V)**(2./3.)
-    return (E0 +
-            9./16. * B0 * V0 * (
-            (r-1.)**3 * B01 +
-            (r-1.)**2 * (6. - 4.* r)))
-
-
-def intE12sq(v0w,b0w,b1w,v0f,b0f,b1f,V1,V2):
-    """
-    Integral of (E1(V) - E2(V))**2 in dV evaluated between volume V1 and volume V2
-    """
-    F1 = antiderE12sq(v0w,b0w,b1w,v0f,b0f,b1f,V1)
-    F2 = antiderE12sq(v0w,b0w,b1w,v0f,b0f,b1f,V2)
-    integral = F2 - F1
-
-    return integral
-
-def antiderE12sq(v0w,b0w,b1w,v0f,b0f,b1f,V):
-    """
-    Antiderivative of (E1(V) - E2(V))**2 where E1(V) and E2(V) are birch murnaghan
-    functions with different parameters
-    """
-    antider = (81*(\
-            6*b0w*b0f*(-16 + 3*b1w)*(-16 + 3*b1f)*V*v0w*(v0w/V)**(2/3)*v0f*(v0f/V)**(2/3) - \
-            2*b0w*b0f*(-14 + 3*b1w)*(-16 + 3*b1f)*V*v0w*(v0w/V)**(4/3)*v0f*(v0f/V)**(2/3) - \
-            2*b0w*b0f*(-16 + 3*b1w)*(-14 + 3*b1f)*V*v0w*(v0w/V)**(2/3)*v0f*(v0f/V)**(4/3) + \
-            (6*b0w*b0f*(-14 + 3*b1w)*(-14 + 3*b1f)*V*v0w*(v0w/V)**(4/3)*v0f*(v0f/V)**(4/3))/5. + \
-            V*(b0w*(-6 + b1w)*v0w - b0f*(-6 + b1f)*v0f)**2 - \
-            (b0w*(-4 + b1w)*v0w**3 - b0f*(-4 + b1f)*v0f**3)**2/(3.*V**3) + \
-            (3*b0f*(v0f/V)**(7/3)*(-2*b0w*(-14 + 3*b1f)*v0w*(-7*(-6 + b1w)*V**2 + \
-            (-4 + b1w)*v0w**2) \
-            - 7*b0f*(424 + 5*b1f*(-32 + 3*b1f))*V**2*\
-            v0f + 2*b0f*(-4 + b1f)*(-14 + 3*b1f)*\
-            v0f**3))/7. - \
-            (3*b0f*(v0f/V)**(5/3)*\
-            (-2*b0w*(-16 + 3*b1f)*v0w*\
-            (5*(-6 + b1w)*V**2 + (-4 + b1w)*v0w**2) \
-            + 10*b0f*(-6 + b1f)*(-16 + 3*b1f)*V**2*\
-            v0f + b0f*(324 + 5*b1f*(-28 + 3*b1f))*\
-            v0f**3))/5. +\
-            (4*b0w**2*(124 + 5*(-10 + b1w)*b1w)*v0w**4 - \
-            2*b0w*b0f*(-4 + b1w)*(-6 + b1f)*v0w**3*\
-            v0f - 2*b0w*b0f*(-6 + b1w)*(-4 + b1f)*v0w*\
-            v0f**3 + 4*b0f**2*(124 + 5*(-10 + b1f)*b1f)*v0f**4)/V + \
-            (3*b0w*(v0w/V)**(7/3)*\
-            (-7*b0w*(424 + 5*b1w*(-32 + 3*b1w))*V**2*\
-            v0w + 2*b0w*(-4 + b1w)*(-14 + 3*b1w)*v0w**3 + \
-            2*b0f*(-14 + 3*b1w)*v0f*\
-            (7*(-6 + b1f)*V**2 - (-4 + b1f)*v0f**2)))/7. - \
-            (3*b0w*(v0w/V)**(5/3)*\
-            (10*b0w*(-6 + b1w)*(-16 + 3*b1w)*V**2*v0w + \
-            b0w*(324 + 5*b1w*(-28 + 3*b1w))*v0w**3 - \
-            2*b0f*(-16 + 3*b1w)*v0f*\
-            (5*(-6 + b1f)*V**2 + (-4 + b1f)*v0f**2)))/5.))/256.
-
-    return antider
-
-def intEdV(V0,B0,B0pr,V1,V2):
-    """
-    integral of E(V) in dV evaluated between volumes V1 and V2
-    """
-    F1 = antiderE(V0,B0,B0pr,V1)
-    F2 = antiderE(V0,B0,B0pr,V2)
-    integral = F2 - F1
-
-    return integral
-
-def antiderE(V0,B0,B0pr,V):
-    """
-    antiderivative of the Birch Murnaghan E(V)
-    """
-    antider = (9*B0*V0*(-((-6 + B0pr)*V) - ((-4 + B0pr)*V0**2)/V + \
-            3*(-14 + 3*B0pr)*V0*(V0/V)**(1/3) + \
-            3*(-16 + 3*B0pr)*V*(V0/V)**(2/3)))/16
-
-    return antider
-
-def intE2dV(V0,B0,B0pr,V1,V2):
-    """
-    Integral of E**2(V) in dV evaluated between volume V1 and volume V2
-    """
-    F1 = antiderE2(V0,B0,B0pr,V1)
-    F2 = antiderE2(V0,B0,B0pr,V2)
-    integral = F2 - F1
-
-    return integral
-
-def antiderE2(V0,B0,B0pr,V):
-    """
-    Antiderivative of the Birch Murnaghan squared (E**2(V))
-    """
-    antider = (81*B0**2*V0**2*((-6 + B0pr)**2*V + \
-            (4*(124 + 5*(-10 + B0pr)*B0pr)*V0**2)/V - \
-            ((-4 + B0pr)**2*V0**4)/(3.*V**3) - \
-            (3*(V0/V)**(2/3)* \
-            (10*(-6 + B0pr)*(-16 + 3*B0pr)*V**2 + \
-            (324 + 5*B0pr*(-28 + 3*B0pr))*V0**2))/(5.*V) \
-            + (V0/V)**(1/3)* \
-            (-3*(424 + 5*B0pr*(-32 + 3*B0pr))*V0 + \
-            (6*(-4 + B0pr)*(-14 + 3*B0pr)*V0**3)/(7.*V**2))) \
-            )/256.
-
-    return antider
-
-def epsilon2_SSR(v0w, b0w, b1w, v0f, b0f, b1f, config_string):
-    """
-    Calculate alternative Delta2 based on 2 EOS fits
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though 'config_string' is useless here.
-    """
-
-    # volume range
-    Vi = 0.94 * (v0w + v0f) / 2.
-    Vf = 1.06 * (v0w + v0f) / 2.
-    deltaV = Vf - Vi
-
-    intdiff2 = intE12sq(v0w,b0w,b1w,v0f,b0f,b1f,Vi,Vf)
-    Eavg1 = intEdV(v0w,b0w,b1w,Vi,Vf)/deltaV
-    Eavg2 = intEdV(v0w,b0w,b1w,Vi,Vf)/deltaV
-    int3 = intE2dV(v0w,b0w,b1w,Vi,Vf) - \
-            2*Eavg1*intEdV(v0w,b0w,b1w,Vi,Vf) + \
-            deltaV*Eavg1**2 # integrate (ene - mean(ene))**2
-    int4 = intE2dV(v0f,b0f,b1f,Vi,Vf) - \
-            2*Eavg2*intEdV(v0f,b0f,b1f,Vi,Vf) + \
-            deltaV*Eavg2**2
-    delta2 = intdiff2/np.sqrt(int3*int4)
-
-    return delta2
-
-def rel_errors_vec_lenght(v0w, b0w, b1w, v0f, b0f, b1f, config_string, weight_b0=1, weight_b1=1, fact=1):
-    """
-    Returns the lenght of the vector formed by the relative error of V0, B0, B1
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though config_string is not usd
-    """
-    V0err =  2*(v0w-v0f)/(v0w+v0f)
-    B0err =  2*(b0w-b0f)/(b0w+b0f)
-    B1err =  2*(b1w-b1f)/(b1w+b1f)
-    leng = np.sqrt(V0err**2+(weight_b0*B0err)**2+(weight_b1*B1err)**2)
-    return leng*fact
-
-def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string):
-    """
-    Returns the relative difference in the first derivative of bulk modulus.
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though several inputs are useless here.
-    """
-    return 2*(b1w-b1f)/(b1w+b1f)
-
-
-def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string):
-    """
-    Returns the relative difference in the volumes.
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though several inputs are useless here.
-    """
-    return 2*(v0w-v0f)/(v0w+v0f)
-
-
-def B0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string):
-    """
-    Returns the relative difference in the bulk modulus.
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though several inputs are useless here.
-    """
-    return 2*(b0w-b0f)/(b0w+b0f)
-
-import functools
 
 quantity_for_comparison_map = {
-    "B0_rel_diff": B0_rel_diff,
-    "V0_rel_diff": V0_rel_diff,
-    "B1_rel_diff": B1_rel_diff,
-    #"rel_errors_vec_lenght": functools.partial(rel_errors_vec_lenght,weight_b0=0.1,weight_b1=0.01,fact=100),
-    "epsilon2_SSR": epsilon2_SSR
+    "delta": qc.delta,
+    "delta_per_atom": qc.delta_per_atom,
+    "B0_rel_diff": qc.B0_rel_diff,
+    "V0_rel_diff": qc.V0_rel_diff,
+    "B1_rel_diff": qc.B1_rel_diff,
+    "rel_errors_vec_length": qc.rel_errors_vec_length,
+    "epsilon2": qc.epsilon2
 }
 
 
@@ -280,8 +108,6 @@ if __name__ == "__main__":
     for index, compare_plugin in enumerate(compare_plugin_data):
         
         collect = []
-        collectSmall = []
-        collectBig = []
 
         print(f"comparing with {all_args[index]}")
         progress_bar = tqdm.tqdm(sorted(all_systems))
@@ -319,31 +145,47 @@ if __name__ == "__main__":
             CB0=compare_BM_fit_data['bulk_modulus_ev_ang3']
             CB01=compare_BM_fit_data['bulk_deriv']
 
-            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,element_and_configuration)
+            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,configuration,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
 
-            if quant < -0.04:
-                collectSmall.append(f'{element}-{configuration}')
-            if quant > 0.04:
-            #if quant > 0.8:
-                collectBig.append(f'{element}-{configuration}')
+            collect.append(quant)
 
-            collect.append(quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,element_and_configuration))
-    
-        pl.hist(collect, bins=BINS, range=[-0.04, 0.04], label=f"{all_args[index]}", alpha=0.5)
-        #pl.hist(collect, bins=BINS, range=[0.0, 0.6], label=f"{all_args[index]}", alpha=0.5)
+        mini = min(collect)
 
-        if collectBig:
-            pl.annotate(f"{len(collectBig)} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-0.03, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
-        if collectSmall:
-            pl.annotate(f"{len(collectSmall)} more for {all_args[index]}", xy=(pl.xlim()[0], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[0]+0.01, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+        if mini > -0.001:
+            sta_dev=np.sqrt(np.mean(np.array(collect)**2))
+            pl.hist(collect, bins=BINS, range=[0, sta_dev], label=f"{all_args[index]}", alpha=0.5)
+            countBig = 0
+            for alls in collect:
+                if alls > sta_dev:
+                    countBig = countBig + 1
+            if countBig > 0:
+                pl.annotate(f"{countBig} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-0.5*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+
+        else:
+            sta_dev = np.std(np.array(collect))
+            pl.hist(collect, bins=BINS, range=[-2*sta_dev, 2*sta_dev], label=f"{all_args[index]}", alpha=0.5)
+            countBig = 0
+            countSmall = 0
+            for alls in collect:
+                if alls > 2*sta_dev:
+                    countBig = countBig + 1
+                if alls < -2*sta_dev:
+                    countSmall = countSmall + 1
+            if countBig > 0:
+                pl.annotate(f"{countBig} more for {all_args[index]}", xy=(pl.xlim()[1], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[1]-1.5*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
+            if countSmall:
+                pl.annotate(f"{countSmall} more for {all_args[index]}", xy=(pl.xlim()[0], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[0]+0.2*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
    
     
     pl.legend(loc='upper right')
-    pl.xlabel(f"{QUANTITY}")
+    if QUANTITY in ["delta_per_atom","delta"]:
+        pl.xlabel(f"{QUANTITY}")
+    elif QUANTITY == "rel_errors_vec_length":
+        pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}({DEFAULT_wb0},{DEFAULT_wb1})")
+    else:
+        pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}")
     pl.ylabel("Frequency")
     pl.title(f"{PLUGIN_NAME}")
     pl.tight_layout()
     pl.savefig(f"{name_file}")
     pl.close(fig)
-
-    print("ok")
