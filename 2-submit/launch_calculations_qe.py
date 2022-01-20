@@ -13,7 +13,7 @@ from aiida_submission_controller import FromGroupSubmissionController
 DRY_RUN = True
 MAX_CONCURRENT = 200
 PLUGIN_NAME = 'quantum_espresso'
-CODE_LABEL = 'qe-6.7-pw@daint-mc'
+CODE_LABEL = 'qe-6.8-pw@eiger-mc'
 SET_NAME = 'set2'
 
 STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
@@ -77,7 +77,7 @@ class EosSubmissionController(FromGroupSubmissionController):
                 'base': {
                     'pw': {
                         'settings' : orm.Dict(dict= {
-                            'cmdline': ['-nk', '18'],
+                            'cmdline': ['-nk', '32'],
                         })
                     }
                 }
