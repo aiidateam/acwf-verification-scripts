@@ -45,3 +45,18 @@ The `aiida-submission-controller` will put submitted workchains in a group
 `commonwf-oxides/set2/workflows/PLUGIN_NAME` (the set name, here `set2`, could be different - use the most recent set available).   
 
 If you want to rerun one or more workflows, just remove it from the group (I suggest to create another group `commonwf-oxides/set2/workflows/PLUGIN_NAME/failed` [remember to use the correct set name], and actually also add the nodes there, so you don't lose track of them, they might be useful for futher analysis). Or you can just delete the workflows.
+
+# Running monoelemental solids
+
+Similar concepts apply to run monoelemental solids instead of oxides. The script to use
+in this case is `launch_calculations_qe_monoelemental.py`, that works in a similar way.
+
+The only comments are:
+- one might want to apply some overrides so that the element is computed with comparable parameters
+  as the oxides (e.g., for plane wave codes, with the same cutoffs).
+- for oxygen, one might want to run a different calculation for every other element, if e.g. the cutoffs
+  need to be adapted. For now, we do the expensive and sub-optimal choice of doing one oxygen calculation
+  for every other element, even if it's very possible that many of these calculations are identical.
+- for these monoelemental cases, the configuration is always `X`, except for oxygen, where multiple oxygen
+  StructureData are available, each with configuration equal to the name of another element (i.e.,
+  there is a oxygen "for oxides with calcium", and then the configuration is `Ca`, one "for oxides with silicon", and then the configuration is `Si`, etc.).

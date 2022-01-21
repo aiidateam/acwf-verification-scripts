@@ -1,3 +1,4 @@
+convex-hulls/*
 monoelemental-results-*.json
 monoelemental-results-*.txt
 results-*.json

@@ -20,6 +20,10 @@ In particular, it will create:
 - `results-<PLUGIN_NAME>.json` with all energy-vs-volume datapoints and the Birch-Murnaghan fit for each material
 - `results-warnings-<PLUGIN_NAME>.txt` with some textual information on warnings (the same that are also printed on screen when running the `get_results.py` script).
 
+## `get_results_monoelemental.py`
+
+The same a `get_results.py`, but for the monoelemental systems. The output files are similarly named, but start with `monoelemental-results-` instead of `results-`.
+
 ## Generating the plots
 In the `outputs` folder you will find a file `generate_plots.py`. Just run it to create a number of PNG plots of the systems you have run. These PNGs will be stored in a subfolder `plots-<PLUGIN_NAME>`, and each PNG will contain the data points and the fit, if successful, for those systems where the EOS workchains succeeded and generated the EOS energy-vs-volume points.
 
@@ -65,3 +69,16 @@ Few quantities are now supported, do `runaiida generate_histos.py` to see them.
 A png picture with the histogram is produced and put in the folder where the script is run.
 It is suggested to not compare with more than 3 plugins since the histograms are all on the same plot.
 
+## Generating (very approximate and preliminary) convex hulls
+
+In order to generate a convex hull, first call the `outputs/compute_convex_hull.py` that will compute the various
+energy differences, the convex hull (with only the systems of this study) and generate a JSON file in
+`outputs/convex-hulls/convex-hull-data-<PLUGIN_NAME>.json`.
+
+You can then plot it using the script `plot_convex_hull.py` (the output files are also stored, properly
+named, in the `outputs/convex-hulls` folder).
+
+**NOTE**: The convex hulls so generated are just a very rough approximation. First of all, they only include the 6 oxides and 2 endpoints (that might not be the lowest-energy ones). In addition, they include no correction, first of all for oxygen, but also not for the various oxygen configurations (see e.g. how the Materials Project applies corrections [here](https://docs.materialsproject.org/methodology/total-energies/#anion-corrections) instead, and the related references).
+
+Therefore, these (and the energy above Hull) should **not** be considered as accurate values.
+Instead, what we will be interested in comparing is the *difference* between these plots between pair of codes (where most if not all of these corrections cancel out) - e.g. how different is the formation energy between two given compounds computed by two different codes. So, the Hull plots should just be considered as a check or benchmark that the routines are working correctly and not used for their values.
