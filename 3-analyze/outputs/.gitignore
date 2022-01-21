@@ -1,3 +1,5 @@
+monoelemental-results-*.json
+monoelemental-results-*.txt
 results-*.json
 results-*.txt
 errors-*.json

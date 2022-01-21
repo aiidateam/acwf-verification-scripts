@@ -10,14 +10,27 @@ from aiida_common_workflows.plugins import get_entry_point_name_from_class
 from aiida_common_workflows.plugins import load_workflow_entry_point
 from aiida_submission_controller import FromGroupSubmissionController
 
-DRY_RUN = True
+DRY_RUN = False
 MAX_CONCURRENT = 200
 PLUGIN_NAME = 'quantum_espresso'
 CODE_LABEL = 'qe-6.8-pw@eiger-mc'
 SET_NAME = 'monoelemental-structures-test'
+SUFFIX = ''
+ACCOUNT = 'mr0'
+                    
+#MODIFICATIONS
+#CODE_LABEL = 'qe-6.8-pw@imxge'
+#SUFFIX = '/imxge'
+#ACCOUNT = None
+
+#CODE_LABEL = 'qe-6.7-pw@thanos'
+#SUFFIX = '/thanos'
+#ACCOUNT = None
+#END OF MODIFICATIONS
+
 
 STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}' # I could add here /{PLUGIN_NAME} if I also filter by those working for the current code; for now I do them all.
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}{SUFFIX}'
 
 # This table is obtained with the script utils/get_ecuts_table_qe.py (for set 1)
 # THIS IS ONLY VALID FOR THE USED PSEUDO LIBRARY AND PROTOCOL!
@@ -183,16 +196,18 @@ class EosSubmissionController(FromGroupSubmissionController):
         engines = {}
         # There should be only one
         for engine in engine_types:
-            engines[engine] = {
+            engine_dict = {
                 'code': CODE_LABEL,
                 'options': {
                     'resources': {
                         'num_machines': 1
                     },
-                    'account': 'mr0',
                     'max_wallclock_seconds': 3600
                 }
             }
+            if ACCOUNT is not None:
+                engine_dict['options']['account'] = ACCOUNT
+            engines[engine] = engine_dict
 
         inputs = {
             'structure': structure,
