@@ -7,12 +7,12 @@ import sys
 DATA_VERSION = '0.0.1'
 
 # TODO: replace with final list of elements
-ALL_ELEMENTS = ['Si', 'Au', 'Ba']
+ALL_ELEMENTS = ['Si', 'Ba', 'Au']
 
 def get_plugin_name():
     file_name = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
-        os.pardir, os.pardir, 'plugin_name.txt'
+        os.pardir, os.pardir, os.pardir, 'plugin_name.txt'
     )
     try:
         with open(file_name) as fhandle:
@@ -62,10 +62,10 @@ def get_formation_energy(energy0, energy1, percentage, energy):
 
 if __name__ == "__main__":
     try:
-        with open(f'monoelemental-results-{PLUGIN_NAME}.json') as fhandle:
+        with open(f'../monoelemental-results-{PLUGIN_NAME}.json') as fhandle:
             monoelemental = json.load(fhandle)
 
-        with open(f'results-{PLUGIN_NAME}.json') as fhandle:
+        with open(f'../results-{PLUGIN_NAME}.json') as fhandle:
             oxides = json.load(fhandle)
     except OSError as exc:
         print(f"Error, probably you didn't generate the file yet! Original error: {exc}")
