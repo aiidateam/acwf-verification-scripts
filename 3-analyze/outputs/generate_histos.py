@@ -39,8 +39,8 @@ PLUGIN_NAME = get_plugin_name()
 
 BINS = 100
 DEFAULT_PREFACTOR = 100
-DEFAULT_wb0 = 0.1
-DEFAULT_wb1 = 0.01
+DEFAULT_wb0 = 1.0/8.0
+DEFAULT_wb1 = 1.0/64.0
 
 
 def gaussian(x, a, x0, sigma):
@@ -186,22 +186,22 @@ if __name__ == "__main__":
             if countSmall:
                 pl.annotate(f"{countSmall} more for {all_args[index]}", xy=(pl.xlim()[0], (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), xytext=(pl.xlim()[0]+0.2*sta_dev, (pl.ylim()[1]-pl.ylim()[0])/2/(index+1)), arrowprops=dict(facecolor='black', shrink=0.05))
 
-        # Fit Gaussian and plot it
-        hist_x = (bins[1:] + bins[:-1])/2
-        popt, pcov = curve_fit(gaussian, hist_x, hist_y, p0=[10., 0., 1.])
-        x = np.linspace(pl.xlim()[0], pl.xlim()[1], 1000)
-        sigma = abs(popt[2])
-        ## NOTES ON THE RELATION BETWEEN THE SIGMA OF THE GAUSSIAN AND THE FWHM
-        #  np.exp(-HWHM**2/(2*sigma**2)) = 1/2
-        #  -HWHM**2/(2*sigma**2) = ln(1/2)
-        #  HWHM**2/(2*sigma**2) = ln(2)
-        #  HWHM**2 = ln(2) * (2*sigma**2)
-        #  HWHM = sqrt(ln(2)) * sqrt(2) * sigma
-        #  FWHM = 2*HWHM = 2*sqrt(2)*sqrt(ln(2)) * sigma
-        pl.plot(x,gaussian(x,*popt),'r:',label=rf'Gaussian fit (FWHM = {2*np.sqrt(2)*np.sqrt(np.log(2))*sigma:.2f})')
-        pl.axvline(popt[1], color='r', linestyle=':')
-        # Reset the xlim
-        pl.xlim(x[0], x[-1])
+            # Fit Gaussian and plot it
+            hist_x = (bins[1:] + bins[:-1])/2
+            popt, pcov = curve_fit(gaussian, hist_x, hist_y, p0=[10., 0., 1.])
+            x = np.linspace(pl.xlim()[0], pl.xlim()[1], 1000)
+            sigma = abs(popt[2])
+            ## NOTES ON THE RELATION BETWEEN THE SIGMA OF THE GAUSSIAN AND THE FWHM
+            #  np.exp(-HWHM**2/(2*sigma**2)) = 1/2
+            #  -HWHM**2/(2*sigma**2) = ln(1/2)
+            #  HWHM**2/(2*sigma**2) = ln(2)
+            #  HWHM**2 = ln(2) * (2*sigma**2)
+            #  HWHM = sqrt(ln(2)) * sqrt(2) * sigma
+            #  FWHM = 2*HWHM = 2*sqrt(2)*sqrt(ln(2)) * sigma
+            pl.plot(x,gaussian(x,*popt),'r:',label=rf'Gaussian fit (FWHM = {2*np.sqrt(2)*np.sqrt(np.log(2))*sigma:.2f})')
+            pl.axvline(popt[1], color='r', linestyle=':')
+            # Reset the xlim
+            pl.xlim(x[0], x[-1])
 
     pl.legend(loc='upper right')
     if QUANTITY in ["delta_per_atom","delta"]:
