@@ -9,7 +9,7 @@ from scipy.optimize import curve_fit
 
 
 BINS = 100
-FORM_ENERGY_PRINT_THRESHOLD = 0.05 # eV/atom
+FORM_ENERGY_PRINT_THRESHOLD = 0.03 # eV/atom
 
 def gaussian(x, a, x0, sigma):
     return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
@@ -41,7 +41,7 @@ def generate_plots(plugin1, plugin2, x_zoom_factor=1., abs_x_range=None):
         if plugin1_formation_energy is None or plugin2_formation_energy is None:
             # Deal with missing data for at least one plugin
             continue
-        formation_energy_dissimilarities.append((plugin2_formation_energy - plugin1_formation_energy, system))
+        formation_energy_dissimilarities.append((plugin2_formation_energy - plugin1_formation_energy, system, plugin1_formation_energy, plugin2_formation_energy))
 
     # Plotting
     fig = pl.figure(figsize=(18,6))
@@ -100,20 +100,21 @@ def generate_plots(plugin1, plugin2, x_zoom_factor=1., abs_x_range=None):
     pl.savefig(f"formation-energies/histogram-{plugin1}-VS-{plugin2}.png")
     pl.close(fig)
 
-    abs_formation_energy_dissimilarities = [(abs(_[0]), _[1]) for _ in formation_energy_dissimilarities]
+    abs_formation_energy_dissimilarities = [
+        (abs(_[0]), _[1], _[2], _[3]) for _ in formation_energy_dissimilarities]
     
     # Sort in-place from the largest dissimilarity (in abs value)
     abs_formation_energy_dissimilarities.sort()
     abs_formation_energy_dissimilarities.reverse()
 
     with open(f"formation-energies/discrepancies-{plugin1}-VS-{plugin2}.txt", "w") as fhandle:
-        fhandle.write(f"# {plugin1} VS {plugin2}\n")
-        fhandle.write(f"# abs(Formation energies) > {FORM_ENERGY_PRINT_THRESHOLD} eV/atom:\n")
-        for form_energy_dissimilarity, system in abs_formation_energy_dissimilarities:
+        fhandle.write(f"## {plugin1} VS {plugin2}\n")
+        fhandle.write(f"## Cases with abs(Formation energies) > {FORM_ENERGY_PRINT_THRESHOLD} eV/atom:\n")
+        for form_energy_dissimilarity, system, form_energy_plugin1, form_energy_plugin2 in abs_formation_energy_dissimilarities:
             if form_energy_dissimilarity < FORM_ENERGY_PRINT_THRESHOLD:
                 # Here I assume I already sorted them
                 break
-            fhandle.write(f"{system:30s}: {form_energy_dissimilarity:.6f}\n")
+            fhandle.write(f"{system:30s}: {form_energy_dissimilarity:.6f} ({form_energy_plugin1} vs {form_energy_plugin2})\n")
 
 if __name__ == "__main__":
     try:
