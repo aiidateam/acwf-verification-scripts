@@ -61,8 +61,6 @@ class EosSubmissionController(FromGroupSubmissionController):
                 }
             }
 
-        generator.get_builder(structure, engines)
-
         inputs = {
             'structure': structure,
             'generator_inputs': {  # code-agnostic inputs for the relaxation

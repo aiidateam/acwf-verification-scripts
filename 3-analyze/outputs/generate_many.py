@@ -108,7 +108,7 @@ if __name__ == "__main__":
 
 
         pl.legend(loc='upper center', fontsize=8)
-        pl.xlabel("Cell volume ($\\AA^2$)")
+        pl.xlabel("Cell volume ($\\AA^3$)")
         pl.ylabel("$E_{tot}$ (eV)")
 
         conf_nice = get_conf_nice(configuration)
