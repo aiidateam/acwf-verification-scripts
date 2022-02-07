@@ -1,9 +1,9 @@
 out_lines = []
-for node in Group.get(label='commonwf-oxides/monoelemental-structures-test').nodes:
+for node in Group.get(label='commonwf-oxides/monoelemental-structures-test2').nodes:
     out_lines.append(f"{node.extras['element']},{node.extras['configuration']},{node.uuid}")
 out_lines.sort()
 
-fname = "monoelemental_structures_test_uuids.csv"
+fname = "monoelemental_structures_test2_uuids.csv"
 
 with open(fname, "w") as fhandle:
     fhandle.write("#element,configuration,UUID\n")
