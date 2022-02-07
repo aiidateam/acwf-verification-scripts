@@ -31,6 +31,7 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
+RESIDUALS_THRESHOLD = 1.e-3
 
 def get_conf_nice(configuration_string):
     """Convert the configuration string to a nicely typeset string in LaTeX."""
@@ -112,6 +113,7 @@ if __name__ == "__main__":
             # are there, so it means that the fit failed). I will still plot the
             # points
             reference_eos_fit_energy = None
+            residuals = None
         else:
             reference_eos_fit_energy = birch_murnaghan(
                 V=dense_volumes,
@@ -120,6 +122,7 @@ if __name__ == "__main__":
                 B0=ref_BM_fit_data['bulk_modulus_ev_ang3'],
                 B01=ref_BM_fit_data['bulk_deriv']
             )
+            residuals = ref_BM_fit_data['residuals']
 
             # Get the data for the compare_with plugin, if specified (and if the EOS worked for the 
             # reference plugin, otherwise we don't know which E0 to use)
@@ -149,13 +152,13 @@ if __name__ == "__main__":
                 compare_eos_fit_energy = None
 
         # Plotting
-        fig = pl.figure()
+        fig, ax = pl.subplots(nrows=1, ncols=1)
 
         # If we are here, 
         pl.plot(volumes, energies, 'ob', label=f'{PLUGIN_NAME} EOS data')
         
         if reference_eos_fit_energy is not None:
-            pl.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit')
+            pl.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit (residuals: {residuals:.3g})')
             if compare_eos_fit_energy is not None:
                 pl.plot(dense_volumes, compare_eos_fit_energy, '-r', label=f'{compare_with} fit')
                 pl.fill_between(dense_volumes, reference_eos_fit_energy, compare_eos_fit_energy, alpha=0.5, color='red')
@@ -163,6 +166,13 @@ if __name__ == "__main__":
         pl.legend(loc='upper center')
         pl.xlabel("Cell volume ($\\AA^2$)")
         pl.ylabel("$E_{tot}$ (eV)")
+
+        LIGHTYELLOW = (255/255, 244/255, 214/255)
+        LIGHTORANGE = (255/255, 205/255, 171/255)
+        if residuals is None:
+            ax.set_facecolor(LIGHTYELLOW)
+        elif residuals > RESIDUALS_THRESHOLD:
+            ax.set_facecolor(LIGHTORANGE)
 
         conf_nice = get_conf_nice(configuration)
         pl.title(f"{element} ({conf_nice})")
