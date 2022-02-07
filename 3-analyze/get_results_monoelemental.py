@@ -4,7 +4,7 @@
 # We should change this number anytime this script or `eos_utils.eosfit_31_adapted` is modified.
 __version__ = "0.0.2"
 
-SET_NAME = 'monoelemental-structures-test'
+SET_NAME = 'monoelemental-structures-test2'
 
 from collections import Counter
 import json

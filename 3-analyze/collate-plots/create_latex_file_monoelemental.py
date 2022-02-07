@@ -82,11 +82,11 @@ if __name__ == "__main__":
             fhandle.write("\n")
 
         # OXYGEN, now:
-        for configuration in element_list:
-            # There are for now very few, I only print the existing ones
-            if os.path.exists('../outputs/plots-monoelemental-%s/O-%s.png' % (folder_string, configuration)):
-                fhandle.write("\\IfFileExists{../../outputs/plots-monoelemental-%s/O-%s.png}"  % (folder_string, configuration))
-                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-monoelemental-%s/O-%s}}" % (folder_string, configuration))
+        # There are for now very few, I only print the existing ones
+        for fname in os.listdir('../outputs/plots-monoelemental-%s' % folder_string):
+            if fname.startswith("O-")  and fname.endswith(".png"):
+                fhandle.write("\\IfFileExists{../../outputs/plots-monoelemental-%s/%s}"  % (folder_string, fname))
+                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-monoelemental-%s/%s}}" % (folder_string, fname))
                 fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
         fhandle.write("\n")
 

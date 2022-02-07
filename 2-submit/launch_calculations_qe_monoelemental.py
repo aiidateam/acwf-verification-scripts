@@ -14,7 +14,7 @@ DRY_RUN = False
 MAX_CONCURRENT = 200
 PLUGIN_NAME = 'quantum_espresso'
 CODE_LABEL = 'qe-6.8-pw@eiger-mc'
-SET_NAME = 'monoelemental-structures-test'
+SET_NAME = 'monoelemental-structures-test2'
 SUFFIX = ''
 ACCOUNT = 'mr0'
                     
@@ -28,121 +28,107 @@ ACCOUNT = 'mr0'
 #ACCOUNT = None
 #END OF MODIFICATIONS
 
-
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}' # I could add here /{PLUGIN_NAME} if I also filter by those working for the current code; for now I do them all.
+STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
 WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}{SUFFIX}'
 
-# This table is obtained with the script utils/get_ecuts_table_qe.py (for set 1)
-# THIS IS ONLY VALID FOR THE USED PSEUDO LIBRARY AND PROTOCOL!
-# TODO: replace this with a call to the protocol functions to get the cutoff instead,
-# in the function below get_ecuts.
-# utils/get_ecuts_table_qe.py can still be used as a further check, to assert that
-# all calculatons of a given oxide family with the same element used the same cutoffs.
-ECUTS_TABLE = {
-    'Ag': (75.0, 600.0),
-    'Al': (75.0, 600.0),
-    'Ar': (120.0, 600.0),
-    'As': (75.0, 600.0),
-    'Au': (75.0, 600.0),
-    'B': (75.0, 600.0),
-    'Ba': (75.0, 600.0),
-    'Be': (75.0, 600.0),
-    'Bi': (75.0, 600.0),
-    'Br': (90.0, 720.0),
-    'C': (75.0, 600.0),
-    'Ca': (75.0, 600.0),
-    'Cd': (90.0, 720.0),
-    'Ce': (75.0, 600.0),
-    'Cl': (100.0, 800.0),
-    'Co': (90.0, 1080.0),
-    'Cr': (75.0, 600.0),
-    'Cs': (75.0, 600.0),
-    'Cu': (90.0, 600.0),
-    'Dy': (75.0, 600.0),
-    'Er': (75.0, 600.0),
-    'Eu': (75.0, 600.0),
-    'F': (90.0, 600.0),
-    'Fe': (90.0, 1080.0),
-    'Ga': (90.0, 720.0),
-    'Gd': (75.0, 600.0),
-    'Ge': (75.0, 600.0),
-    'H': (80.0, 600.0),
-    'He': (75.0, 600.0),
-    'Hf': (75.0, 600.0),
-    'Hg': (75.0, 600.0),
-    'Ho': (75.0, 600.0),
-    'I': (75.0, 600.0),
-    'In': (75.0, 600.0),
-    'Ir': (75.0, 600.0),
-    'K': (75.0, 600.0),
-    'Kr': (75.0, 600.0),
-    'La': (75.0, 600.0),
-    'Li': (75.0, 600.0),
-    'Lu': (75.0, 600.0),
-    'Mg': (75.0, 600.0),
-    'Mn': (90.0, 1080.0),
-    'Mo': (75.0, 600.0),
-    'N': (80.0, 600.0),
-    'Na': (100.0, 600.0),
-    'Nb': (75.0, 600.0),
-    'Nd': (75.0, 600.0),
-    'Ne': (75.0, 600.0),
-    'Ni': (75.0, 600.0),
-    'Os': (75.0, 600.0),
-    'P': (75.0, 600.0),
-    'Pb': (75.0, 600.0),
-    'Pd': (75.0, 600.0),
-    'Pm': (75.0, 600.0),
-    'Po': (80.0, 640.0),
-    'Pr': (75.0, 600.0),
-    'Pt': (100.0, 800.0),
-    'Rb': (75.0, 600.0),
-    'Re': (75.0, 600.0),
-    'Rh': (75.0, 600.0),
-    'Rn': (200.0, 1600.0),
-    'Ru': (75.0, 600.0),
-    'S': (75.0, 600.0),
-    'Sb': (75.0, 600.0),
-    'Sc': (90.0, 720.0),
-    'Se': (75.0, 600.0),
-    'Si': (75.0, 600.0),
-    'Sm': (75.0, 600.0),
-    'Sn': (75.0, 600.0),
-    'Sr': (75.0, 600.0),
-    'Ta': (75.0, 600.0),
-    'Tb': (75.0, 600.0),
-    'Tc': (75.0, 600.0),
-    'Te': (75.0, 600.0),
-    'Ti': (75.0, 600.0),
-    'Tl': (75.0, 600.0),
-    'Tm': (75.0, 600.0),
-    'V': (75.0, 600.0),
-    'W': (75.0, 600.0),
-    'Xe': (80.0, 600.0),
-    'Y': (75.0, 600.0),
-    'Yb': (75.0, 600.0),
-    'Zn': (90.0, 720.0),
-    'Zr': (75.0, 600.0)
- }
+
+# THIS MUST BE THE SAME AS IN THE 1-preliminary/create_starting_subgroup_monoelemental.py file!
+QE_ECUTS_TABLE = {
+    'Ag': (75, 600),
+    'Al': (75, 600),
+    'Ar': (120, 600),
+    'As': (75, 600),
+    'Au': (75, 600),
+    'B': (75, 600),
+    'Ba': (75, 600),
+    'Be': (75, 600),
+    'Bi': (75, 600),
+    'Br': (90, 720),
+    'C': (75, 600),
+    'Ca': (75, 600),
+    'Cd': (90, 720),
+    'Ce': (75, 600),
+    'Cl': (100, 800),
+    'Co': (90, 1080),
+    'Cr': (75, 600),
+    'Cs': (75, 600),
+    'Cu': (90, 600),
+    'Dy': (75, 600),
+    'Er': (75, 600),
+    'Eu': (75, 600),
+    'F': (90, 600),
+    'Fe': (90, 1080),
+    'Ga': (90, 720),
+    'Gd': (75, 600),
+    'Ge': (75, 600),
+    'H': (80, 600),
+    'He': (75, 600),
+    'Hf': (75, 600),
+    'Hg': (75, 600),
+    'Ho': (75, 600),
+    'I': (75, 600),
+    'In': (75, 600),
+    'Ir': (75, 600),
+    'K': (75, 600),
+    'Kr': (75, 600),
+    'La': (75, 600),
+    'Li': (75, 600),
+    'Lu': (75, 600),
+    'Mg': (75, 600),
+    'Mn': (90, 1080),
+    'Mo': (75, 600),
+    'N': (80, 600),
+    'Na': (100, 600),
+    'Nb': (75, 600),
+    'Nd': (75, 600),
+    'Ne': (75, 600),
+    'Ni': (75, 600),
+    'Os': (75, 600),
+    'P': (75, 600),
+    'Pb': (75, 600),
+    'Pd': (75, 600),
+    'Pm': (75, 600),
+    'Po': (80, 640),
+    'Pr': (75, 600),
+    'Pt': (100, 800),
+    'Rb': (75, 600),
+    'Re': (75, 600),
+    'Rh': (75, 600),
+    'Rn': (200, 1600),
+    'Ru': (75, 600),
+    'S': (75, 600),
+    'Sb': (75, 600),
+    'Sc': (90, 720),
+    'Se': (75, 600),
+    'Si': (75, 600),
+    'Sm': (75, 600),
+    'Sn': (75, 600),
+    'Sr': (75, 600),
+    'Ta': (75, 600),
+    'Tb': (75, 600),
+    'Tc': (75, 600),
+    'Te': (75, 600),
+    'Ti': (75, 600),
+    'Tl': (75, 600),
+    'Tm': (75, 600),
+    'V': (75, 600),
+    'W': (75, 600),
+    'Xe': (80, 600),
+    'Y': (75, 600),
+    'Yb': (75, 600),
+    'Zn': (90, 720),
+    'Zr': (75, 600)
+}
 
 def get_ecuts(element, configuration):
     """Return the two cutoffs for monoelemental solids.
     
     :return: a tuple of (ecutwfc, ecutrho).
 
-    :note: for simplicity, I create one oxygen per other element, and for each of them use the cutoffs.
-        In reality, already from the data above, we see that we have only few possible combinations of cutoffs, e.g.
-        only 10 in the example above: 
-           (75,600), (80,600), (80,640), (90,600), (90,720), (90,1080), (100,600), (100,800), (120,600), (200,1600)
-        Therefore one can think to a different approach, e.g. using the `configuration` to have instead the two cutoffs
-        separated by a dash, and parsing those to return the cutoffs, like:
-
-          if element == "O":
-              ecutwfc_str, ecutrho_str = configuration.split('-')
-              ecutwfc = float(ecutwfc_str)
-              ecutrho = float(ecutrho_str)
-        
-        Then also the plotting routines need to be updated.
+    :note: for QE, for oxygen, the configuration is of the form XXX-YYY where XXX and YYY are
+        ecutwfc and ecutrho, respectively.
+        There are converted to floats. For the other elements, the configuration is always
+        the string 'X'.
 
     For elements other than oxygen, you should return the cutoffs used for element + oxygen.
     For oxygen, you should check the configuration to know what the other element is, and you should return
@@ -152,13 +138,14 @@ def get_ecuts(element, configuration):
     methods to get the cutoff via the protocol.
     """
     if element == "O":
-        # The configuration, in the case of monoelemental oxygen, represents the other element, e.g. 'Na'
-        # indicates oxygen with sodium.
-        # Therefore, I use that as the key.
-        ecutwfc, ecutrho = ECUTS_TABLE[configuration]
+        # The configuration, in the case of monoelemental oxygen, 
+        # represents the two cutoffs
+        ecutwfc_str, ecutrho_str = configuration.split('-')
+        ecutwfc = float(ecutwfc_str)
+        ecutrho = float(ecutrho_str)
     else:
         assert configuration == "X", f"The configuration for monoelemental '{element}' is not 'X'"
-        ecutwfc, ecutrho = ECUTS_TABLE[element]
+        ecutwfc, ecutrho = QE_ECUTS_TABLE[element]
 
     return ecutwfc, ecutrho
 

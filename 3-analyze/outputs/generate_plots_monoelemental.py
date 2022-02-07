@@ -85,7 +85,7 @@ if __name__ == "__main__":
         progress_bar.set_description(f"{element_and_configuration:12s}")
         progress_bar.refresh()
 
-        element, configuration = element_and_configuration.split('-')
+        element, _, configuration = element_and_configuration.partition('-')
         if element != "O":
             assert configuration == "X" # The only valid, except for oxygen
         try:
@@ -163,10 +163,13 @@ if __name__ == "__main__":
                 pl.fill_between(dense_volumes, reference_eos_fit_energy, compare_eos_fit_energy, alpha=0.5, color='red')
         
         pl.legend(loc='upper center')
-        pl.xlabel("Cell volume ($\\AA^2$)")
+        pl.xlabel("Cell volume ($\\AA^3$)")
         pl.ylabel("$E_{tot}$ (eV)")
 
-        conf_nice = get_conf_nice(configuration)
+        if element == "O":
+            conf_nice = configuration
+        else:
+            conf_nice = get_conf_nice(configuration)
         pl.title(f"{element} ({conf_nice})")
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration}.png")
         pl.close(fig)
