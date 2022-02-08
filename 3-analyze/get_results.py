@@ -2,7 +2,7 @@
 
 # The version of the script will be placed in the json file containing the results.
 # We should change this number anytime this script or `eos_utils.eosfit_31_adapted` is modified.
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 SET_NAME = 'set2'
 
@@ -41,7 +41,7 @@ WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 from aiida import orm
 from aiida.common import LinkType
-
+from aiida_common_workflows.workflows.relax.workchain import CommonRelaxWorkChain
 
 if __name__ == "__main__":
     # Get all nodes in the output group (EOS workflows)
@@ -60,7 +60,9 @@ if __name__ == "__main__":
     completely_off = []
     failed_wfs = []
     all_eos_data = {}
+    all_stress_data = {}
     all_BM_fit_data = {}
+    num_atoms_in_sim_cell = {}
 
     # Initialize the progress bar as a variable so we can dynamically set its description
     progress_bar = tqdm.tqdm(wf_nodes)
@@ -87,7 +89,9 @@ if __name__ == "__main__":
 
         # Initialize to None if the outputs are not there
         eos_data = None
+        stress_data = None
         BM_fit_data = None
+        num_atoms = None
 
         # For successfully finished workflows, fit the EOS
         if node.process_state.value == 'finished' and node.exit_status == 0:
@@ -101,13 +105,33 @@ if __name__ == "__main__":
                 # Extract volumes and energies for this system
                 volumes = []
                 energies = []
+                stresses = []
                 for index, sub_structure in sorted(outputs['structures'].items()):
+                    if num_atoms is None:
+                        num_atoms = len(sub_structure.sites)
+                    else:
+                        assert num_atoms == len(sub_structure.sites), (
+                            f"Number of atoms changes between structures for {element} {configuration}!"
+                        )
                     volumes.append(sub_structure.get_cell_volume())
-                    energies.append(outputs['total_energies'][index].value)
+                    energy_node = outputs['total_energies'][index]
+                    energies.append(energy_node.value)
+                    parent_workflows_links = energy_node.get_incoming(link_type=LinkType.RETURN).all()
+                    parent_workflows = [
+                        triple.node for triple in parent_workflows_links
+                        if issubclass(triple.node.process_class, CommonRelaxWorkChain)]
+                    assert len(parent_workflows) == 1, "Error retrieving the parent Relax workflow!"
+                    parent_workflow = parent_workflows[0]
+                    try:
+                        stress = parent_workflow.outputs.stress.get_array('stress').tolist()
+                    except AttributeError:
+                        stress = None
+                    stresses.append(stress)
                 energies = [e for _, e in sorted(zip(volumes, energies))]
                 volumes = sorted(volumes)
                 # List as I need to JSON-serialize it
                 eos_data = (np.array([volumes, energies]).T).tolist()
+                stress_data = list(zip(volumes, stresses))
 
                 # Check if the central point was completely off (i.e. the minimum of the energies is
                 # on the very left or very right of the volume range)
@@ -148,6 +172,8 @@ if __name__ == "__main__":
                 'exit_status': node.exit_status,
             })
         all_eos_data[f'{element}-{configuration}'] = eos_data
+        num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
+        all_stress_data[f'{element}-{configuration}'] = stress_data
         all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
 
     data = {
@@ -167,8 +193,10 @@ if __name__ == "__main__":
         # Dictionary with the EOS data (volumes and energies datapoints). The keys are the same as the `uuid_mapping`.
         # Values can be None.
         'eos_data': all_eos_data,
+        'stress_data': all_stress_data,
         # Birch-Murnaghan fit data. See above for the keys. Can be None.
-        'BM_fit_data': all_BM_fit_data
+        'BM_fit_data': all_BM_fit_data,
+        'num_atoms_in_sim_cell': num_atoms_in_sim_cell
     }
 
     # Print some statistics on the results

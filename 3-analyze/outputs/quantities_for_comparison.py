@@ -1,5 +1,48 @@
 import numpy as np
 
+def get_num_atoms_in_formula_unit(configuration):
+    """Return the number ot atoms per formula unit.
+
+    For unaries, it's the number in the primitive cell: 1 for SC, BCC, FCC; 2 for diamond.
+    """
+    mapping = {
+        'XO': 2,
+        'XO2': 3,
+        'X2O': 3,
+        'X2O3': 5,
+        'XO3': 4,
+        'X2O5': 7,
+        'X/dia': 2,
+        'X/sc': 1,
+        'X/fcc': 1,
+        'X/bcc': 1
+    }
+
+    try:
+        return mapping[configuration]
+    except KeyError:
+        raise ValueError(f"Unknown number of atoms in formula unit for configuration '{configuration}'")
+
+
+def get_volume_scaling_to_formula_unit(num_atoms_in_cell, element, configuration):
+    """Return the scaling factor for extensive quantities (energies, volumes, ...).
+
+    The volume per formula unit is the volume in the simulation cell (with `num_atoms_in_cell`)
+    DIVIDED by the value returned by this function.
+    """
+    num_atoms_in_formula_unit = get_num_atoms_in_formula_unit(configuration)
+
+    if element != "O":
+        # For oxygen I might get a smaller cell;
+        # the remaining logic is still correct (I divide by 0.5 => multiply by 2
+        # if there is e.g. 1 atom in XO but the number of atoms in the formula unit is 2)
+        assert num_atoms_in_cell % num_atoms_in_formula_unit == 0, (
+            f"Weird! {num_atoms_in_cell} atoms in cell but "
+            f"{num_atoms_in_formula_unit} in formula unit for {element}-{configuration}!")
+
+    scaling = num_atoms_in_cell / num_atoms_in_formula_unit
+    return scaling
+
 def birch_murnaghan(V,E0,V0,B0,B01):
     """
     Return the energy for given volume (V - it can be a vector) according to

@@ -7,7 +7,7 @@ import numpy as np
 import pylab as pl
 import tqdm
 
-from quantities_for_comparison import birch_murnaghan
+from quantities_for_comparison import birch_murnaghan, get_volume_scaling_to_formula_unit
 
 def get_plugin_name():
     file_name = os.path.join(
@@ -31,6 +31,7 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
+EXPECTED_SCRIPT_VERSION = '0.0.3'
 RESIDUALS_THRESHOLD = 1.e-3
 
 def get_conf_nice(configuration_string):
@@ -57,6 +58,11 @@ if __name__ == "__main__":
         print(f"No data found for your plugin '{PLUGIN_NAME}'. Did you run `./get_results.py` first?")
         sys.exit(1)
     
+    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+        raise ValueError(
+            f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+            "Please re-run ./get_results.py to update the data format!")
+
     if compare_with is None:
         print(f"Plotting data for plugin '{PLUGIN_NAME}' only.")
         print("If you want to compare, pass another parameter with the plugin to compare with.")
@@ -69,6 +75,13 @@ if __name__ == "__main__":
         except OSError:
             print(f"No data found for the reference plugin '{compare_with}': you need the file results-{compare_with}.json.")
             sys.exit(1)
+        if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+            raise ValueError(
+                f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+                "Please ask the other plugin you want to compare with to re-run ./get_results.py "
+                "to update the data format!"
+            )
+
 
     if compare_with is None:
         PLOT_FOLDER = f'plots-{PLUGIN_NAME}'
@@ -76,7 +89,6 @@ if __name__ == "__main__":
         PLOT_FOLDER = f'plots-{PLUGIN_NAME}-vs-{compare_with}'
     os.makedirs(PLOT_FOLDER, exist_ok=True)
 
-    all_systems = set(reference_plugin_data['eos_data'].keys())
     all_systems = set(reference_plugin_data['BM_fit_data'].keys())
     if compare_with:
         all_systems.update(compare_plugin_data['BM_fit_data'].keys())
@@ -95,10 +107,18 @@ if __name__ == "__main__":
         if eos_data is None:
             # If there is no data, I skip this material
             continue
+        scaling_ref_plugin = get_volume_scaling_to_formula_unit(
+            reference_plugin_data['num_atoms_in_sim_cell'][f'{element}-{configuration}'],
+            element, configuration
+        )
 
         # Get the x axis for the plot
-        volumes, energies = (np.array(eos_data).T).tolist()
-        dense_volumes = np.linspace(min(volumes), max(volumes), 100)
+        volumes, energies = (np.array(eos_data).T / scaling_ref_plugin).tolist()
+        dense_volumes = np.linspace(
+            min(volumes),
+            max(volumes),
+            100
+        )
 
         # Get the data for the reference plugin
         try:
@@ -117,8 +137,8 @@ if __name__ == "__main__":
         else:
             reference_eos_fit_energy = birch_murnaghan(
                 V=dense_volumes,
-                E0=ref_BM_fit_data['E0'],
-                V0=ref_BM_fit_data['min_volume'],
+                E0=ref_BM_fit_data['E0'] / scaling_ref_plugin,
+                V0=ref_BM_fit_data['min_volume'] / scaling_ref_plugin,
                 B0=ref_BM_fit_data['bulk_modulus_ev_ang3'],
                 B01=ref_BM_fit_data['bulk_deriv']
             )
@@ -140,10 +160,15 @@ if __name__ == "__main__":
                     # points
                     compare_eos_fit_energy = None
                 else:
+                    scaling_compare_plugin = get_volume_scaling_to_formula_unit(
+                        compare_plugin_data['num_atoms_in_sim_cell'][f'{element}-{configuration}'],
+                        element, configuration
+                    )
+
                     compare_eos_fit_energy = birch_murnaghan(
                         V=dense_volumes,
-                        E0=ref_BM_fit_data['E0'], ## IMPORTANT! here we use the E0 of the reference plugin
-                        V0=compare_BM_fit_data['min_volume'],
+                        E0=ref_BM_fit_data['E0'] / scaling_ref_plugin, ## IMPORTANT! here we use the E0 of the reference plugin
+                        V0=compare_BM_fit_data['min_volume'] / scaling_compare_plugin,
                         B0=compare_BM_fit_data['bulk_modulus_ev_ang3'],
                         B01=compare_BM_fit_data['bulk_deriv']
                     )
@@ -152,30 +177,57 @@ if __name__ == "__main__":
                 compare_eos_fit_energy = None
 
         # Plotting
-        fig, ax = pl.subplots(nrows=1, ncols=1)
+        fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2]}, sharex=True)
 
         # If we are here, 
-        pl.plot(volumes, energies, 'ob', label=f'{PLUGIN_NAME} EOS data')
+        eos_ax.plot(volumes, energies, 'ob', label=f'{PLUGIN_NAME} EOS data')
         
+        print(list(zip(reference_eos_fit_energy, compare_eos_fit_energy)))
+
         if reference_eos_fit_energy is not None:
-            pl.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit (residuals: {residuals:.3g})')
+            eos_ax.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit (residuals: {residuals:.3g})')
+            eos_ax.axvline(ref_BM_fit_data['min_volume'] / scaling_ref_plugin, linestyle='--', color='gray')
             if compare_eos_fit_energy is not None:
-                pl.plot(dense_volumes, compare_eos_fit_energy, '-r', label=f'{compare_with} fit')
-                pl.fill_between(dense_volumes, reference_eos_fit_energy, compare_eos_fit_energy, alpha=0.5, color='red')
+                eos_ax.plot(dense_volumes, compare_eos_fit_energy, '-r', label=f'{compare_with} fit')
+                eos_ax.fill_between(dense_volumes, reference_eos_fit_energy, compare_eos_fit_energy, alpha=0.5, color='red')
         
-        pl.legend(loc='upper center')
-        pl.xlabel("Cell volume ($\\AA^3$)")
-        pl.ylabel("$E_{tot}$ (eV)")
+        eos_ax.legend(loc='upper center')
+        eos_ax.set_xlabel("Cell volume per formula unit ($\\AA^3$)")
+        eos_ax.set_ylabel("$E - TS$ per formula unit (eV)")
 
         LIGHTYELLOW = (255/255, 244/255, 214/255)
         LIGHTORANGE = (255/255, 205/255, 171/255)
         if residuals is None:
-            ax.set_facecolor(LIGHTYELLOW)
+            eos_ax.set_facecolor(LIGHTYELLOW)
         elif residuals > RESIDUALS_THRESHOLD:
-            ax.set_facecolor(LIGHTORANGE)
+            eos_ax.set_facecolor(LIGHTORANGE)
 
         conf_nice = get_conf_nice(configuration)
-        pl.title(f"{element} ({conf_nice})")
+        fig.suptitle(f"{element} ({conf_nice})")
+
+        # Plot stress
+        stress_ax.axhline(0.)
+        stress_data = reference_plugin_data['stress_data'][f'{element}-{configuration}']
+        volumes = []
+        hydro_stresses_GPa = []
+
+        for volume, stress_tensor in stress_data:
+            if stress_tensor is not None:
+                volumes.append(volume / scaling_ref_plugin)
+                #1 eV/Angstrom3 = 160.21766208 GPa
+                hydro_stresses_GPa.append(
+                    160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
+                    )
+        stress_ax.plot(volumes, hydro_stresses_GPa, 'o')
+
+        # Quadratic fit (the linear one is typically not enough)
+        a, b, c = np.polyfit(volumes, hydro_stresses_GPa, 2)
+        stress_ax.plot(dense_volumes, a * dense_volumes**2 + b * dense_volumes + c)
+        # The stress is typically having a negative slope (for a positive-curvature EOS), so I want the smaller of the two solutions
+        stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
+
+        stress_ax.set_ylabel("Volumetric stress (GPa)")
+
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.png")
         pl.close(fig)
 
