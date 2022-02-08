@@ -60,40 +60,46 @@ quantity_for_comparison_map = {
 
 if __name__ == "__main__":
     try:
-        QUANTITY = sys.argv[1]
+        SET_NAME = sys.argv[1]
     except IndexError:
-        print(f"The first argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
+        print(f"The first argument must be the set name.")
+        sys.exit(1)
+
+    try:
+        QUANTITY = sys.argv[2]
+    except IndexError:
+        print(f"The second argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
         sys.exit(1)
 
     if QUANTITY not in quantity_for_comparison_map.keys():
-        print(f"The first argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
+        print(f"The second argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
         sys.exit(1)
 
-    all_args = sys.argv[2:]
+    all_args = sys.argv[3:]
 
     if not all_args:
         print("The plugin's names whose results will be plotted must be listed explicitely as script arguments.")
         sys.exit(1)
     
     try:
-        with open(f'results-{PLUGIN_NAME}.json') as fhandle:
+        with open(f'results-{SET_NAME}-{PLUGIN_NAME}.json') as fhandle:
             reference_plugin_data = json.load(fhandle)
     except OSError:
-        print(f"No data found for your plugin '{PLUGIN_NAME}'. Did you run `./get_results.py` first?")
+        print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
     
-    print(f"Using data for plugin '{PLUGIN_NAME}' compared with {all_args}.")
+    print(f"Using data for plugin '{PLUGIN_NAME}' (set '{SET_NAME}') compared with {all_args}.")
 
     compare_plugin_data = []
     for compare_with in all_args:
         try:
-            with open(f'results-{compare_with}.json') as fhandle:
+            with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
                 compare_plugin_data.append(json.load(fhandle))
         except OSError:
-            print(f"No data found for the plugin '{compare_with}': you need the file results-{compare_with}.json.")
+            print(f"No data found for the plugin '{compare_with}' (set '{SET_NAME}'): you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
 
-    name_file = f'histo-{QUANTITY}-{PLUGIN_NAME}.png'
+    name_file = f'histo-{QUANTITY}-{SET_NAME}-{PLUGIN_NAME}.pdf'
 
     all_systems = set(reference_plugin_data['eos_data'].keys())
     all_systems = set(reference_plugin_data['BM_fit_data'].keys())
@@ -215,3 +221,5 @@ if __name__ == "__main__":
     pl.tight_layout()
     pl.savefig(f"{name_file}")
     pl.close(fig)
+
+    print("*** IMPORTANT WARNING!!! THIS SCRIPT USES (STILL) THE EOS (ENERGIES AND VOLUMES) FROM THE SIMULATION CELL, AND NOT FROM PER FORMULA UNIT!! ***")

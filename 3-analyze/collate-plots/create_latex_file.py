@@ -38,26 +38,33 @@ element_list = [
 
 
 if __name__ == "__main__":
+
+    try:
+        SET_NAME = sys.argv[1]
+    except IndexError:
+        print("Pass as parameter the set name, e.g. set2 or unaries-set1")
+        sys.exit(1)
+
+    if 'unaries' in SET_NAME:
+        configurations = ['X/Diamond', 'X/SC', 'X/BCC', 'X/FCC']
+    else:
+        configurations = ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']
+
     print(f"Creating LaTeX file for the PNGs of plugin '{PLUGIN_NAME}',")
     try:
-        arg = sys.argv[1]
-        if arg == "many":
-            folder_string = "many"
-            print(f"using plots where the plugin is compared with many others")
-        else:
-            folder_string = f"{PLUGIN_NAME}-vs-{sys.argv[1]}"
-            print(f"using plots where the plugin is compared with '{sys.argv[1]}'.")
+        folder_string = f"{PLUGIN_NAME}-vs-{sys.argv[2]}"
+        print(f"using plots where the plugin is compared with '{sys.argv[2]}'.")
     except IndexError:
         folder_string = PLUGIN_NAME
         print(f"using plots where the plugin is not compared with any other plugin.")
         print(f"NOTE: If you want to use the plot comparing with another plugin, pass the other")
-        print(f"      plugin name as a command-line parameter.")
+        print(f"      plugin name as a second command-line parameter.")
 
     if not os.path.exists(
         os.path.join(
             os.path.dirname(os.path.realpath(__file__)), os.pardir,
-             "outputs", "plots-%s" % (folder_string))):
-        print("ERROR! No folder ../outputs/plots-%s found." % (folder_string))
+             "outputs", "plots-%s-%s" % (SET_NAME, folder_string))):
+        print("ERROR! No folder ../outputs/plots-%s-%s found." % (SET_NAME, folder_string))
         print("       Did you run the `../outputs/generate_plots.py` script?")
         sys.exit(1)
 
@@ -73,9 +80,10 @@ if __name__ == "__main__":
         """)
 
         for element in element_list:
-            for configuration in ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']:
-                fhandle.write("\\IfFileExists{../../outputs/plots-%s/%s-%s.png}"  % (folder_string, element, configuration))
-                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s/%s-%s}}" % (folder_string, element, configuration))
+            for configuration in configurations:
+                conf_for_fname = configuration.replace('/', '_')
+                fhandle.write("\\IfFileExists{../../outputs/plots-%s-%s/%s-%s.pdf}"  % (SET_NAME, folder_string, element, conf_for_fname))
+                fhandle.write("{\\includegraphics[width=0.15\\linewidth]{../../outputs/plots-%s-%s/%s-%s}}" % (SET_NAME, folder_string, element, conf_for_fname))
                 fhandle.write("{\\includegraphics[width=0.15\\linewidth]{missing}}\n")
             fhandle.write("\n")
 

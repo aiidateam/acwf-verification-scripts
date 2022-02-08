@@ -20,10 +20,6 @@ In particular, it will create:
 - `results-<PLUGIN_NAME>.json` with all energy-vs-volume datapoints and the Birch-Murnaghan fit for each material
 - `results-warnings-<PLUGIN_NAME>.txt` with some textual information on warnings (the same that are also printed on screen when running the `get_results.py` script).
 
-## `get_results_monoelemental.py`
-
-The same a `get_results.py`, but for the monoelemental systems. The output files are similarly named, but start with `monoelemental-results-` instead of `results-`.
-
 ## Generating the plots
 In the `outputs` folder you will find a file `generate_plots.py`. Just run it to create a number of PNG plots of the systems you have run. These PNGs will be stored in a subfolder `plots-<PLUGIN_NAME>`, and each PNG will contain the data points and the fit, if successful, for those systems where the EOS workchains succeeded and generated the EOS energy-vs-volume points.
 

@@ -2,17 +2,23 @@
 
 # The version of the script will be placed in the json file containing the results.
 # We should change this number anytime this script or `eos_utils.eosfit_31_adapted` is modified.
-__version__ = "0.0.3"
-
-SET_NAME = 'set2'
-
-from collections import Counter
+import sys
 import json
 import os
 
-import numpy as np
 import tqdm
+import numpy as np
+
+from collections import Counter
 from eos_utils.eosfit_31_adapted import BM, echarge
+
+from aiida import orm
+from aiida.common import LinkType
+from aiida_common_workflows.workflows.relax.workchain import CommonRelaxWorkChain
+
+
+__version__ = "0.0.3"
+
 
 def get_plugin_name():
     file_name = os.path.join(
@@ -36,14 +42,16 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
-
-from aiida import orm
-from aiida.common import LinkType
-from aiida_common_workflows.workflows.relax.workchain import CommonRelaxWorkChain
-
 if __name__ == "__main__":
+    try:
+        SET_NAME = sys.argv[1]
+    except IndexError:
+        print("Pass as parameter the set name, e.g. set2 or unaries-set1")
+        sys.exit(1)
+
+    STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+    WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+
     # Get all nodes in the output group (EOS workflows)
     group_node_query = orm.QueryBuilder().append(
         orm.Group, filters={'label': WORKFLOWS_GROUP_LABEL}, tag='groups',
@@ -212,7 +220,7 @@ if __name__ == "__main__":
             f"({'<' if system['side'] == 'left' else '>'})"
         )
 
-    fname = f"outputs/results-warnings-{PLUGIN_NAME}.txt"
+    fname = f"outputs/warnings-{SET_NAME}-{PLUGIN_NAME}.txt"
     with open(fname, 'w') as fhandle:
         for line in warning_lines:
             fhandle.write(f"{line}\n")
@@ -221,7 +229,7 @@ if __name__ == "__main__":
 
     # Output results to file
     os.makedirs('outputs', exist_ok=True)
-    fname = f"outputs/results-{PLUGIN_NAME}.json"
+    fname = f"outputs/results-{SET_NAME}-{PLUGIN_NAME}.json"
     with open(fname, 'w') as fhandle:
         json.dump(data, fhandle, indent=2, sort_keys=True)
     print(f"Output results written to: '{fname}'.")

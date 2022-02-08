@@ -47,15 +47,21 @@ def get_conf_nice(configuration_string):
 
 if __name__ == "__main__":
     try:
-        compare_with = sys.argv[1]
+        SET_NAME = sys.argv[1]
+    except IndexError:
+        print("Pass as first parameter the set name, e.g. set2 or unaries-set1")
+        sys.exit(1)
+
+    try:
+        compare_with = sys.argv[2]
     except IndexError:
         compare_with = None
 
     try:
-        with open(f'results-{PLUGIN_NAME}.json') as fhandle:
+        with open(f'results-{SET_NAME}-{PLUGIN_NAME}.json') as fhandle:
             reference_plugin_data = json.load(fhandle)
     except OSError:
-        print(f"No data found for your plugin '{PLUGIN_NAME}'. Did you run `./get_results.py` first?")
+        print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
     
     if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
@@ -64,16 +70,16 @@ if __name__ == "__main__":
             "Please re-run ./get_results.py to update the data format!")
 
     if compare_with is None:
-        print(f"Plotting data for plugin '{PLUGIN_NAME}' only.")
+        print(f"Plotting data for plugin '{PLUGIN_NAME}' only (set '{SET_NAME}').")
         print("If you want to compare, pass another parameter with the plugin to compare with.")
         compare_plugin_data = None
     else:
-        print(f"Plotting data for plugin '{PLUGIN_NAME}' compared with '{compare_with}'.")
+        print(f"Plotting data for plugin '{PLUGIN_NAME}' (set '{SET_NAME}') compared with '{compare_with}'.")
         try:
-             with open(f'results-{compare_with}.json') as fhandle:
+             with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
                 compare_plugin_data = json.load(fhandle)
         except OSError:
-            print(f"No data found for the reference plugin '{compare_with}': you need the file results-{compare_with}.json.")
+            print(f"No data found for the reference plugin '{compare_with}': you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
         if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
             raise ValueError(
@@ -84,9 +90,9 @@ if __name__ == "__main__":
 
 
     if compare_with is None:
-        PLOT_FOLDER = f'plots-{PLUGIN_NAME}'
+        PLOT_FOLDER = f'plots-{SET_NAME}-{PLUGIN_NAME}'
     else:
-        PLOT_FOLDER = f'plots-{PLUGIN_NAME}-vs-{compare_with}'
+        PLOT_FOLDER = f'plots-{SET_NAME}-{PLUGIN_NAME}-vs-{compare_with}'
     os.makedirs(PLOT_FOLDER, exist_ok=True)
 
     all_systems = set(reference_plugin_data['BM_fit_data'].keys())
@@ -225,7 +231,7 @@ if __name__ == "__main__":
 
         stress_ax.set_ylabel("Volumetric stress (GPa)")
 
-        pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.png")
+        pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.pdf")
         pl.close(fig)
 
     print(f"Plots written to: '{PLOT_FOLDER}'")
