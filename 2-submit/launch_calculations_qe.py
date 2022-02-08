@@ -1,7 +1,10 @@
+#!/usr/bin/env runaiida
+import sys
 import time
 
 #from re import S
 from aiida.plugins import DataFactory, WorkflowFactory
+#!/usr/bin/env runaiida
 from aiida import orm
 from aiida.engine import submit
 
@@ -10,14 +13,11 @@ from aiida_common_workflows.plugins import get_entry_point_name_from_class
 from aiida_common_workflows.plugins import load_workflow_entry_point
 from aiida_submission_controller import FromGroupSubmissionController
 
-DRY_RUN = True
-MAX_CONCURRENT = 200
+DRY_RUN = False
+MAX_CONCURRENT = 24
 PLUGIN_NAME = 'quantum_espresso'
 CODE_LABEL = 'qe-6.8-pw@eiger-mc'
-SET_NAME = 'set2'
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 class EosSubmissionController(FromGroupSubmissionController):
     """A SubmissionController for submitting EOS with Quantum ESPRESSO common workflows."""
@@ -85,6 +85,15 @@ class EosSubmissionController(FromGroupSubmissionController):
         return inputs, self._process_class
 
 if __name__ == "__main__":
+    try:
+        SET_NAME = sys.argv[1]
+    except IndexError:
+        print("Pass as parameter the set name, e.g. set2 or unaries-set1")
+        sys.exit(1)
+
+    STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+    WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+
     controller = EosSubmissionController(
         parent_group_label=STRUCTURES_GROUP_LABEL,
         code_label=CODE_LABEL,
