@@ -179,11 +179,8 @@ if __name__ == "__main__":
         # Plotting
         fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2]}, sharex=True)
 
-        # If we are here, 
         eos_ax.plot(volumes, energies, 'ob', label=f'{PLUGIN_NAME} EOS data')
         
-        print(list(zip(reference_eos_fit_energy, compare_eos_fit_energy)))
-
         if reference_eos_fit_energy is not None:
             eos_ax.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit (residuals: {residuals:.3g})')
             eos_ax.axvline(ref_BM_fit_data['min_volume'] / scaling_ref_plugin, linestyle='--', color='gray')
