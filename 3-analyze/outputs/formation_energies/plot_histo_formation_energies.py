@@ -11,6 +11,8 @@ from scipy.optimize import curve_fit
 BINS = 100
 FORM_ENERGY_PRINT_THRESHOLD = 0.03 # eV/atom
 
+OUT_FOLDER = 'formation_energies_output'
+
 def gaussian(x, a, x0, sigma):
     return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
 
@@ -27,10 +29,10 @@ def generate_plots(plugin1, plugin2, x_zoom_factor=1., abs_x_range=None):
     fname = f'formation-energies-{plugin1}-VS-{plugin2}.json'
     
     try:
-        with open(f'formation-energies/{fname}') as fhandle:
+        with open(f'{OUT_FOLDER}/{fname}') as fhandle:
             formation_data = json.load(fhandle)['formation_energies']
     except OSError:
-        print(f"No file '{fname}' found in the 'formation-energies' subfolder! Run ./compute_formation_energies.py first.")
+        print(f"No file '{fname}' found in the '{OUT_FOLDER}' subfolder! Run ./compute_formation_energies.py first.")
         sys.exit(1)
 
     formation_energy_dissimilarities = []
@@ -97,7 +99,7 @@ def generate_plots(plugin1, plugin2, x_zoom_factor=1., abs_x_range=None):
     pl.title(f"{plugin1} VS {plugin2}")
     pl.xlim(-half_range, half_range)
     pl.tight_layout()
-    pl.savefig(f"formation-energies/histogram-{plugin1}-VS-{plugin2}.png")
+    pl.savefig(f"{OUT_FOLDER}/histogram-{plugin1}-VS-{plugin2}.png")
     pl.close(fig)
 
     abs_formation_energy_dissimilarities = [
@@ -107,7 +109,7 @@ def generate_plots(plugin1, plugin2, x_zoom_factor=1., abs_x_range=None):
     abs_formation_energy_dissimilarities.sort()
     abs_formation_energy_dissimilarities.reverse()
 
-    with open(f"formation-energies/discrepancies-{plugin1}-VS-{plugin2}.txt", "w") as fhandle:
+    with open(f"{OUT_FOLDER}/discrepancies-{plugin1}-VS-{plugin2}.txt", "w") as fhandle:
         fhandle.write(f"## {plugin1} VS {plugin2}\n")
         fhandle.write(f"## Cases with abs(Formation energies) > {FORM_ENERGY_PRINT_THRESHOLD} eV/atom:\n")
         for form_energy_dissimilarity, system, form_energy_plugin1, form_energy_plugin2 in abs_formation_energy_dissimilarities:
@@ -131,3 +133,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     generate_plots(plugin1, plugin2, zoom)
+    print("*** IMPORTANT WARNING!!! THIS SCRIPT USES (STILL) THE EOS (ENERGIES AND VOLUMES) FROM THE SIMULATION CELL, AND NOT FROM PER FORMULA UNIT!! ***")
