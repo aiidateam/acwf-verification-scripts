@@ -165,7 +165,7 @@ if __name__ == "__main__":
                         'bulk_deriv': bulk_deriv,
                         'residuals': residuals[0]
                     }
-                    if residuals[0] > 1.e-6:
+                    if residuals[0] > 1.e-3:
                         warning_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
                 except ValueError:
                     # If we cannot find a minimum

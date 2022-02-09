@@ -12,10 +12,10 @@ def get_num_atoms_in_formula_unit(configuration):
         'X2O3': 5,
         'XO3': 4,
         'X2O5': 7,
-        'X/dia': 2,
-        'X/sc': 1,
-        'X/fcc': 1,
-        'X/bcc': 1
+        'X/Diamond': 2,
+        'X/SC': 1,
+        'X/FCC': 1,
+        'X/BCC': 1
     }
 
     try:
