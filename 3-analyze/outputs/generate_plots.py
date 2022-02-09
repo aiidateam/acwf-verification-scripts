@@ -182,11 +182,29 @@ if __name__ == "__main__":
                 # No compare_with plugin
                 compare_eos_fit_energy = None
 
-        # Plotting
-        fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2]}, sharex=True)
+        # Fetch stress data, so I know if I need to do two panels or only one
+        stress_data = reference_plugin_data['stress_data'][f'{element}-{configuration}']
+        stress_volumes = []
+        hydro_stresses_GPa = []
 
+        # After this, `volumes` and `hydro_stresses_GPa`` are empty lists if all stresses are None
+        for stress_volume, stress_tensor in stress_data:
+            if stress_tensor is not None:
+                stress_volumes.append(stress_volume / scaling_ref_plugin)
+                #1 eV/Angstrom3 = 160.21766208 GPa
+                hydro_stresses_GPa.append(
+                    160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
+                    )
+
+        #### START Plotting ####
+        if hydro_stresses_GPa:
+            fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2], 'left': 0.15, 'right': 0.95}, sharex=True)
+        else:
+            # Only EOS panel
+            fig, eos_ax = pl.subplots(nrows=1, ncols=1, gridspec_kw={'left': 0.15, 'right': 0.95})
+
+        # Plot EOS: this will be done anyway
         eos_ax.plot(volumes, energies, 'ob', label=f'{PLUGIN_NAME} EOS data')
-        
         if reference_eos_fit_energy is not None:
             eos_ax.plot(dense_volumes, reference_eos_fit_energy, '-b', label=f'{PLUGIN_NAME} fit (residuals: {residuals:.3g})')
             eos_ax.axvline(ref_BM_fit_data['min_volume'] / scaling_ref_plugin, linestyle='--', color='gray')
@@ -208,28 +226,18 @@ if __name__ == "__main__":
         conf_nice = get_conf_nice(configuration)
         fig.suptitle(f"{element} ({conf_nice})")
 
-        # Plot stress
-        stress_ax.axhline(0.)
-        stress_data = reference_plugin_data['stress_data'][f'{element}-{configuration}']
-        volumes = []
-        hydro_stresses_GPa = []
+        # Plot stress, but only if there is data! (otherwise stress_ax is not even defined)
+        if hydro_stresses_GPa:
+            stress_ax.axhline(0.)
+            stress_ax.plot(stress_volumes, hydro_stresses_GPa, 'o')
 
-        for volume, stress_tensor in stress_data:
-            if stress_tensor is not None:
-                volumes.append(volume / scaling_ref_plugin)
-                #1 eV/Angstrom3 = 160.21766208 GPa
-                hydro_stresses_GPa.append(
-                    160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
-                    )
-        stress_ax.plot(volumes, hydro_stresses_GPa, 'o')
+            # Quadratic fit (the linear one is typically not enough);
+            a, b, c = np.polyfit(stress_volumes, hydro_stresses_GPa, 2)
+            stress_ax.plot(dense_volumes, a * dense_volumes**2 + b * dense_volumes + c)
+            # The stress is typically having a negative slope (for a positive-curvature EOS), so I want the smaller of the two solutions
+            stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
 
-        # Quadratic fit (the linear one is typically not enough)
-        a, b, c = np.polyfit(volumes, hydro_stresses_GPa, 2)
-        stress_ax.plot(dense_volumes, a * dense_volumes**2 + b * dense_volumes + c)
-        # The stress is typically having a negative slope (for a positive-curvature EOS), so I want the smaller of the two solutions
-        stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
-
-        stress_ax.set_ylabel("Volumetric stress (GPa)")
+            stress_ax.set_ylabel("Volumetric stress (GPa)")
 
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.pdf")
         pl.close(fig)
