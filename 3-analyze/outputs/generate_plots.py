@@ -241,9 +241,6 @@ if __name__ == "__main__":
             else:
                  stress_ax.axvline((-b + np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
  
-
-            stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
-
             stress_ax.set_ylabel("Volumetric stress (GPa)")
 
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.pdf")
