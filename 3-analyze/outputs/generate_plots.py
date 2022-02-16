@@ -234,7 +234,14 @@ if __name__ == "__main__":
             # Quadratic fit (the linear one is typically not enough);
             a, b, c = np.polyfit(stress_volumes, hydro_stresses_GPa, 2)
             stress_ax.plot(dense_volumes, a * dense_volumes**2 + b * dense_volumes + c)
-            # The stress is typically having a negative slope (for a positive-curvature EOS), so I want the smaller of the two solutions
+            # The quadratic fit leads to two solutions for zero stress, we choose the one within the volume range
+            zero_stress_sol_1 = (-b - np.sqrt(b**2 - 4 * a * c))/2/a
+            if zero_stress_sol_1 < max(stress_volumes) and zero_stress_sol_1 > min(stress_volumes):
+                stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
+            else:
+                 stress_ax.axvline((-b + np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
+ 
+
             stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
 
             stress_ax.set_ylabel("Volumetric stress (GPa)")
