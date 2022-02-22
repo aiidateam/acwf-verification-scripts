@@ -2035,9 +2035,9 @@
     "vol_rel_diff_wien2k_fleur": 0.1030692629814725
   },
   "Rb-XO3": {
-    "average_vol_wien2k_fleur": 111.21285197342598,
-    "new_latt_constant": 4.808965477198074,
-    "vol_rel_diff_wien2k_fleur": 0.41848450997453385
+    "average_vol_wien2k_fleur": 109.6412796831643,
+    "new_latt_constant": 4.78620576188471,
+    "vol_rel_diff_wien2k_fleur": 0.2447187809751843
   },
   "Re-X2O": {
     "average_vol_wien2k_fleur": 40.194750944423745,

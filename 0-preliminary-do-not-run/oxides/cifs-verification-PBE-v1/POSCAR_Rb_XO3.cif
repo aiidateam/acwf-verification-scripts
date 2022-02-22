@@ -1,8 +1,8 @@
 data_RbO
 _audit_creation_method           'pos2cif.pl'
-_cell_length_a               4.808965477198074
-_cell_length_b               4.808965477198074
-_cell_length_c               4.808965477198074
+_cell_length_a               4.78620576188471
+_cell_length_b               4.78620576188471
+_cell_length_c               4.78620576188471
 _cell_angle_alpha            90
 _cell_angle_beta             90
 _cell_angle_gamma            90

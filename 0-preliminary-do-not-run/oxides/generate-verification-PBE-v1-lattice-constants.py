@@ -86,5 +86,24 @@ for syst in sorted(new_all_systems):
             }
 
 
+#Part 3, manually modify the RbO3 results.
+#RbO3 is the only material for which the equilibrium volume is very different 
+#going from kpoints distance of 0.1 1/Ang tokpoints distance of 0.06 1/Ang
+#Since the new set will be run with 0.06 1/Ang and the old set was with 0.1 1/Ang,
+#we adjust here the volume according to recent results with 0.06 1/Ang
+#provided by WIEN2K and FLEUR.
+wien2k_vol = 109.77543608470741
+fleur_vol = 109.50712328162118
+av_volume = (wien2k_vol+fleur_vol)/2
+rel_diff = 100*abs(wien2k_vol-fleur_vol)/av_volume
+a0 = av_volume**(1.0/3.0)
+collect["Rb-XO3"] = {
+    "vol_rel_diff_wien2k_fleur": rel_diff,
+    "average_vol_wien2k_fleur": av_volume,
+    "new_latt_constant": a0
+    }
+
+
+
 with open("verification-PBE-v1_alat_and_vol.json", 'w') as f3handle:
     json.dump(collect, f3handle, indent=2, sort_keys=True)
