@@ -19,8 +19,8 @@ all_structures = {(res[0]['element'], res[0]['configuration']): res[1] for res i
 structures = []
 for Z in range(1, 96+1):
     element_name = chemical_symbols[Z]
-    if Z == 8: # Oxygen is not there
-        continue
+    #if Z == 8: # Oxygen is not there
+    #    continue
     for configuration in ['X2O', 'X2O5', 'XO2', 'X2O3', 'XO', 'XO3']:
         structure_pk = all_structures.get((element_name, configuration))
         if structure_pk is not None:
