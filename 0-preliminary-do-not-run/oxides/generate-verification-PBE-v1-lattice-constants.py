@@ -29,7 +29,7 @@ for syst in sorted(all_systems):
     wien_v = FLEUR_data["BM_fit_data"][syst]["min_volume"]
     fleur_v = WIEN2K_data["BM_fit_data"][syst]["min_volume"]
     av_volume = (wien_v+fleur_v)/2
-    rel_diff = 100*abs(wien_v-fleur_v)/av_volume
+    rel_diff = abs(wien_v-fleur_v)/av_volume
     #if rel_diff>0.2:
     #    print(syst, rel_diff)
     element, configuration = syst.split('-')
@@ -64,9 +64,7 @@ for syst in sorted(new_all_systems):
     wien_v = new_FLEUR_data["BM_fit_data"][syst]["min_volume"]
     fleur_v = new_WIEN2K_data["BM_fit_data"][syst]["min_volume"]
     av_volume = (wien_v+fleur_v)/2
-    rel_diff = 100*abs(wien_v-fleur_v)/av_volume
-    #if rel_diff>0.2:
-    #    print(syst, rel_diff)
+    rel_diff = abs(wien_v-fleur_v)/av_volume
     element, configuration = syst.split('-')
     if configuration in ["X2O","XO2","XO"]:
         a0 = (av_volume*np.sqrt(2))**(1.0/3.0)
@@ -95,7 +93,7 @@ for syst in sorted(new_all_systems):
 wien2k_vol = 109.77543608470741
 fleur_vol = 109.50712328162118
 av_volume = (wien2k_vol+fleur_vol)/2
-rel_diff = 100*abs(wien2k_vol-fleur_vol)/av_volume
+rel_diff = abs(wien2k_vol-fleur_vol)/av_volume
 a0 = av_volume**(1.0/3.0)
 collect["Rb-XO3"] = {
     "vol_rel_diff_wien2k_fleur": rel_diff,

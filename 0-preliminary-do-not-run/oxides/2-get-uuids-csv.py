@@ -1,4 +1,4 @@
-SET_NAME = 'set2'
+SET_NAME = 'verification-PBE-v1'
 
 out_lines = []
 for node in Group.get(label=f'commonwf-oxides/{SET_NAME}/structures').nodes:

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SET_NAME=set2
+SET_NAME=verification-PBE-v1
 
 verdi archive create -G commonwf-oxides/${SET_NAME}/structures -- commonwf-oxides_${SET_NAME}_structures.aiida
 
