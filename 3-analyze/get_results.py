@@ -46,11 +46,11 @@ if __name__ == "__main__":
     try:
         SET_NAME = sys.argv[1]
     except IndexError:
-        print("Pass as parameter the set name, e.g. set2 or unaries-set1")
+        print("Pass as parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-set1")
         sys.exit(1)
 
-    STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-    WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+    STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
+    WORKFLOWS_GROUP_LABEL = f'acwf-verification/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
     # Get all nodes in the output group (EOS workflows)
     group_node_query = orm.QueryBuilder().append(

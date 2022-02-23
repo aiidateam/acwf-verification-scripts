@@ -1,5 +1,5 @@
-# commonwf-oxides-scripts
-Scripts to facilitate the common-workflow project on oxides
+# acwf-verification-scripts
+Scripts to facilitate the AiiDA common workflows (ACWF) sub-project focusing on verification (unaries and oxides)
 
 ## Content of the folders
 
