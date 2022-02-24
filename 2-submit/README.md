@@ -27,13 +27,14 @@ We suggest that you copy the file `launch_calculations_qe.py`, rename it as `lau
 
 NOTE: the script uses classes of the `aiida-submission-controller` package that must be installed before running the script (see ../requirements.txt)
 
-When you are ready, you can execute it to see if everything works as expected.
+When you are ready, you can execute it to see if everything works as expected. It requires the name
+of the set as parameter, for instance `runaiida launch_calculations_<PLUGIN_NAME>.py oxides-verification-PBE-v1`
 The output will contain information on how many simulations are still to run, how many
 can actually be run before reaching the `MAX_CONCURRENT` limit, ...
 
 When you are ready, just set `DRY_RUN` to False and then run the script in a loop, e.g. (in bash, maybe in a `screen` session):
 ```bash
-while true ; do verdi run launch_calculations.py ; sleep 60 ; done
+while true ; do verdi run launch_calculations_<PLUGIN_NAME>.py <SET_NAME> ; sleep 60 ; done
 ```
 (you can adapt the sleep, probably you might even increase it to 5 minutes or so).
 
