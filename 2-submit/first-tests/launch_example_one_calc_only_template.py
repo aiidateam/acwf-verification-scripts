@@ -8,10 +8,10 @@ from aiida_common_workflows.plugins import load_workflow_entry_point
 
 PLUGIN_NAME = 'quantum_espresso'
 CODE_LABEL = 'qe-6.8-pw@eiger-mc'
-SET_NAME = 'set2'
+SET_NAME = 'oxides-verification-PBE-v1'
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'acwf-verification/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 Structure = DataFactory('structure')
 

@@ -4,9 +4,9 @@ from ase.data import chemical_symbols
 from aiida.plugins import DataFactory
 from aiida import orm
 
-SET_NAME = 'verification-PBE-v1'
+SET_NAME = 'oxides-verification-PBE-v1'
 
-STRUCTURES_FULL_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures'
+STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
 
 Structure = DataFactory('structure')
 group, _ = orm.Group.objects.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)

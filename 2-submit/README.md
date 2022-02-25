@@ -27,13 +27,14 @@ We suggest that you copy the file `launch_calculations_qe.py`, rename it as `lau
 
 NOTE: the script uses classes of the `aiida-submission-controller` package that must be installed before running the script (see ../requirements.txt)
 
-When you are ready, you can execute it to see if everything works as expected.
+When you are ready, you can execute it to see if everything works as expected. It requires the name
+of the set as parameter, for instance `runaiida launch_calculations_<PLUGIN_NAME>.py oxides-verification-PBE-v1`
 The output will contain information on how many simulations are still to run, how many
 can actually be run before reaching the `MAX_CONCURRENT` limit, ...
 
 When you are ready, just set `DRY_RUN` to False and then run the script in a loop, e.g. (in bash, maybe in a `screen` session):
 ```bash
-while true ; do verdi run launch_calculations.py ; sleep 60 ; done
+while true ; do verdi run launch_calculations_<PLUGIN_NAME>.py <SET_NAME> ; sleep 60 ; done
 ```
 (you can adapt the sleep, probably you might even increase it to 5 minutes or so).
 
@@ -42,9 +43,9 @@ Continue with the next folder when all simulations are done.
 
 ## Note: failed simulations, or simulations to re-run
 The `aiida-submission-controller` will put submitted workchains in a group
-`commonwf-oxides/set2/workflows/PLUGIN_NAME` (the set name, here `set2`, could be different - use the most recent set available).   
+`acwf-verification/oxides-verification-PBE-v1/workflows/PLUGIN_NAME` (the set name, here `oxides-verification-PBE-v1`, could be different - use the most recent set available).   
 
-If you want to rerun one or more workflows, just remove it from the group (I suggest to create another group `commonwf-oxides/set2/workflows/PLUGIN_NAME/failed` [remember to use the correct set name], and actually also add the nodes there, so you don't lose track of them, they might be useful for futher analysis). Or you can just delete the workflows.
+If you want to rerun one or more workflows, just remove it from the group (I suggest to create another group `acwf-verification/oxides-verification-PBE-v1/workflows/PLUGIN_NAME/failed` [remember to use the correct set name], and actually also add the nodes there, so you don't lose track of them, they might be useful for futher analysis). Or you can just delete the workflows.
 
 # Running unaries (simple cubic, FCC, BCC, diamon)
 

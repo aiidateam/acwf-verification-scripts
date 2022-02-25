@@ -18,7 +18,7 @@ DIAMOND_CELL = FCC_CELL
 
 Z_MAX = 96
 SET_NAME = 'unaries-set1'
-AIIDA_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures'
+AIIDA_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
 GENERATE_XSF_FILES = False
 
 def get_cubic_unaries(element, alats):

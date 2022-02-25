@@ -30,8 +30,8 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'acwf-verification/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 query = orm.QueryBuilder()
 query.append(orm.Group, filters={'label': WORKFLOWS_GROUP_LABEL}, tag='groups')

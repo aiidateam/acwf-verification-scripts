@@ -1,5 +1,5 @@
-# commonwf-oxides-scripts
-Scripts to facilitate the common-workflow project on oxides
+# acwf-verification-scripts
+Scripts to facilitate the AiiDA common workflows (ACWF) sub-project focusing on verification (unaries and oxides)
 
 ## Content of the folders
 
@@ -21,8 +21,8 @@ These scripts are a template (based on Quantum ESPRESSO) that can be adapted rel
 - Create a new virtual environment (if you want) to have different packages than 
 - `pip install aiida-core==1.6.3` (until further notice, do NOT use develop)
 - install your plugin package (e.g.: `pip install aiida_quantumespresso`)
-- `verdi quicksetup` and create a new profile, e.g. `commonwf` or any name you want
-- (optional) If you want to avoid having to specify the profile each time: `verdi profile setdefault commonwf`
+- `verdi quicksetup` and create a new profile, e.g. `acwf-verification` or any name you want
+- (optional) If you want to avoid having to specify the profile each time: `verdi profile setdefault acwf-verification`
 - `pip install aiida-common-workflows` (you can use the most common develop branch)
 - `reentry scan`
 - Configure your computer and code (ideally, prepare some .yml config files so it's easy to recreate them if needed)

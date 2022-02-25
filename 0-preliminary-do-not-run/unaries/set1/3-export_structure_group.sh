@@ -2,9 +2,4 @@
 
 SET_NAME=unaries-set1
 
-verdi archive create -G commonwf-oxides/${SET_NAME}/structures -- commonwf-oxides_${SET_NAME}_structures.aiida
-
-## To check the nodes that were imported: you can e.g. use:
-##
-# for node in Group.get(label='commonwf-oxides/set1/structures').nodes:
-#     print(node.extras)
+verdi archive create -G acwf-verification/${SET_NAME}/structures -- acwf-verification_${SET_NAME}_structures.aiida
