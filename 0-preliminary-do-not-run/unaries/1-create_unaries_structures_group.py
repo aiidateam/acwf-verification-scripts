@@ -17,7 +17,7 @@ FCC_CELL = [[0.0, 0.5, 0.5], [0.5, 0.0, 0.5], [0.5, 0.5, 0.0]]
 DIAMOND_CELL = FCC_CELL
 
 Z_MAX = 96
-SET_NAME = 'unaries-set1'
+SET_NAME = 'unaries-set2'
 AIIDA_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
 GENERATE_XSF_FILES = False
 
@@ -30,13 +30,13 @@ def get_cubic_unaries(element, alats):
     # First-neighbor distance: the distance (in units of alat,
     # the cubic lattice parameter) of the first-neighbor distance
     # However, I don't use it here since I will use the a_lat directly
-    for alats_label, crystal_structure_label, cell in [
-            ('dia', 'Diamond', DIAMOND_CELL), # Coordination 4
-            ('sc', 'SC', SC_CELL), # Coordination 6
-            ('bcc', 'BCC', BCC_CELL), # Coordination 8
-            ('fcc', 'FCC', FCC_CELL), # Coordination 12
+    for crystal_structure_label, cell in [
+            ('Diamond', DIAMOND_CELL), # Coordination 4
+            ('SC', SC_CELL), # Coordination 6
+            ('BCC', BCC_CELL), # Coordination 8
+            ('FCC', FCC_CELL), # Coordination 12
         ]:
-        alat = alats[alats_label][element]
+        alat = alats[crystal_structure_label][element]
 
         num_atoms = 1
         if crystal_structure_label == "Diamond":
@@ -80,23 +80,29 @@ def get_aiida_structures(alats):
 
 
 if __name__ == "__main__":
-    with open("lattice_parameters_unaries_set1-WIEN2K.json") as fhandle:
+    with open("lattice_parameters_unaries_set2.json") as fhandle:
         alats_wien2k = json.load(fhandle)
+
+    subfolder = f'xsfs-{SET_NAME}'
 
     # Create XSF files
     if GENERATE_XSF_FILES:
-        if os.path.exists('xsfs'):
-            print("Remove the 'xsfs' folder first.")
+        if os.path.exists(subfolder):
+            print(f"Remove the '{subfolder}' folder first.")
             sys.exit(1)
-        os.makedirs('xsfs')
+        os.makedirs(subfolder)
         for Z in range(1, Z_MAX+1):
             element = ase.data.chemical_symbols[Z]
             unaries = get_cubic_unaries(element, alats_wien2k)
             for crystal_structure_label, unary in unaries.items():
                 # Careful when storing as CIF, ASE will use low precision for the cell angles,
                 # problematic for BCC!
-                unary.write(f'xsfs/{element}-{crystal_structure_label}.xsf')
-        print(f"{Z_MAX} structures written to the xsfs folder.")
+                unary.write(f'{subfolder}/{element}-{crystal_structure_label}.xsf')
+        print(f"{Z_MAX} structures written to the '{subfolder}' folder.")
+
+    if GENERATE_XSF_FILES:
+        print("WARNING: NOT WORKING ON AIIDA GROUP, AS GENERATE_XSF_FILES IS TRUE")
+        sys.exit(0)
 
     # Create the group with structures
     all_structures = get_aiida_structures(alats_wien2k)
