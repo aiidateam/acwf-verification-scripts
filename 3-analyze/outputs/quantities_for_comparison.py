@@ -152,13 +152,12 @@ def antiderE2(V0,B0,B0pr,V):
 
     return antider
 
-def delta(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def delta(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Calculate the Delta value, function copied from the official DeltaTest repository.
-    I don't understand what it does, but it works.
+    I don't understand what it does, but it works. Result is in meV
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
     RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though 'config_string' is useless here.
     """
 
     Vi = 0.94 * (v0w + v0f) / 2.
@@ -217,22 +216,12 @@ def delta(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weigh
     return Delta  #, Deltarel, Delta1
 
 
-def delta_per_atom(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_B1):
-    """
-    Divides the delta by the number of atoms in the cell.
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFULL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    """
-    conf_natoms_map = {'XO':2,'XO2':3,'XO3':4,'X2O':3,'X2O3':10,'X2O5':14}
-    return delta(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_B1)/conf_natoms_map[config_string]
 
-
-def epsilon2(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def epsilon2(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Calculate alternative Delta2 based on 2 EOS fits
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
     RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though 'config_string' is useless here.
     """
 
     # volume range
@@ -256,7 +245,7 @@ def epsilon2(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, we
     return delta2*prefact
 
 
-def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Returns the relative difference in the volumes.
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
@@ -266,7 +255,7 @@ def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0,
     return prefact*2*(v0w-v0f)/(v0w+v0f)
 
 
-def B0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def B0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Returns the relative difference in the bulk modulus.
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
@@ -275,7 +264,7 @@ def B0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0,
     """
     return prefact*2*(b0w-b0f)/(b0w+b0f)
 
-def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Returns the reletive difference in the derivative of the bulk modulus.
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
@@ -284,12 +273,11 @@ def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0,
     """
     return prefact*2*(b1w-b1f)/(b1w+b1f)
 
-def rel_errors_vec_length(v0w, b0w, b1w, v0f, b0f, b1f, config_string, prefact, weight_b0, weight_b1):
+def rel_errors_vec_length(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Returns the length of the vector formed by the relative error of V0, B0, B1
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
     RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    Even though config_string is not usd
     """
     V0err =  2*(v0w-v0f)/(v0w+v0f)
     B0err =  2*(b0w-b0f)/(b0w+b0f)
