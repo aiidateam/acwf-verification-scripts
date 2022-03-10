@@ -217,7 +217,7 @@ def delta(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
 
 
 
-def epsilon2(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
+def epsilon(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Calculate alternative Delta2 based on 2 EOS fits
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
@@ -242,7 +242,7 @@ def epsilon2(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
 
     # here we use x100 multiplier to allign delta2 with what we use to as
     # 'small' difference in the original delta definition (in meV)
-    return delta2*prefact
+    return np.sqrt(delta2)*prefact
 
 
 def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):

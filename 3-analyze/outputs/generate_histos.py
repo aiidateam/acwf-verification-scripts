@@ -54,7 +54,7 @@ quantity_for_comparison_map = {
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
     "rel_errors_vec_length": qc.rel_errors_vec_length,
-    "epsilon2": qc.epsilon2
+    "epsilon": qc.epsilon
 }
 
 
