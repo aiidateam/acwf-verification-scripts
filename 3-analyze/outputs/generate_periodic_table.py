@@ -318,7 +318,6 @@ if __name__ == "__main__":
             )
         )
 
-
         # Plot the periodic table
         p = figure(x_range=[0,19], y_range=[11,0], tools="save")
         p.plot_width = width
@@ -326,19 +325,33 @@ if __name__ == "__main__":
         p.background_fill_color = None
         p.border_fill_color = None
         p.toolbar_location = "above"
-        #p.rect("group", "period", 0.9, 0.9, source=source, alpha=alpha, color="type_color")
         p.quad(left="left", right="group", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_dia")
         p.quad(left="left", right="group", top="top", bottom="period", source=source, alpha=alpha, color="type_color_sc")
         p.quad(left="group", right="right", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_bcc")
         p.quad(left="group", right="right", top="top", bottom="period", source=source, alpha=alpha, color="type_color_fcc")
         p.axis.visible = False
-        text_props = {
-            "source": source,
-            "angle": 0,
-            "color": "black",
-            "text_align": "center",
-            "text_baseline": "middle",
-        }
+
+        #The reference block
+        p.quad(left=5,right=6.5,bottom=0,top=1.5,fill_color="white")
+        p.quad(left=5,right=6.5,bottom=1.5,top=3,fill_color="white")
+        p.quad(left=6.5,right=8,bottom=0,top=1.5,fill_color="white")
+        p.quad(left=6.5,right=8,bottom=1.5,top=3,fill_color="white")
+        xx=[5.75,5.75,7.25,7.25]
+        yy=[0.75,2.25,0.75,2.25]
+        text=["SC","Diamond","FCC","BCC"]
+        sou = ColumnDataSource(dict(x=xx, y=yy, text=text))
+        p.text(
+            x="x",
+            y="y",
+            text="text",
+            source=sou,
+            text_font_style="bold",
+            text_font_size="17pt",
+            text_align= "center",
+            text_baseline= "middle",
+            angle=-45,
+            angle_units="grad"
+            )
 
     else:
         # Define figure properties for visualizing data
@@ -363,7 +376,6 @@ if __name__ == "__main__":
             )
         )
 
-
         # Plot the periodic table
         p = figure(x_range=[0,19], y_range=[11,0], tools="save")
         p.plot_width = width
@@ -371,7 +383,6 @@ if __name__ == "__main__":
         p.background_fill_color = None
         p.border_fill_color = None
         p.toolbar_location = "above"
-        #p.rect("group", "period", 0.9, 0.9, source=source, alpha=alpha, color="type_color")
         p.quad(left="left", right="group", top="top", bottom="midup", source=source, alpha=alpha, color="type_color_X2O3")
         p.quad(left="left", right="group", top="midup", bottom="middown", source=source, alpha=alpha, color="type_color_X2O")
         p.quad(left="left", right="group", top="middown", bottom="bottom", source=source, alpha=alpha, color="type_color_XO3")
@@ -379,15 +390,38 @@ if __name__ == "__main__":
         p.quad(left="group", right="right", top="midup", bottom="middown", source=source, alpha=alpha, color="type_color_XO2")
         p.quad(left="group", right="right", top="middown", bottom="bottom", source=source, alpha=alpha, color="type_color_XO")
         p.axis.visible = False
-        text_props = {
-            "source": source,
-            "angle": 0,
-            "color": "black",
-            "text_align": "center",
-            "text_baseline": "middle",
-        }
+
+        #The reference block
+        p.quad(left=5,right=6.5,bottom=0,top=1,fill_color="white")
+        p.quad(left=5,right=6.5,bottom=1,top=2,fill_color="white")
+        p.quad(left=5,right=6.5,bottom=2,top=3,fill_color="white")
+        p.quad(left=6.5,right=8,bottom=0,top=1,fill_color="white")
+        p.quad(left=6.5,right=8,bottom=1,top=2,fill_color="white")
+        p.quad(left=6.5,right=8,bottom=2,top=3,fill_color="white")
+        xx=[5.75,5.75,5.75,7.25,7.25,7.25]
+        yy=[0.5,1.5,2.5,0.5,1.5,2.5]
+        text=["X2O3","X2O","XO3","X2O5","XO2","XO"]
+        sou = ColumnDataSource(dict(x=xx, y=yy, text=text))
+        p.text(
+            x="x",
+            y="y",
+            text="text",
+            source=sou,
+            text_font_style="bold",
+            text_font_size="17pt",
+            text_align= "center",
+            text_baseline= "middle",
+            )
 
 
+    #Add element name
+    text_props = {
+        "source": source,
+        "angle": 0,
+        "color": "black",
+        "text_align": "center",
+        "text_baseline": "middle",
+    }
     #x = dodge("group", -0.4, range=p.x_range)
     #y = dodge("period", 0.3, range=p.y_range)
     p.text(
@@ -415,11 +449,10 @@ if __name__ == "__main__":
         color_bar.height = cbar_height
 
     p.add_layout(color_bar, "right")
-    #p.grid.grid_line_color = None
+    p.grid.grid_line_color = None
 
     #if output_filename:
     output_file("plot")
-    print("ok")
 
     #if show:
     show_(p)
