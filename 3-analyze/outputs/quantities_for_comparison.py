@@ -238,11 +238,15 @@ def epsilon(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     int4 = intE2dV(v0f,b0f,b1f,Vi,Vf) - \
             2*Eavg2*intEdV(v0f,b0f,b1f,Vi,Vf) + \
             deltaV*Eavg2**2
-    delta2 = intdiff2/np.sqrt(int3*int4)
+    eps2 = intdiff2/np.sqrt(int3*int4)
 
-    # here we use x100 multiplier to allign delta2 with what we use to as
-    # 'small' difference in the original delta definition (in meV)
-    return np.sqrt(delta2)*prefact
+    #We saw a case when, for numerical error, intdiff2 was negative
+    #(about -1*10^{-13}). For this reason, we add a safty check.
+    if eps2 < 0.0:
+        print(f"eps2 = {eps2}, negative due to numerical error probably, we take the absolute value")
+        eps2 = abs(eps2)
+    
+    return np.sqrt(eps2)*prefact
 
 
 def V0_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
