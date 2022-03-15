@@ -1,5 +1,5 @@
 #!/usr/bin/env runaiida
-SET_NAME = 'unaries-set2'
+SET_NAME = 'unaries-verification-PBE-v1'
 
 out_lines = []
 for node in Group.get(label=f'acwf-verification/{SET_NAME}/structures').nodes:

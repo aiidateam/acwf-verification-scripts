@@ -2,6 +2,7 @@ results-*.json
 warnings-*.txt
 errors-*.json
 plots-*
+periodic-table-plot.html
 
 histo-*.pdf
 

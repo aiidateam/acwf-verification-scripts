@@ -4,3 +4,4 @@ matplotlib
 tqdm
 ase
 git+https://github.com/aiidateam/aiida-submission-controller@v0.1.2#egg=aiida_submission_controller
+bokeh
