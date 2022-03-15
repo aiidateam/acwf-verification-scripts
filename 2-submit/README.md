@@ -50,4 +50,4 @@ If you want to rerun one or more workflows, just remove it from the group (I sug
 # Running unaries (simple cubic, FCC, BCC, diamon)
 
 Similar concepts apply to run unaries instead of oxides. The scripts to use
-are the same, but one needs to pass different set names, e.g. `unaries-set1`.
+are the same, but one needs to pass different set names, e.g. `unaries-verification-PBE-v1`.
