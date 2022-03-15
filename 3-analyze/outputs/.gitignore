@@ -3,6 +3,7 @@ warnings-*.txt
 errors-*.json
 plots-*
 periodic-table-plot.html
+periodic-table-plot.png
 
 histo-*.pdf
 

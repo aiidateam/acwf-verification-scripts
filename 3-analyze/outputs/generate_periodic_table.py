@@ -10,6 +10,7 @@ import tqdm
 
 import quantities_for_comparison as qc
 
+SHOW_IN_BROWSER=False
 
 from bokeh.models import (
     ColumnDataSource,
@@ -466,11 +467,32 @@ if __name__ == "__main__":
     p.add_layout(color_bar, "right")
     p.grid.grid_line_color = None
 
-    #if output_filename:
-    output_file("periodic-table-plot.html")
+     # Open in a browser
+    if SHOW_IN_BROWSER:
+        output_file("periodic-table-plot.html")
+        show_(p)
+    else:
+        try:
+            export_png(p, filename="periodic-table-plot.png")
+        except RuntimeError as exc:
+            msg = str(exc)
+            msg = f"""
 
-    #output_file("plot.png")
-    #export_png(p)
-    #if show:
-    show_(p)
+ERROR GENERATING THE IMAGE!
+The original error message was:
+{msg}
+
+Please check the following:
+- Bokeh instructions here: https://docs.bokeh.org/en/latest/docs/user_guide/export.html#additional-dependencies
+- That you installed the requirements.txt file, and in particular that you installed
+  `pip install selenium chromedriver-binary`
+  (to use with Chrome)
+- that you have a recent version of Chrome
+- that you downloaded from https://chromedriver.chromium.org/ and put in your PATH
+  the chromedriver executable for the *SAME* version of Chrome that you have
+  (note that Chrome typically self-updates, so check even if this script
+  used to work, check that now Chrome is not more recent than the chromedriver you had installed;
+  in this case udpate it).
+"""
+            raise RuntimeError(msg)
 
