@@ -11,6 +11,11 @@ import tqdm
 import quantities_for_comparison as qc
 
 SHOW_IN_BROWSER=False
+DEFAULT_PREFACTOR = 100
+DEFAULT_wb0 = 1.0/8.0
+DEFAULT_wb1 = 1.0/64.0
+EXPECTED_SCRIPT_VERSION = "0.0.3"
+
 
 from bokeh.models import (
     ColumnDataSource,
@@ -81,13 +86,6 @@ quantity_for_comparison_map = {
 
 
 PLUGIN_NAME = get_plugin_name()
-
-BINS = 100
-DEFAULT_PREFACTOR = 100
-DEFAULT_wb0 = 1.0/8.0
-DEFAULT_wb1 = 1.0/64.0
-EXPECTED_SCRIPT_VERSION = "0.0.3"
-
 
 if __name__ == "__main__":
     try:
