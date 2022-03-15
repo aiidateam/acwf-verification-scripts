@@ -17,7 +17,7 @@ FCC_CELL = [[0.0, 0.5, 0.5], [0.5, 0.0, 0.5], [0.5, 0.5, 0.0]]
 DIAMOND_CELL = FCC_CELL
 
 Z_MAX = 96
-SET_NAME = 'unaries-set2'
+SET_NAME = 'unaries-verification-PBE-v1'
 AIIDA_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
 GENERATE_XSF_FILES = False
 
@@ -80,7 +80,7 @@ def get_aiida_structures(alats):
 
 
 if __name__ == "__main__":
-    with open("lattice_parameters_unaries_set2.json") as fhandle:
+    with open("lattice_parameters_unaries-verification-PBE-v1.json") as fhandle:
         alats_wien2k = json.load(fhandle)
 
     subfolder = f'xsfs-{SET_NAME}'

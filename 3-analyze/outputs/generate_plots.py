@@ -49,7 +49,7 @@ if __name__ == "__main__":
     try:
         SET_NAME = sys.argv[1]
     except IndexError:
-        print("Pass as first parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-set1")
+        print("Pass as first parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-verification-PBE-v1")
         sys.exit(1)
 
     try:
