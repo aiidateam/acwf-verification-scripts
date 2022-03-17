@@ -112,7 +112,7 @@ def generate_json_data(plugin_name_1, plugin_name_2):
             }
 
     # Plotting now
-    OUT_FOLDER = 'formation_energies_output'
+    OUT_FOLDER = 'formation-energies-output'
     os.makedirs(OUT_FOLDER, exist_ok=True)
 
     fname = f'{OUT_FOLDER}/formation-energies-{plugin_name_1}-VS-{plugin_name_2}.json'

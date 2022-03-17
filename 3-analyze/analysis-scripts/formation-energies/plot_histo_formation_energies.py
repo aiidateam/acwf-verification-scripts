@@ -11,7 +11,7 @@ from scipy.optimize import curve_fit
 BINS = 100
 FORM_ENERGY_PRINT_THRESHOLD = 0.03 # eV/atom
 
-OUT_FOLDER = 'formation_energies_output'
+OUT_FOLDER = 'formation-energies-output'
 
 def gaussian(x, a, x0, sigma):
     return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
