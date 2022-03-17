@@ -56,10 +56,10 @@ MARKERS = {
 print("*"*72)
 print("*   IMPORTANT!! PLEASE UPDATE THE REFERENCE DATA FOR THE FINAL PLOT!   *")
 print("*"*72)
-FLEUR_UNARIES_FILE = "temp-results/results-unaries-set2-fleur-k_0.06.json"
-WIEN2K_UNARIES_FILE = "temp-results/results-unaries-set2-wien2k-dk_0.06.json"
-FLEUR_OXIDES_FILE = "temp-results/results-set2plusoxygen-fleur-temp-v003.json"
-WIEN2K_OXIDES_FILE = "temp-results/results-set2plusoxygen-wien2k-temp-v003.json"
+FLEUR_UNARIES_FILE = "../temp-results/results-unaries-set2-fleur-k_0.06.json"
+WIEN2K_UNARIES_FILE = "../temp-results/results-unaries-set2-wien2k-dk_0.06.json"
+FLEUR_OXIDES_FILE = "../temp-results/results-set2plusoxygen-fleur-temp-v003.json"
+WIEN2K_OXIDES_FILE = "../temp-results/results-set2plusoxygen-wien2k-temp-v003.json"
 
 # Essentially, how many atoms there are in the conventional cube
 volume_per_atom_to_cubic_volume = {
