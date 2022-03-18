@@ -10,7 +10,7 @@ import numpy as np
 UNARIES_CONFIGURATIONS = ['X/BCC', 'X/SC', 'X/FCC', 'X/Diamond']
 OXIDES_CONFIGURATIONS = ['XO', 'XO2', 'XO3', 'X2O', 'X2O3', 'X2O5']
 ALL_ELEMENTS = [ase.data.chemical_symbols[Z] for Z in range(1, 96+1)]
-
+VERBOSE = False
 
 def get_num_atoms_in_formula_unit(configuration):
     return sum(get_X_O_in_formula_unit(configuration))
@@ -35,6 +35,8 @@ def get_O_percentage(configuration):
 
 def _get_energy_internal(plugin, element, configuration):
     system = f'{element}-{configuration}'
+    if plugin['BM_fit_data'][system] is None:
+        return None
     return plugin['BM_fit_data'][system]['E0'] / plugin['num_atoms_in_sim_cell'][system] * get_num_atoms_in_formula_unit(configuration)
 
 
@@ -111,6 +113,8 @@ def get_formation_energy(element, configuration_triple, plugin_unaries, plugin_o
 
     # Now we can do a linear interpolation of the energies and compare with the central energy
     # Note that this is per formula unit, so we also need to divide by the number of atoms per formula unit in the center
+    if any(energy is None for energy in energies_per_formula_unit):
+        return None
     reference_energy = alpha * energies_per_formula_unit[0] + beta * energies_per_formula_unit[2]
     formation_per_formula_unit = energies_per_formula_unit[1] - reference_energy
     return formation_per_formula_unit / get_num_atoms_in_formula_unit(configuration_triple[1])
@@ -137,7 +141,8 @@ def get_unaries_energy_difference(
 
         plugin1_energy_dict = dict(zip(UNARIES_CONFIGURATIONS, plugin1_energies))
         plugin2_energy_dict = dict(zip(UNARIES_CONFIGURATIONS, plugin2_energies))
-        print(f"{element:2s}: {ref_min_energy_conf}")      
+        if VERBOSE:
+            print(f"{element:2s}: {ref_min_energy_conf}")      
         if plugin1_min_energy_conf != plugin2_min_energy_conf:
             print(f"  >> WARNING! Different minimum-energy configuration for {element}! {plugin1_min_energy_conf} (plugin1) vs {plugin2_min_energy_conf} (plugin 2)")
 
@@ -149,18 +154,20 @@ def get_unaries_energy_difference(
             (plugin1_energy_dict, plugin_name_1),
             (plugin2_energy_dict, plugin_name_2),
         ]:
-            print(f"  - {plugin_name:10s} [eV/atom]:", end="")
-            print("    ", end="")
+            if VERBOSE:
+                print(f"  - {plugin_name:10s} [eV/atom]:", end="")
+                print("    ", end="")
             for configuration in UNARIES_CONFIGURATIONS:
                 en_diff = plugin_energy_dict[configuration] - plugin_energy_dict[ref_min_energy_conf]
                 unaries_data[element]['configurations'][configuration][plugin_name] = en_diff
-                if configuration != ref_min_energy_conf:
+                if configuration != ref_min_energy_conf and VERBOSE:
                     print(f"({configuration:9s}: {en_diff:+4.3f})  ", end="")
-            print() # Newline
+            if VERBOSE:
+                print() # Newline
 
     return unaries_data
 
-def generate_json_data(plugin_name_1, plugin_name_2, unaries_set="unaries-set2", oxides_set="set2plusoxygen"):
+def generate_json_data(plugin_name_1, plugin_name_2, unaries_set="unaries-verification-PBE-v1", oxides_set="oxides-verification-PBE-v1"):
 
     try:
         with open(f'../temp-results/results-{unaries_set}-{plugin_name_1}.json') as fhandle:
@@ -182,18 +189,18 @@ def generate_json_data(plugin_name_1, plugin_name_2, unaries_set="unaries-set2",
         }
     for element in ALL_ELEMENTS:
         for configuration_triple in [
-                ('X2O', 'XO', 'XO3'),
-                ('X2O', 'XO2', 'XO3'),
-                ('X2O', 'X2O3', 'XO3'),
-                ('X2O', 'X2O5', 'XO3'),
+                #('X2O', 'XO', 'XO3'),
+                #('X2O', 'XO2', 'XO3'),
+                #('X2O', 'X2O3', 'XO3'),
+                #('X2O', 'X2O5', 'XO3'),
                 # 'X' is a placeholder for the lowest-energy 'X/...' phase, and 'O' for the
                 # lowest-energy 'X/...' phase with X=oxygen
-                #('X', 'X2O', 'O'),
-                #('X', 'XO', 'O'),
-                #('X', 'XO2', 'O'),
-                #('X', 'X2O3', 'O'),
-                #('X', 'X2O5', 'O'),
-                #('X', 'XO3', 'O'),
+                ('X', 'X2O', 'O'),
+                ('X', 'XO', 'O'),
+                ('X', 'XO2', 'O'),
+                ('X', 'X2O3', 'O'),
+                ('X', 'X2O5', 'O'),
+                ('X', 'XO3', 'O'),
             ]:
 
             plugin1_formation_energy = get_formation_energy(element, configuration_triple, plugin1_unaries, plugin1_oxides, all_data['unaries_energy_difference'])

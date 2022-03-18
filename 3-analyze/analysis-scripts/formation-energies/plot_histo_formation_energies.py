@@ -7,9 +7,9 @@ import numpy as np
 import pylab as pl
 from scipy.optimize import curve_fit
 
-
 BINS = 100
-PRINT_THRESHOLD = 0.03 # eV/atom
+PRINT_THRESHOLD = 0.01 # eV/atom
+VERBOSE = True
 
 OUT_FOLDER = 'formation-energies-output'
 
@@ -38,6 +38,8 @@ def get_dissimilarities(plugin1, plugin2, what):
             plugin2_formation_energy = data[plugin2]
             if plugin1_formation_energy is None or plugin2_formation_energy is None:
                 # Deal with missing data for at least one plugin
+                if VERBOSE:
+                    print(f"WARNING: missing {system}")
                 missing_count += 1                
                 continue
             dissimilarities.append((plugin2_formation_energy - plugin1_formation_energy, system, plugin1_formation_energy, plugin2_formation_energy))
@@ -53,12 +55,14 @@ def get_dissimilarities(plugin1, plugin2, what):
                 plugin1_energy_difference = plugin_data[plugin1]
                 plugin2_energy_difference = plugin_data[plugin2]
                 if plugin1_energy_difference is None or plugin2_energy_difference is None:
+                    if VERBOSE:
+                        print(f"WARNING: missing {element} - {configuration}")
                     # Deal with missing data for at least one plugin
                     missing_count += 1
                     continue
                 dissimilarities.append(
                     (plugin2_energy_difference - plugin1_energy_difference,
-                    f"{element}/{configuration}-wrt-{reference_configuration}",
+                    f"{element}-{configuration}-wrt-{reference_configuration}",
                     plugin1_energy_difference,
                     plugin2_energy_difference))
     else:

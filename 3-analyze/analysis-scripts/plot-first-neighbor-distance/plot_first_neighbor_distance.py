@@ -56,10 +56,11 @@ MARKERS = {
 print("*"*72)
 print("*   IMPORTANT!! PLEASE UPDATE THE REFERENCE DATA FOR THE FINAL PLOT!   *")
 print("*"*72)
-FLEUR_UNARIES_FILE = "../temp-results/results-unaries-set2-fleur.json"
-WIEN2K_UNARIES_FILE = "../temp-results/results-unaries-set2-wien2k.json"
-FLEUR_OXIDES_FILE = "../temp-results/results-set2plusoxygen-fleur.json"
-WIEN2K_OXIDES_FILE = "../temp-results/results-set2plusoxygen-wien2k.json"
+
+FLEUR_UNARIES_FILE = "../temp-results/results-unaries-verification-PBE-v1-fleur.json"
+WIEN2K_UNARIES_FILE = "../temp-results/results-unaries-verification-PBE-v1-wien2k.json"
+FLEUR_OXIDES_FILE = "../temp-results/results-oxides-verification-PBE-v1-fleur.json"
+WIEN2K_OXIDES_FILE = "../temp-results/results-oxides-verification-PBE-v1-wien2k.json"
 
 # Essentially, how many atoms there are in the conventional cube
 volume_per_atom_to_cubic_volume = {
@@ -85,11 +86,14 @@ def get_alat_from_raw_json(json_data):
         if config.startswith('X/'):
             config = config[len('X/'):]
 
-        volume = values['min_volume']
-        num_atoms_in_sim_cell = json_data['num_atoms_in_sim_cell'][key]
-        volume_per_atom = volume / num_atoms_in_sim_cell
-        cubic_volume = volume_per_atom * volume_per_atom_to_cubic_volume[config]
-        data[config][element] = cubic_volume ** (1/3)
+        if values is None:
+            data[config][element] = None
+        else:
+            volume = values['min_volume']
+            num_atoms_in_sim_cell = json_data['num_atoms_in_sim_cell'][key]
+            volume_per_atom = volume / num_atoms_in_sim_cell
+            cubic_volume = volume_per_atom * volume_per_atom_to_cubic_volume[config]
+            data[config][element] = cubic_volume ** (1/3)
 
     return dict(data)
 
@@ -106,9 +110,12 @@ def generate_plots(fleur_alats, wien2k_alats, plot_vs_pettifor=False):
         for element in fleur_alats[config]:
             fleur = fleur_alats[config][element]
             wien2k = wien2k_alats[config][element]
-            average_alats[config][element] = (fleur + wien2k) / 2
-            assert abs((fleur - wien2k) / wien2k) < 0.01, f"Data for {element}-{config} has large error: {fleur} {wien2k} {abs((fleur - wien2k) / wien2k)}!"
-            assert abs((fleur - wien2k) / wien2k) > 1.e-14, f"Data for {element}-{config} seem to be really identical! Maybe a copy-paste error?"
+            if fleur is None or wien2k is None:
+                average_alats[config][element] = None
+            else:
+                average_alats[config][element] = (fleur + wien2k) / 2
+                assert abs((fleur - wien2k) / wien2k) < 0.01, f"Data for {element}-{config} has large error: {fleur} {wien2k} {abs((fleur - wien2k) / wien2k)}!"
+                assert abs((fleur - wien2k) / wien2k) > 1.e-14, f"Data for {element}-{config} seem to be really identical! Maybe a copy-paste error?"
 
     if 'Diamond' in average_alats:
         set_type = 'unaries'
@@ -145,8 +152,11 @@ def generate_plots(fleur_alats, wien2k_alats, plot_vs_pettifor=False):
                     # In case Z is None, I pre-set to None so the point is not plotted
                     first_neighbor = None
                     if Z <= Z_max:
-                        # alat * factor
-                        first_neighbor = average_alats[conf][chemical_symbols[Z]] * alat_to_first_neighbor_factor[conf]
+                        if average_alats[conf][chemical_symbols[Z]] is None:
+                            print(f"WARNING: MISSING {chemical_symbols[Z]} -> {conf}")
+                        else:
+                            # alat * factor
+                            first_neighbor = average_alats[conf][chemical_symbols[Z]] * alat_to_first_neighbor_factor[conf]
                     else:
                         print(idx, Z, 'SKIP')
                     y[idx] = first_neighbor
