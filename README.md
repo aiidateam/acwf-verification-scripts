@@ -1,5 +1,5 @@
 # acwf-verification-scripts
-Scripts to facilitate the AiiDA common workflows (ACWF) sub-project focusing on verification (unaries and oxides)
+Scripts to facilitate the [AiiDA common workflows (ACWF)](https://github.com/aiidateam/aiida-common-workflows) sub-project focusing on verification of codes (on a set of unaries and oxides for all chemical elements between Z=1 and Z=96).
 
 ## Content of the folders
 
