@@ -13,11 +13,37 @@ from collections import Counter
 from eos_utils.eosfit_31_adapted import BM, echarge
 
 from aiida import orm
-from aiida.common import LinkType
+from aiida.common import LinkType, NotExistentAttributeError
 from aiida_common_workflows.workflows.relax.workchain import CommonRelaxWorkChain
 
 
 __version__ = "0.0.3"
+
+def extract_from_failed(node):
+    """
+    For EoS workchain with exit status different than zero, try to extract info on the completed volumes
+    """
+    en=[]
+    vol=[]
+    stres=[]
+    num_atoms = None
+    for i in node.get_outgoing(link_type=LinkType.CALL_WORK).all():
+        if i.node.is_finished_ok:
+            if num_atoms is None:
+                num_atoms = len(i.node.inputs.structure.sites)
+            en.appen(i.node.outputs.total_energy.value)
+            try:
+                vol = i.node.outputs.relaxed_structure.get_cell_volume()
+            except NotExistentAttributeError:
+                vol = i.node.inputs.structure.get_cell_volume()
+            vol.append(vol)
+            try:
+                stress = i.node.outputs.stress.get_array('stress').tolist()
+            except AttributeError:
+                stress = None
+            stress.append(stress)
+
+    return vol,en,stres,num_atoms
 
 
 def get_plugin_name():
@@ -101,84 +127,96 @@ if __name__ == "__main__":
         BM_fit_data = None
         num_atoms = None
 
+        volumes = []
+        energies = []
+        stresses = []
+
         # For successfully finished workflows, fit the EOS
         if node.process_state.value == 'finished' and node.exit_status == 0:
-            # Check if the required outputs are there
+            # Extract volumes and energies for this system
             outputs = node.get_outgoing(link_type=LinkType.RETURN).nested()
-            missing_outputs = tuple(output for output in ('structures', 'total_energies') if output not in outputs)
-            if missing_outputs:
-                all_missing_outputs.append({'element': element, 'configuration': configuration, 'missing': missing_outputs})
-                warning_lines.append(f"  WARNING! MISSING OUTPUTS: {missing_outputs}")
-            else:
-                # Extract volumes and energies for this system
-                volumes = []
-                energies = []
-                stresses = []
-                for index, sub_structure in sorted(outputs['structures'].items()):
-                    if num_atoms is None:
-                        num_atoms = len(sub_structure.sites)
-                    else:
-                        assert num_atoms == len(sub_structure.sites), (
-                            f"Number of atoms changes between structures for {element} {configuration}!"
-                        )
-                    volumes.append(sub_structure.get_cell_volume())
-                    energy_node = outputs['total_energies'][index]
-                    energies.append(energy_node.value)
-                    parent_workflows_links = energy_node.get_incoming(link_type=LinkType.RETURN).all()
-                    parent_workflows = [
-                        triple.node for triple in parent_workflows_links
-                        if issubclass(triple.node.process_class, CommonRelaxWorkChain)]
-                    assert len(parent_workflows) == 1, "Error retrieving the parent Relax workflow!"
-                    parent_workflow = parent_workflows[0]
-                    try:
-                        stress = parent_workflow.outputs.stress.get_array('stress').tolist()
-                    except AttributeError:
-                        stress = None
-                    stresses.append(stress)
-                energies = [e for _, e in sorted(zip(volumes, energies))]
-                volumes = sorted(volumes)
-                # List as I need to JSON-serialize it
-                eos_data = (np.array([volumes, energies]).T).tolist()
-                stress_data = list(zip(volumes, stresses))
-
-                # Check if the central point was completely off (i.e. the minimum of the energies is
-                # on the very left or very right of the volume range)
-                min_loc = np.array(energies).argmin()
-                if min_loc == 0:
-                    # Side is whether the minimum occurs on the left side (small volumes) or right side (large volumes)
-                    completely_off.append({'element': element, 'configuration': configuration, 'side': 'left'})
-                elif min_loc == len(energies) - 1:
-                    completely_off.append({'element': element, 'configuration': configuration, 'side': 'right'})   
-
+            for index, sub_structure in sorted(outputs['structures'].items()):
+                if num_atoms is None:
+                    num_atoms = len(sub_structure.sites)
+                else:
+                    assert num_atoms == len(sub_structure.sites), (
+                        f"Number of atoms changes between structures for {element} {configuration}!"
+                    )
+                volumes.append(sub_structure.get_cell_volume())
+                energy_node = outputs['total_energies'][index]
+                energies.append(energy_node.value)
+                parent_workflows_links = energy_node.get_incoming(link_type=LinkType.RETURN).all()
+                parent_workflows = [
+                    triple.node for triple in parent_workflows_links
+                    if issubclass(triple.node.process_class, CommonRelaxWorkChain)]
+                assert len(parent_workflows) == 1, "Error retrieving the parent Relax workflow!"
+                parent_workflow = parent_workflows[0]
                 try:
-                    # I need to pass a numpy array
-                    min_volume, E0, bulk_modulus_internal, bulk_deriv, residuals = BM(np.array(eos_data))
-                    bulk_modulus_GPa = bulk_modulus_internal * echarge * 1.0e21
-                    #1 eV/Angstrom3 = 160.21766208 GPa
-                    bulk_modulus_ev_ang3 = bulk_modulus_GPa / 160.21766208
-                    data_to_print[(structure.extras['element'], structure.extras['configuration'])] = (
-                        min_volume, E0, bulk_modulus_GPa, bulk_deriv)
-                    BM_fit_data = {
-                        'min_volume': min_volume,
-                        'E0': E0,
-                        'bulk_modulus_ev_ang3': bulk_modulus_ev_ang3,
-                        'bulk_deriv': bulk_deriv,
-                        'residuals': residuals[0]
-                    }
-                    if residuals[0] > 1.e-3:
-                        warning_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
-                except ValueError:
-                    # If we cannot find a minimum
-                    # Note that BM_fit_data was already set to None at the top
-                    warning_lines.append(f"WARNING! Unable to fit for {structure.extras['element']} {structure.extras['configuration']}")
-
+                    stress = parent_workflow.outputs.stress.get_array('stress').tolist()
+                except AttributeError:
+                    stress = None
+                stresses.append(stress)
         elif (node.process_state.value == 'finished' and node.exit_status != 0) or (node.process_state.value == 'excepted'):
-            failed_wfs.append({
-                'element': element,
-                'configuration': configuration,
-                'process_state': node.process_state.value,
-                'exit_status': node.exit_status,
-            })
+            volumes,energies,stresses,num_atoms = extract_from_failed(node)
+            if len(volume)/7.0 < 0.8:
+                failed_wfs.append({
+                    'element': element,
+                    'configuration': configuration,
+                    'process_state': node.process_state.value,
+                    'exit_status': node.exit_status,
+                })
+                all_eos_data[f'{element}-{configuration}'] = eos_data
+                num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
+                all_stress_data[f'{element}-{configuration}'] = stress_data
+                all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
+                continue
+            all_missing_outputs.append({'element': element, 'configuration': configuration, 'missing': 7.0-len(volume)})
+            warning_lines.append(f"  WARNING! MISSING OUTPUTS: {7.0-len(volume)}")
+        else:
+            print(element,configuration,"still running")
+            all_eos_data[f'{element}-{configuration}'] = eos_data
+            num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
+            all_stress_data[f'{element}-{configuration}'] = stress_data
+            all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
+            continue
+        
+        energies = [e for _, e in sorted(zip(volumes, energies))]
+        volumes = sorted(volumes)
+        # List as I need to JSON-serialize it
+        eos_data = (np.array([volumes, energies]).T).tolist()
+        stress_data = list(zip(volumes, stresses))
+
+        # Check if the central point was completely off (i.e. the minimum of the energies is
+        # on the very left or very right of the volume range)
+        min_loc = np.array(energies).argmin()
+        if min_loc == 0:
+            # Side is whether the minimum occurs on the left side (small volumes) or right side (large volumes)
+            completely_off.append({'element': element, 'configuration': configuration, 'side': 'left'})
+        elif min_loc == len(energies) - 1:
+            completely_off.append({'element': element, 'configuration': configuration, 'side': 'right'})   
+
+        try:
+            # I need to pass a numpy array
+            min_volume, E0, bulk_modulus_internal, bulk_deriv, residuals = BM(np.array(eos_data))
+            bulk_modulus_GPa = bulk_modulus_internal * echarge * 1.0e21
+            #1 eV/Angstrom3 = 160.21766208 GPa
+            bulk_modulus_ev_ang3 = bulk_modulus_GPa / 160.21766208
+            data_to_print[(structure.extras['element'], structure.extras['configuration'])] = (
+                min_volume, E0, bulk_modulus_GPa, bulk_deriv)
+            BM_fit_data = {
+                'min_volume': min_volume,
+                'E0': E0,
+                'bulk_modulus_ev_ang3': bulk_modulus_ev_ang3,
+                'bulk_deriv': bulk_deriv,
+                'residuals': residuals[0]
+            }
+            if residuals[0] > 1.e-3:
+                warning_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
+        except ValueError:
+            # If we cannot find a minimum
+            # Note that BM_fit_data was already set to None at the top
+            warning_lines.append(f"WARNING! Unable to fit for {structure.extras['element']} {structure.extras['configuration']}")
+
         all_eos_data[f'{element}-{configuration}'] = eos_data
         num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
         all_stress_data[f'{element}-{configuration}'] = stress_data
