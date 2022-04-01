@@ -21,29 +21,36 @@ __version__ = "0.0.3"
 
 def extract_from_failed(node):
     """
-    For EoS workchain with exit status different than zero, try to extract info on the completed volumes
+    For EoS workchain with exit status different than zero, try to extract info on the completed volumes.
+
+    This can be done only if the calculated volumes have a "relaxed_structure" output.
+    In fact the EoS workchain calles <Code>CommonRelaxWorkChains and they have a common
+    output interface, not an input one!
     """
-    en=[]
-    vol=[]
-    stres=[]
+    ens=[]
+    vols=[]
+    streses=[]
     num_atoms = None
+    num_attempt_vols = 0
     for i in node.get_outgoing(link_type=LinkType.CALL_WORK).all():
+        num_attempt_vols = num_attempt_vols + 1
         if i.node.is_finished_ok:
             if num_atoms is None:
-                num_atoms = len(i.node.inputs.structure.sites)
-            en.appen(i.node.outputs.total_energy.value)
-            try:
-                vol = i.node.outputs.relaxed_structure.get_cell_volume()
-            except NotExistentAttributeError:
-                vol = i.node.inputs.structure.get_cell_volume()
-            vol.append(vol)
+                try:
+                    num_atoms = len(i.node.outputs.relaxed_structure.sites)
+                except NotExistentAttributeError:
+                    # there is no output structure, can not retrieve the volume!
+                    break
+            ens.append(i.node.outputs.total_energy.value)
+            vol = i.node.outputs.relaxed_structure.get_cell_volume()
+            vols.append(vol)
             try:
                 stress = i.node.outputs.stress.get_array('stress').tolist()
             except AttributeError:
                 stress = None
-            stress.append(stress)
+            stresses.append(stress)
 
-    return vol,en,stres,num_atoms
+    return vols,ens,streses,num_atoms,num_attempt_vols
 
 
 def get_plugin_name():
@@ -90,7 +97,7 @@ if __name__ == "__main__":
     warning_lines = []
 
     uuid_mapping = {}
-    all_missing_outputs = []
+    all_missing_outputs = {}
     completely_off = []
     failed_wfs = []
     all_eos_data = {}
@@ -131,7 +138,7 @@ if __name__ == "__main__":
         energies = []
         stresses = []
 
-        # For successfully finished workflows, fit the EOS
+        # For successfully finished workflows, collect the data from outputs
         if node.process_state.value == 'finished' and node.exit_status == 0:
             # Extract volumes and energies for this system
             outputs = node.get_outgoing(link_type=LinkType.RETURN).nested()
@@ -156,28 +163,34 @@ if __name__ == "__main__":
                 except AttributeError:
                     stress = None
                 stresses.append(stress)
+        # For failed workflows, check if some volumes concluded succesfully, if more than 80% of vol are ok, go on with fit
         elif (node.process_state.value == 'finished' and node.exit_status != 0) or (node.process_state.value == 'excepted'):
-            volumes,energies,stresses,num_atoms = extract_from_failed(node)
-            if len(volume)/7.0 < 0.8:
+            volumes,energies,stresses,num_atoms,num_attempt_vols = extract_from_failed(node)
+            if len(volumes)/float(num_attempt_vols) < 0.8:
+                # Not enough volumes, list the material as failed
                 failed_wfs.append({
                     'element': element,
                     'configuration': configuration,
                     'process_state': node.process_state.value,
                     'exit_status': node.exit_status,
                 })
+                # Return the info collected so far, eos_data, stress_data, BM_fit_data are still None
                 all_eos_data[f'{element}-{configuration}'] = eos_data
                 num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
                 all_stress_data[f'{element}-{configuration}'] = stress_data
                 all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
+                # Exit loop = no fit attempted
                 continue
-            all_missing_outputs.append({'element': element, 'configuration': configuration, 'missing': 7.0-len(volume)})
-            warning_lines.append(f"  WARNING! MISSING OUTPUTS: {7.0-len(volume)}")
+            all_missing_outputs[f'{element}-{configuration}'] = num_attempt_vols-len(volumes)
+            warning_lines.append(f"  WARNING! MISSING OUTPUTS: {num_attempt_vols-len(volumes)}")
+        # We return all None also for the case not covered by the two others if. For instance, fall here the materials still running.
         else:
-            print(element,configuration,"still running")
+            #print(element,configuration,"probably still running?")
             all_eos_data[f'{element}-{configuration}'] = eos_data
             num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms
             all_stress_data[f'{element}-{configuration}'] = stress_data
             all_BM_fit_data[f'{element}-{configuration}'] = BM_fit_data
+            # Exit loop = no fit attempted
             continue
         
         energies = [e for _, e in sorted(zip(volumes, energies))]
@@ -229,8 +242,8 @@ if __name__ == "__main__":
         'uuid_mapping': uuid_mapping,
         # A list of dictionaries with information on the workchains that did not finish with a 0 exit code
         'failed_wfs': failed_wfs,
-        # A list of dictionaries that indicate for which elements and configurations there are missing outputs,
-        # if any (for the workchains that finished with 0 exit code)
+        # A dictionary that indicate for which elements and configurations there are missing outputs,
+        # (only for the workchains that still had enough volumes to be considered for a fit)
         'missing_outputs': all_missing_outputs,
         # A list of dictionaries that indicate which elements and configurations have been computed completely
         # off-centre (meaning that the minimum of all computed energies is on either of the two edges, i.e. for

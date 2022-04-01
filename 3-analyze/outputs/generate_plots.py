@@ -196,6 +196,12 @@ if __name__ == "__main__":
                     160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
                     )
 
+        # Check missing data
+        miss_data = False
+        if reference_plugin_data["missing_outputs"]:
+            if f'{element}-{configuration}' in reference_plugin_data['missing_outputs']:
+                miss_data = True
+
         #### START Plotting ####
         if hydro_stresses_GPa:
             fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2], 'left': 0.15, 'right': 0.95}, sharex=True)
@@ -218,6 +224,9 @@ if __name__ == "__main__":
 
         LIGHTYELLOW = (255/255, 244/255, 214/255)
         LIGHTORANGE = (255/255, 205/255, 171/255)
+        LIGHTGREEN = (144/255, 238/255, 144/255)
+        if miss_data:
+            eos_ax.set_facecolor(LIGHTGREEN)
         if residuals is None:
             eos_ax.set_facecolor(LIGHTYELLOW)
         elif residuals > RESIDUALS_THRESHOLD:
