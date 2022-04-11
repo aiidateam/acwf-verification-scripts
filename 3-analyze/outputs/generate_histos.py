@@ -26,7 +26,7 @@ def get_plugin_name():
             # Simple check e.g. to make sure there are no weird characters,
             # newlines, ... - one might still make a typo, but at least we
             # do a basic check
-            assert plugin_name.isidentifier()
+            #assert plugin_name.isidentifier()
         return plugin_name
     except FileNotFoundError as exc:
         raise FileNotFoundError(
