@@ -31,7 +31,7 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-EXPECTED_SCRIPT_VERSION = '0.0.3'
+EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 RESIDUALS_THRESHOLD = 1.e-3
 
 def get_conf_nice(configuration_string):
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
     
-    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
         raise ValueError(
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             "Please re-run ./get_results.py to update the data format!")
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         except OSError:
             print(f"No data found for the reference plugin '{compare_with}': you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
-        if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+        if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
             raise ValueError(
                 f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                 "Please ask the other plugin you want to compare with to re-run ./get_results.py "

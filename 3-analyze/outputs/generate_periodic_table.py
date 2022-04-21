@@ -14,7 +14,7 @@ SHOW_IN_BROWSER=False
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
 DEFAULT_wb1 = 1.0/64.0
-EXPECTED_SCRIPT_VERSION = "0.0.3"
+EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
 from bokeh.models import (
@@ -124,7 +124,7 @@ if __name__ == "__main__":
         print(f"No data found for code '{other_code}' (set '{SET_NAME}'). A file results-{SET_NAME}-{other_code}.json is expected")
         sys.exit(1)
 
-    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
         raise ValueError(
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"

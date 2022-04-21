@@ -17,7 +17,7 @@ from aiida.common import LinkType, NotExistentAttributeError
 from aiida_common_workflows.workflows.relax.workchain import CommonRelaxWorkChain
 
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 def extract_from_failed(node):
     """
