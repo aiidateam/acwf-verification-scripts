@@ -31,7 +31,7 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-EXPECTED_SCRIPT_VERSION = '0.0.3'
+EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 RESIDUALS_THRESHOLD = 1.e-3
 
 def get_conf_nice(configuration_string):
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
     
-    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
         raise ValueError(
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             "Please re-run ./get_results.py to update the data format!")
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         except OSError:
             print(f"No data found for the reference plugin '{compare_with}': you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
-        if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+        if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
             raise ValueError(
                 f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                 "Please ask the other plugin you want to compare with to re-run ./get_results.py "
@@ -196,6 +196,12 @@ if __name__ == "__main__":
                     160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
                     )
 
+        # Check missing data
+        miss_data = False
+        if reference_plugin_data["missing_outputs"]:
+            if f'{element}-{configuration}' in reference_plugin_data['missing_outputs']:
+                miss_data = True
+
         #### START Plotting ####
         if hydro_stresses_GPa:
             fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2], 'left': 0.15, 'right': 0.95}, sharex=True)
@@ -218,6 +224,9 @@ if __name__ == "__main__":
 
         LIGHTYELLOW = (255/255, 244/255, 214/255)
         LIGHTORANGE = (255/255, 205/255, 171/255)
+        LIGHTGREEN = (144/255, 238/255, 144/255)
+        if miss_data:
+            eos_ax.set_facecolor(LIGHTGREEN)
         if residuals is None:
             eos_ax.set_facecolor(LIGHTYELLOW)
         elif residuals > RESIDUALS_THRESHOLD:

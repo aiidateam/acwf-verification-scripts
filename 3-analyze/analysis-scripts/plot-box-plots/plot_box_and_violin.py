@@ -8,7 +8,7 @@ import sys
 
 import quantities_for_comparison as qc
 
-EXPECTED_SCRIPT_VERSION = '0.0.3'
+EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 DEFAULT_PREFACTOR = 100
 DEFAULT_WB0 = 1.0 / 8.0
 DEFAULT_WB01 = 1.0 / 64.0
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         data_dir = pl.Path(f'../../outputs')
         with open(f'{data_dir}/results-{SET_NAME}-{REF_PLUGIN}.json') as fhandle:
             ref_plugin_data = json.load(fhandle)
-            if not ref_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+            if not ref_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
                     f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                     f"Please re-run ./get_results.py to update the data format for results-{SET_NAME}-{REF_PLUGIN}.json!"
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         plugin_name = filename.stem.replace(f'results-{SET_NAME}-', '')
         with open(filename, 'r') as fp:
             plugin_data = json.load(fp)
-            if plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+            if plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
                 data[plugin_name] = plugin_data
 
     # Sort in alphabetical order

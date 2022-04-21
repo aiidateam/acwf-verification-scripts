@@ -41,7 +41,7 @@ BINS = 100
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
 DEFAULT_wb1 = 1.0/64.0
-EXPECTED_SCRIPT_VERSION = "0.0.3"
+EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
 def gaussian(x, a, x0, sigma):
@@ -88,7 +88,7 @@ if __name__ == "__main__":
         print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
  
-    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
         raise ValueError(
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
@@ -101,7 +101,7 @@ if __name__ == "__main__":
         try:
             with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
                 compare_plugin_data.append(json.load(fhandle))
-            if not compare_plugin_data[-1]['script_version'] == EXPECTED_SCRIPT_VERSION:
+            if not compare_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
                     f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                     f"Please re-run ./get_results.py to update the data format for {compare_with}!"

@@ -14,7 +14,7 @@ SHOW_IN_BROWSER=True
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
 DEFAULT_wb1 = 1.0/64.0
-EXPECTED_SCRIPT_VERSION = "0.0.3"
+EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
 from bokeh.models import (
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     try:
         with open(f'results-{SET_NAME}-fleur.json') as fhandle:
             compare_plugin_data = json.load(fhandle)
-            if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+            if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
                     f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                     f"Please re-run ./get_results.py to update the data format for results-{SET_NAME}-fleur.json!"
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                 continue
             with open(os.path.join(results_folder, fname)) as fhandle:
                 code_results[label] = json.load(fhandle)
-                if not code_results[label]['script_version'] == EXPECTED_SCRIPT_VERSION:
+                if not code_results[label]['script_version'] in EXPECTED_SCRIPT_VERSION:
                     raise ValueError(
                         f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                         f"Please re-run ./get_results.py to update the data format for {fname}! Skipping {label}"
