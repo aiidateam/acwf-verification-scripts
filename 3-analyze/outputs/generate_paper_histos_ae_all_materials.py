@@ -23,6 +23,12 @@ DEFAULT_wb1 = 1.0/64.0
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 LIMITS = {"V0_rel_diff":0.3,"B0_rel_diff":2,"B1_rel_diff":10}
 
+QUANTITY_FANCY_NAMES = {
+    'B0': "$B_0$",
+    'V0': "$V_0$",
+    'B1': "$B'$"
+}
+
 
 def gaussian(x, a, x0, sigma):
     return a * np.exp(-(x - x0)**2 / (2 * sigma**2))
@@ -91,6 +97,7 @@ if __name__ == "__main__":
     #fig = pl.figure(figsize=(18,6))
     fig, ax = pl.subplots(1, 3, figsize=(18,6))
 
+    TINY_SIZE = 18
     SMALL_SIZE = 22
     MEDIUM_SIZE = 24
     BIGGER_SIZE = 28
@@ -182,9 +189,9 @@ if __name__ == "__main__":
             if alls < -lim:
                 countSmall = countSmall + 1
         if countBig > 0:
-            ax[indx].annotate(f"+{countBig}", xy=(lim, max(hist_y)/2), xytext=(0.5*lim, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
+            ax[indx].annotate(f"+{countBig}", xy=(lim, max(hist_y)/2), xytext=(0.5*lim, max(hist_y)/2), arrowprops=dict(color='#999999', shrink=0.05),va='center')
         if countSmall:
-            ax[indx].annotate(f"+{countSmall}", xy=(-lim, max(hist_y)/2), xytext=(-lim*0.8, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
+            ax[indx].annotate(f"+{countSmall}", xy=(-lim, max(hist_y)/2), xytext=(-lim*0.8, max(hist_y)/2), arrowprops=dict(color='#999999', shrink=0.05),va='center')
 
         # Fit Gaussian and plot it
         #hist_x = (bins[1:] + bins[:-1])/2
@@ -203,14 +210,14 @@ if __name__ == "__main__":
         # Reset the xlim
         ax[indx].set_xlim([-lim, lim])
         ax[indx].set_ylim([0,max(hist_y)+max(hist_y)/20])
-        ax[indx].annotate(f"mean {round(mean,3)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/10)) 
-        ax[indx].annotate(f"std {round(sta_dev,2)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/5))
+        ax[indx].annotate(f"Mean: {round(mean,3)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/10), fontsize=TINY_SIZE) 
+        ax[indx].annotate(f"Stdev: {round(sta_dev,2)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/5), fontsize=TINY_SIZE)
 
         #ax[indx].legend(loc='upper center')
-        ax[indx].set_xlabel(f"% difference in {QUANTITY.strip('_rel_diff')}",fontsize=22)
-        ax[indx].set_ylabel("Frequency",fontsize=22)
-        ax[indx].tick_params(axis="x",labelsize=20)
-        ax[indx].tick_params(axis="y",labelsize=20)
+        ax[indx].set_xlabel(f"{QUANTITY_FANCY_NAMES[QUANTITY.strip('_rel_diff')]} difference [%]",fontsize=22)
+        ax[indx].set_ylabel("Count",fontsize=SMALL_SIZE)
+        ax[indx].tick_params(axis="x",labelsize=SMALL_SIZE)
+        ax[indx].tick_params(axis="y",labelsize=SMALL_SIZE)
         #set(xlabel=f"{DEFAULT_PREFACTOR}*{QUANTITY}", ylabel='Frequency', Fontsize=30)
         
     fig.suptitle(f"FLEUR vs WIEN2K")
