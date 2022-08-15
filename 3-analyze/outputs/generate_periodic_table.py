@@ -12,8 +12,8 @@ import quantities_for_comparison as qc
 
 SHOW_IN_BROWSER=False
 DEFAULT_PREFACTOR = 100
-DEFAULT_wb0 = 1.0/8.0
-DEFAULT_wb1 = 1.0/64.0
+DEFAULT_wb0 = 1.0/6.0
+DEFAULT_wb1 = 1.0/35.0
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
@@ -225,6 +225,10 @@ if __name__ == "__main__":
     over_color = "#140F0E"
     special_elements = None
     special_color = "#6F3023"
+    # MAX_RESCALE = 1: the max of the color bar is the max of the data
+    # MAX_RESCALE = 2: the max of the color bar is half of the max of the data
+    # etc etc.
+    MAX_RESCALE = 1. 
 
     options.mode.chained_assignment = None
 
@@ -282,12 +286,12 @@ if __name__ == "__main__":
             color_mapper = LogColorMapper(
                 palette=bokeh_palette, low=min_data, high=max_data
             )
-            norm = LogNorm(vmin=min_data, vmax=max_data)
+            norm = LogNorm(vmin=min_data, vmax=max_data / MAX_RESCALE)
         else:
             color_mapper = LinearColorMapper(
                 palette=bokeh_palette, low=min_data, high=max_data
             )
-            norm = Normalize(vmin=min_data, vmax=max_data)
+            norm = Normalize(vmin=min_data, vmax=max_data / MAX_RESCALE)
             
         color_scale = ScalarMappable(norm=norm, cmap=cmap).to_rgba(data, alpha=None)
 
