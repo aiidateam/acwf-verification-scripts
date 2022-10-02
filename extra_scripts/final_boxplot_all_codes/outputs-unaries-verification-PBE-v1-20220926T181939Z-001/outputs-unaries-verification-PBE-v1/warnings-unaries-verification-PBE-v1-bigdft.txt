@@ -1,0 +1,28 @@
+  WARNING! MISSING OUTPUTS: 1
+
+Counter of states: Counter({'finished.0': 260, 'finished.400': 77, 'excepted': 2, 'killed': 1})
+
+Minimum completely off for 22/340
+Completely off systems (symbol indicates if the minimum is on the very left or right):
+- He X/Diamond (<)
+- Nb X/Diamond (<)
+- Ne X/Diamond (<)
+- Ne X/FCC (<)
+- Ne X/SC (<)
+- Re X/SC (>)
+- Tl X/Diamond (<)
+- Zn X/Diamond (<)
+- Zn X/FCC (<)
+- Zn X/SC (<)
+- Cu X/BCC (<)
+- He X/BCC (<)
+- Mn X/BCC (<)
+- Re X/BCC (>)
+- Tl X/BCC (<)
+- Zn X/BCC (<)
+- Co X/BCC (<)
+- Fe X/FCC (<)
+- Ni X/BCC (<)
+- Ne X/BCC (<)
+- Tl X/FCC (<)
+- Tl X/SC (<)

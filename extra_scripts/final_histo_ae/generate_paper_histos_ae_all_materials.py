@@ -15,6 +15,7 @@ import quantities_for_comparison as qc
 # This is a multiplicative number; a number > 1 means zoom in, a number < 1 means zoom out
 
 PLUGIN_NAME = 'wien2k-dk_0.06'
+compare_with = 'fleur'
 
 BINS = 100
 DEFAULT_PREFACTOR = 100
@@ -44,41 +45,27 @@ quantity_for_comparison_map = {
 }
 
 
-if __name__ == "__main__":
-    SET_NAME_1 = 'unaries-verification-PBE-v1'
-    SET_NAME_2 = 'oxides-verification-PBE-v1'
-
+def generate_histo(sets, name_file):
+    """
+    """
     reference_plugin_data = []
-
-    try:
-        with open(f'results-{SET_NAME_1}-{PLUGIN_NAME}.json') as fhandle:
-            reference_plugin_data.append(json.load(fhandle))
-    except OSError:
-        print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME_1}'). Did you run `./get_results.py` first?")
-        sys.exit(1)
- 
-    if not reference_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
-        raise ValueError(
-            f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-            f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
-            )
-
-    try:
-        with open(f'results-{SET_NAME_2}-{PLUGIN_NAME}.json') as fhandle:
-            reference_plugin_data.append(json.load(fhandle))
-    except OSError:
-        print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME_2}'). Did you run `./get_results.py` first?")
-        sys.exit(1)
-
-    if not reference_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
-        raise ValueError(
-            f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-            f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
-            )
-
     compare_plugin_data = []
-    compare_with = 'fleur'
-    for SET_NAME in [SET_NAME_1,SET_NAME_2]:
+
+    for SET_NAME in sets:
+        
+        try:
+            with open(f'results-{SET_NAME}-{PLUGIN_NAME}.json') as fhandle:
+                reference_plugin_data.append(json.load(fhandle))
+        except OSError:
+            print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}').")
+            sys.exit(1)
+ 
+        if not reference_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
+            raise ValueError(
+                f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+                f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
+                )
+
         try:
             with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
                 compare_plugin_data.append(json.load(fhandle))
@@ -88,12 +75,10 @@ if __name__ == "__main__":
                     f"Please re-run ./get_results.py to update the data format for {compare_with}!"
                     )
         except OSError:
-            print(f"No data found for the plugin '{compare_with}' (set '{SET_NAME}'): you need the file results-{SET_NAME}-{compare_with}.json.")
+            print(f"No data found for the plugin '{compare_with}' (set '{SET_NAME}').")
             sys.exit(1)
 
-    name_file = f'histo-final.pdf'
-
-        # Plotting
+    # Plotting
     #fig = pl.figure(figsize=(18,6))
     fig, ax = pl.subplots(1, 3, figsize=(18,6))
 
@@ -110,15 +95,11 @@ if __name__ == "__main__":
     pl.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
     pl.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-
-
-
     for indx, QUANTITY in enumerate(["V0_rel_diff","B0_rel_diff","B1_rel_diff"]):
        
-
         collect = []
 
-        for ind in range(2):
+        for ind in range(len(reference_plugin_data)):
         
             all_systems = set(reference_plugin_data[ind]['eos_data'].keys())
             all_systems = set(reference_plugin_data[ind]['BM_fit_data'].keys())
@@ -222,5 +203,26 @@ if __name__ == "__main__":
         
     fig.suptitle(f"FLEUR vs WIEN2K")
     fig.tight_layout()
-    fig.savefig(f"{name_file}")
+    fig.savefig(f"{name_file}.pdf")
     pl.close(fig)
+
+
+if __name__ == "__main__":
+    SET_NAME_1 = 'unaries-verification-PBE-v1'
+    SET_NAME_2 = 'oxides-verification-PBE-v1'
+    
+    try:
+        mode = sys.argv[1]
+    except IndexError:
+        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'all'.")
+        sys.exit(1)
+
+    if mode == 'all':
+        generate_histo([SET_NAME_1, SET_NAME_2], 'all-mat')
+    elif mode == 'separate':
+        generate_histo([SET_NAME_1], 'unaries-mat')
+        generate_histo([SET_NAME_2], 'oxides-mat')
+    else:
+        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'all'.")
+        sys.exit(1)
+

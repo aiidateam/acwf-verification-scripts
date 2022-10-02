@@ -1,0 +1,11 @@
+WARNING! Unable to fit for Ar XO2
+
+Counter of states: Counter({'finished.0': 508, 'finished.400': 2})
+
+Minimum completely off for 5/510
+Completely off systems (symbol indicates if the minimum is on the very left or right):
+- Ne X2O3 (>)
+- Xe XO3 (>)
+- Ne XO3 (>)
+- Ar XO3 (<)
+- I XO3 (>)
