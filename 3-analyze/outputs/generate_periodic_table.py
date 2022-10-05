@@ -228,7 +228,7 @@ if __name__ == "__main__":
     # MAX_RESCALE = 1: the max of the color bar is the max of the data
     # MAX_RESCALE = 2: the max of the color bar is half of the max of the data
     # etc etc.
-    MAX_RESCALE = 1. 
+    MAX_RESCALE = 1.5 
 
     options.mode.chained_assignment = None
 

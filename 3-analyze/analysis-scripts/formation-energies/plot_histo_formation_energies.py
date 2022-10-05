@@ -128,15 +128,15 @@ def generate_plots(plugin1, plugin2, what, x_zoom_factor=1., abs_x_range=None):
     #  HWHM**2 = ln(2) * (2*sigma**2)
     #  HWHM = sqrt(ln(2)) * sqrt(2) * sigma
     #  FWHM = 2*HWHM = 2*sqrt(2)*sqrt(ln(2)) * sigma
-    pl.plot(x, gaussian(x, *popt), 'r:', label=rf'Gaussian fit (FWHM = {2*np.sqrt(2)*np.sqrt(np.log(2))*sigma:.5f})')
-    pl.axvline(popt[1], color='r', linestyle=':')
+    #pl.plot(x, gaussian(x, *popt), 'r:', label=rf'Gaussian fit (FWHM = {2*np.sqrt(2)*np.sqrt(np.log(2))*sigma:.5f})')
+    #pl.axvline(popt[1], color='r', linestyle=':')
     # Reset the xlim
     pl.xlim(x[0], x[-1])
 
     pl.legend(loc='upper right')
     pl.xlabel("Formation energy dissimilarity (eV/atom)")
-    pl.ylabel("Frequency")
-    pl.title(f"{plugin1} VS {plugin2} ({what})")
+    pl.ylabel("Count")
+    #pl.title(f"{plugin1} VS {plugin2} ({what})")
     pl.xlim(-half_range, half_range)
     pl.tight_layout()
     pl.savefig(f"{OUT_FOLDER}/histogram-{what}-{plugin1}-VS-{plugin2}.png")
