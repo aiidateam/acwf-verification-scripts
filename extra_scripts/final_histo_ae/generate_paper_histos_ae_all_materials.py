@@ -27,7 +27,7 @@ LIMITS = {"V0_rel_diff":0.3,"B0_rel_diff":2,"B1_rel_diff":10}
 QUANTITY_FANCY_NAMES = {
     'B0': "$B_0$",
     'V0': "$V_0$",
-    'B1': "$B'$"
+    'B1': "$B_1$"
 }
 
 
@@ -152,6 +152,10 @@ def generate_histo(sets, name_file):
                 CB01=compare_BM_fit_data['bulk_deriv']
 
                 quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
+                if quant > LIMITS[QUANTITY]:
+                    print(f'{element}-{configuration} has {QUANTITY} > {LIMITS[QUANTITY]} = {quant}')
+                if quant < -LIMITS[QUANTITY]:
+                    print(f'{element}-{configuration} has {QUANTITY} < -{LIMITS[QUANTITY]} = {quant}')
 
                 collect.append(quant)
 
