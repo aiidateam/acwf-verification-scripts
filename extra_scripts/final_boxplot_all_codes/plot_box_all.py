@@ -1,12 +1,11 @@
 # %%
 import json
 import pathlib as pl
-from more_itertools import only
 import numpy as np
 import matplotlib.pyplot as plt
 import tabulate
 import sys
-
+import copy
 import quantities_for_comparison as qc
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
@@ -52,7 +51,7 @@ quantity_for_comparison_map = {
 xlims = {
     "delta_per_formula_unit": [0,3],
     "% difference in B0": [-20,20],
-    "% difference in V0": [-8.0,8.0],
+    "% difference in V0": [-7,7],
     "% difference in B1": [-50,50],
     "rel_errors_vec_length": [0,15],
     "epsilon": [0,15]
@@ -60,34 +59,43 @@ xlims = {
 
 quantity_names = ["% difference in V0","% difference in B0","% difference in B1"]
 
-plugin_names = [
+QUANTITY_FANCY_NAMES = {
+    'B0': "$B_0$",
+    'V0': "$V_0$",
+    'B1': "$B_1$"
+}
+
+plugin_names_start = [
         'wien2k',
         'vasp',
-        'quantum_espresso',
         'siesta',
+        'quantum_espresso',
         'gpaw',
         'fleur',
         'cp2k', 
         'castep', 
         'bigdft', 
-        'abinit-PseudoDojo0.4', 
-        'abinit-PseudoDojo0.5b1'
+        'abinit'
         ] # need them in reverse order for up to bottom in plot
-labels = [
+labels_start = [
         'wien2k',
         'vasp',
-        'quantum-espresso',
         'siesta',
+        'quantum-espresso',
         'gpaw',
         'fleur',
         'cp2k',
         'castep',
         'bigdft',
-        'abinit (PseudoDojo0.4)',
-        'abinit (PseudoDojo0.5b1)'
+        'abinit'
         ]
 
 def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_codes=None):
+    """
+
+    """
+    plugin_names = copy.deepcopy(plugin_names_start)
+    labels =  copy.deepcopy(labels_start)
     if skip_codes is not None:
         for skip_code in skip_codes:
             try:
@@ -98,9 +106,12 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
             except IndexError:
                 raise ValueError(f"Code '{skip_code}' asked to be skipped but does not exist!")
     all_data = {}
+    print()
+    print('#####################################################################')
+    print('#      Statistics on the number of elements for each code           #')
+    print('#####################################################################')
     for quantity_name in quantity_names:
         out_data = {}
-        print(f"#### {quantity_name} ####")
         for plugin_name in plugin_names:
             plugin_values = []
             plugin_big = 0
@@ -140,28 +151,32 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                 # Take the systems that are both in the reference and plugin sets
                 plot_systems = plugin_systems.intersection(ref_systems)
                 set_type = SET_NAME.partition('-')[0] # oxides or unaries
-                print(f"All systems: {len(plot_systems)} (set: {set_type}; full: {len(plugin_systems)}) for '{plugin_name}'")
-                if only_must_have_elements is not None:
-                    if set_type == 'oxides':
-                        variants = ['XO', 'XO2', 'X2O', 'X2O3', 'X2O5', 'XO3']
-                    elif set_type == 'unaries':
-                        variants = ['X/SC', 'X/FCC', 'X/BCC', 'X/Diamond']
-                    else:
-                        raise ValueError("Unrecognized set type!")
-                    missing = []
-                    new_plot_systems = set()
-                    for element in only_must_have_elements:
-                        for variant in variants:
-                            expected_key = f"{element}-{variant}"
-                            if expected_key not in plot_systems:
-                                missing.append(expected_key)
-                            else:
-                                new_plot_systems.add(expected_key)
+               
+                #print(f"All systems: {len(plot_systems)} (set: {set_type}; full: {len(plugin_systems)}) for '{plugin_name}'")
+                
+                if set_type == 'oxides':
+                    variants = ['XO', 'XO2', 'X2O', 'X2O3', 'X2O5', 'XO3']
+                elif set_type == 'unaries':
+                    variants = ['X/SC', 'X/FCC', 'X/BCC', 'X/Diamond']
+                else:
+                    raise ValueError("Unrecognized set type!")
+                missing = []
+                new_plot_systems = set()
+                for element in only_must_have_elements:
+                    for variant in variants:
+                        expected_key = f"{element}-{variant}"
+                        if expected_key not in plot_systems:
+                            missing.append(expected_key)
+                        else:
+                            new_plot_systems.add(expected_key)
+                if quantity_name == '% difference in V0':
                     if missing:
-                        raise ValueError(f"{plugin_name} ({set_type}) misses the following keys: {missing}")
-                    plot_systems = new_plot_systems
-                print(f"   -> Plotting: {len(plot_systems)}")
-
+                        print(f"{plugin_name} ({set_type}) misses the following keys: {missing}")
+                        print(f"   -> Plotting: {len(new_plot_systems)}")
+                    else:
+                        print(f"{plugin_name} ({set_type}) is complete")
+                        print(f"   -> Plotting: {len(new_plot_systems)}")
+                plot_systems = new_plot_systems
 
                 for element_and_configuration in plot_systems:
                     element, configuration = element_and_configuration.split('-')
@@ -200,6 +215,10 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
         all_data[quantity_name] = out_data
     # %%
     # Set up the plot axes for each quantity
+    print()
+    print('#####################################################################')
+    print('#   Description of the outliers (out of picture) for each code      #')
+    print('#####################################################################')
     for yy in quantity_names:
         for plugin_name in plugin_names:
             if all_data[yy][plugin_name]['small'] != 0:
@@ -210,22 +229,14 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                 print(f'big {yy} {plugin_name}', all_data[yy][plugin_name]['big'])
     
     n_quantities = len(quantity_names)
-    fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, 4), sharey=True)
+    n_lines = len(plugin_names)/2+1 if len(plugin_names) % 2 == 1 else len(plugin_names)/2
+    if n_lines <= 2:
+        n_lines = 3
+    fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, n_lines), sharey=True)
     axes = axes.flatten()
 
     for quantity_name, ax in zip(quantity_names, axes):
         quantity_values = [all_data[quantity_name][plugin_name]['values'] for plugin_name in plugin_names]
-    
-        #violin_parts = ax.violinplot(
-        #    quantity_values,
-        #    widths=0.75,
-        #    points=1000,
-        #    showextrema=False, showmedians=False,  # These are shown by the box plots
-        #    vert=False
-        #)
-        #for part in violin_parts['bodies']:
-        #    part.set_facecolor('tab:grey')
-        #    part.set_alpha(0.50)
     
         ax.boxplot(
             quantity_values,
@@ -237,13 +248,27 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
             vert=False,
             labels=labels
         )
-        ax.set_xlabel(quantity_name, fontsize=14)
+        ax.set_xlabel(f"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [%]",fontsize=14)
+        ax.tick_params(axis='both', which='major', labelsize=11)
         ax.set_xlim(xlims[quantity_name][0],xlims[quantity_name][1])
 
-    fig.suptitle(f'Reference: all electron average.')
-    fig.tight_layout()
+    if 'Ac' in only_must_have_elements:
+        if 'H' not in only_must_have_elements:
+            suffix = 'only-actanides'
+        else:
+            suffix = 'all'
+    elif 'Ce' in only_must_have_elements:
+        if 'H' not in only_must_have_elements:
+            suffix = 'only-lanthanides'
+        else:
+            suffix = 'no-actanides'
+    elif 'Po' in only_must_have_elements:
+        suffix = 'delta-set'
+    else:
+        suffix = 'up-to-Bi-no-lanthanides'
 
-    suffix = "_SUBSET" if only_must_have_elements is not None else ""
+    fig.suptitle(f"Materials set: {suffix.replace('-',' ')}.   Reference: all electron average.",fontsize=14)
+    fig.tight_layout()
     fig.savefig(f'{file_name}{suffix}.pdf')
 
 
@@ -251,60 +276,72 @@ if __name__ == "__main__":
     import ase.data
     SET_NAME_1 = 'unaries-verification-PBE-v1'
     SET_NAME_2 = 'oxides-verification-PBE-v1'
-    ONLY_SUBSET = False
 
     try:
         mode = sys.argv[1]
     except IndexError:
-        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'all'.")
+        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'together'.")
+        sys.exit(1)
+
+    try:
+        elements = sys.argv[2]
+    except IndexError:
+        print(
+            "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
+            "'delta-set' (1-56,71-84+86), 'no-actanides' (1-86), 'only-actanides' (84-96), 'only-lanthanides'(57-71)."
+        )
         sys.exit(1)
 
     only_must_have_elements = None
+    if elements == 'all':
+        chemical_numbers = list(range(1, 96+1))
+    elif elements == 'delta-set':
+        chemical_numbers = list(range(1, 56+1)) +  list(range(71, 84+1)) + [86]
+    elif elements == 'up-to-Bi-no-lanthanides':
+        chemical_numbers = list(range(1, 56+1)) +  list(range(72, 83+1))
+    elif elements == 'no-actanides':
+        chemical_numbers = list(range(1, 88+1))
+    elif elements == 'only-actanides':
+        chemical_numbers = list(range(84, 96+1))
+    elif elements == 'only-lanthanides':
+        chemical_numbers = list(range(57, 71+1))
+    else:
+        print(
+            "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
+            "'delta-set' (1-56,71-84+86), 'no-actanides' (1-86), 'only-actanides' (84-96), 'only-lanthanides'(57-71)."
+        )
+        sys.exit(1)
+    # VASP  chemical_numbers.remove(1) #H
+    #       chemical_numbers.remove(2) #He
+    #       chemical_numbers.remove(4) #Be
+    #       chemical_numbers.remove(45) #Rh
+    # QE  chemical_numbers.remove(85) #At
+    #     chemical_numbers.remove(18) #Ar
+    #     chemical_numbers.remove(53) #I
+    # Siesta     chemical_numbers.remove(80) #Hg
+    #            chemical_numbers.remove(37) #Rb
+    # GPAW     chemical_numbers.remove(83) #Bi
+    #          chemical_numbers.remove(43) #Tc
+    #          chemical_numbers.remove(86) #Bi
+    #          chemical_numbers.remove(84) #Po
+    # CP2K    chemical_numbers.remove(11) #Na
+    only_must_have_elements = [ase.data.chemical_symbols[i] for i in chemical_numbers]
+    
     skip_codes = None
+    try:
+        skip_codes = sys.argv[3:]
+    except IndexError:
+        pass
 
-
-    if ONLY_SUBSET:
-        # ONLY PLOT A SUBSET, AND SKIP BIGDFT
-        
-        # except f
-        chemical_numbers = list(range(1, 56+1)) + list(range(72, 86+1))
-        # VASP
-        chemical_numbers.remove(1) #H
-        chemical_numbers.remove(2) #He
-        chemical_numbers.remove(4) #Be
-        chemical_numbers.remove(45) #Rh
-
-        # QE
-        chemical_numbers.remove(85) #At
-        chemical_numbers.remove(18) #Ar
-        chemical_numbers.remove(53) #I
-
-        # Siesta
-        chemical_numbers.remove(80) #Hg
-        chemical_numbers.remove(37) #Rb
-
-        # GPAW
-        chemical_numbers.remove(83) #Bi
-        chemical_numbers.remove(43) #Tc
-        chemical_numbers.remove(86) #Bi
-        chemical_numbers.remove(84) #Po
-
-        # CP2K
-        chemical_numbers.remove(11) #Na
-
-        only_must_have_elements = [ase.data.chemical_symbols[i] for i in
-            chemical_numbers]
-        skip_codes = ['bigdft']
-
-    if mode == 'all':
-        generate_box_plt([SET_NAME_1, SET_NAME_2], 'box_plot_all',
+    if mode == 'together':
+        generate_box_plt([SET_NAME_1, SET_NAME_2], 'box_plot_',
             only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
     elif mode == 'separate':
-        generate_box_plt([SET_NAME_1], 'box_plot_unaries',
+        generate_box_plt([SET_NAME_1], 'box_plot_unaries_',
             only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
-        generate_box_plt([SET_NAME_2], 'box_plot_oxides',    
+        generate_box_plt([SET_NAME_2], 'box_plot_oxides_',    
             only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
     else:
-        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'all'.")
+        print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'together'.")
         sys.exit(1)
 

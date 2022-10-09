@@ -5,6 +5,9 @@ the common repository in date
 To be carefull:
 - castep is mk2-castep (no data are available for unaries with old castep pseudos)
 - cp2k is cp2k_TZV2P
-- abinit JTH is omitted
+- abinit is abinit PseudodDojo0.5b1
 The rest of tha name semplifications should be clear.
 
+The script allows to select print the results separately for unaries and
+oxides or together. It allows to select a subset of structures and to
+exclude some codes from the analysis.
