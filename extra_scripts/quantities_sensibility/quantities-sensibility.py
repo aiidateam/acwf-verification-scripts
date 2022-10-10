@@ -1,6 +1,6 @@
 import numpy as np
 import pylab as pl
-from quantities_for_comparison import birch_murnaghan, nu, epsilon
+from quantities_for_comparison import birch_murnaghan, nu, epsilon, delta
 
 pl.rc('xtick', labelsize=18)    # fontsize of the tick labels
 pl.rc('ytick', labelsize=18)
@@ -60,20 +60,20 @@ for index, value in enumerate(relative_errors_analyzed):
         ax[index].annotate(f'{index+1})', [47.7, 0.098], fontsize=23)
 
     eps = epsilon(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 0, 0)
-    v1 = nu(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1, 1)
+    delt = delta(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1, 1)
     v2 = nu(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1/6, 1/35)
 
     if index==1:
         #ww=eps/100
         ax[index].annotate(r'$\varepsilon$ = '+f'{eps:.2E}', [49.2, 0.08], fontsize=23)
-        ax[index].annotate(r'$\nu_1$ = '+f'{v1:.2E}', [49.2, 0.07], fontsize=23)
+        ax[index].annotate(r'$\Delta$ = '+f'{delt:.2E}', [49.2, 0.07], fontsize=23)
         ax[index].annotate(r'$\nu_2$ = '+f'{v2:.2E}', [49.2, 0.06], fontsize=23)
     else:
         #ax[index].annotate(r'$\varepsilon$ = '+f'{eps.round(2)}'+r'$\cdot$10$^{-2}$', [48.6, 0.08], fontsize=23)
         ax[index].annotate(r'$\varepsilon$ = '+f'{eps:.2E}', [48.6, 0.08], fontsize=23)
-        ax[index].annotate(r'$\nu_1$ = '+f'{v1:.2E}', [48.6, 0.07], fontsize=23)
+        ax[index].annotate(r'$\Delta$ = '+f'{delt:.2E}', [48.6, 0.07], fontsize=23)
         ax[index].annotate(r'$\nu_2$ = '+f'{v2:.2E}', [48.6, 0.06], fontsize=23)
 
 fig.tight_layout()
-pl.savefig('Sensibility_EoSes')
+pl.savefig('Sensibility_EoSes.pdf')
 pl.close(fig)
