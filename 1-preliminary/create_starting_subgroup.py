@@ -51,6 +51,14 @@ if __name__ == "__main__":
         valid_elements = query.all(flat=True)
     #elif PLUGIN_NAME == 'xxx':
     #    yyy
+    elif PLUGIN_NAME == 'gpaw':
+        from ase.data import atomic_numbers
+        query = orm.QueryBuilder()
+        query.append(orm.Node, project="attributes.element", tag='pseudo')
+        query.append(orm.Group, filters={'label': 'SSSP/1.1/PBE/precision'}, with_node='pseudo')
+        valid_elements = [a for a in atomic_numbers.keys() if atomic_numbers[a] < 83]
+        for elements in ['Dy', 'Ce', 'Er', 'Eu', 'Gd', 'Ho', 'La', 'Lu', 'Nd', 'Pm', 'Pr', 'Sm', 'Tb', 'Tc', 'Tm', 'Yb' ]:
+            valid_elements.remove(elements)
     else:
         raise ValueError(f"Unknown plugin name `{PLUGIN_NAME}`!")
     #####################################################################################
