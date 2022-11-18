@@ -254,14 +254,14 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
 
     if 'Ac' in only_must_have_elements:
         if 'H' not in only_must_have_elements:
-            suffix = 'only-actanides'
+            suffix = 'only-actinides'
         else:
             suffix = 'all'
     elif 'Ce' in only_must_have_elements:
         if 'H' not in only_must_have_elements:
             suffix = 'only-lanthanides'
         else:
-            suffix = 'no-actanides'
+            suffix = 'no-actinides'
     elif 'Po' in only_must_have_elements:
         suffix = 'delta-set'
     else:
@@ -288,7 +288,7 @@ if __name__ == "__main__":
     except IndexError:
         print(
             "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
-            "'delta-set' (1-56,71-84+86), 'no-actanides' (1-86), 'only-actanides' (84-96), 'only-lanthanides'(57-71)."
+            "'delta-set' (1-56,71-84+86), 'no-actinides' (1-86), 'only-actinides' (84-96), 'only-lanthanides'(57-71)."
         )
         sys.exit(1)
 
@@ -299,16 +299,16 @@ if __name__ == "__main__":
         chemical_numbers = list(range(1, 56+1)) +  list(range(71, 84+1)) + [86]
     elif elements == 'up-to-Bi-no-lanthanides':
         chemical_numbers = list(range(1, 56+1)) +  list(range(72, 83+1))
-    elif elements == 'no-actanides':
+    elif elements == 'no-actinides':
         chemical_numbers = list(range(1, 88+1))
-    elif elements == 'only-actanides':
+    elif elements == 'only-actinides':
         chemical_numbers = list(range(84, 96+1))
     elif elements == 'only-lanthanides':
         chemical_numbers = list(range(57, 71+1))
     else:
         print(
             "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
-            "'delta-set' (1-56,71-84+86), 'no-actanides' (1-86), 'only-actanides' (84-96), 'only-lanthanides'(57-71)."
+            "'delta-set' (1-56,71-84+86), 'no-actinides' (1-86), 'only-actinides' (84-96), 'only-lanthanides'(57-71)."
         )
         sys.exit(1)
     # VASP  chemical_numbers.remove(1) #H
