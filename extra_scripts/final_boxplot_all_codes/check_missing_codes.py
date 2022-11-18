@@ -31,6 +31,7 @@ if __name__ == "__main__":
         key = f'{set_name}-{plugin_name}'
         global plugin_cache
 
+        data_dir = pl.Path(f'data')
         try:
             return plugin_cache[key]
         except KeyError:
@@ -46,7 +47,6 @@ if __name__ == "__main__":
                 configuration = f'{symbol}-{variant}'
                 for plugin_name in plugin_names:
                     # Not ideal as it is opening a lot of times, but this gives the order I want
-                    data_dir = pl.Path(f'data')
                     plugin_fit_data = get_plugin_fit_data(set_name, plugin_name)
 
                     if SKIP_BIGDFT and plugin_name == 'bigdft':
