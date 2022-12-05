@@ -11,9 +11,9 @@ import tqdm
 import quantities_for_comparison as qc
 
 SHOW_IN_BROWSER=True
-DEFAULT_PREFACTOR = 1
-DEFAULT_wb0 = 1.0/8.0
-DEFAULT_wb1 = 1.0/64.0
+DEFAULT_PREFACTOR = 100
+DEFAULT_wb0 = 1.0/20.0
+DEFAULT_wb1 = 1.0/400.0
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 

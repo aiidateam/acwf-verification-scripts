@@ -119,7 +119,7 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
             out_data[plugin_name] = {}
             for SET_NAME in set_name:
                 try:
-                    data_dir = pl.Path(f'data')
+                    data_dir = pl.Path(f'../data')
                     with open(f'{data_dir}/results-{SET_NAME}-{REF_PLUGIN}.json') as fhandle:
                         ref_plugin_data = json.load(fhandle)
                 except OSError:
@@ -128,7 +128,7 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
 
 
                 try:
-                    data_dir = pl.Path(f'data')
+                    data_dir = pl.Path(f'../data')
                     with open(f'{data_dir}/results-{SET_NAME}-{plugin_name}.json') as fhandle:
                         plugin_data = json.load(fhandle)
                 except OSError:

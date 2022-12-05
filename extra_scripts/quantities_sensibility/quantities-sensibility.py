@@ -60,19 +60,19 @@ for index, value in enumerate(relative_errors_analyzed):
         ax[index].annotate(f'{index+1})', [47.7, 0.098], fontsize=23)
 
     eps = epsilon(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 0, 0)
-    delt = delta(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1, 1)
-    v2 = nu(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1/6, 1/35)
+    delt = delta(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 0, 0)
+    v2 = nu(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 1, 1/20, 1/400)
 
     if index==1:
         #ww=eps/100
         ax[index].annotate(r'$\varepsilon$ = '+f'{eps:.2E}', [49.2, 0.08], fontsize=23)
         ax[index].annotate(r'$\Delta$ = '+f'{delt:.2E}', [49.2, 0.07], fontsize=23)
-        ax[index].annotate(r'$\nu_2$ = '+f'{v2:.2E}', [49.2, 0.06], fontsize=23)
+        ax[index].annotate(r'$\nu$ = '+f'{v2:.2E}', [49.2, 0.06], fontsize=23)
     else:
         #ax[index].annotate(r'$\varepsilon$ = '+f'{eps.round(2)}'+r'$\cdot$10$^{-2}$', [48.6, 0.08], fontsize=23)
         ax[index].annotate(r'$\varepsilon$ = '+f'{eps:.2E}', [48.6, 0.08], fontsize=23)
         ax[index].annotate(r'$\Delta$ = '+f'{delt:.2E}', [48.6, 0.07], fontsize=23)
-        ax[index].annotate(r'$\nu_2$ = '+f'{v2:.2E}', [48.6, 0.06], fontsize=23)
+        ax[index].annotate(r'$\nu$ = '+f'{v2:.2E}', [48.6, 0.06], fontsize=23)
 
 fig.tight_layout()
 pl.savefig('Sensibility_EoSes.pdf')
