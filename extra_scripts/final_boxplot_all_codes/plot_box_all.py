@@ -78,16 +78,16 @@ plugin_names_start = [
         'abinit'
         ] # need them in reverse order for up to bottom in plot
 labels_start = [
-        'wien2k',
-        'vasp',
-        'siesta',
-        'quantum-espresso',
-        'gpaw',
-        'fleur',
-        'cp2k',
-        'castep',
-        'bigdft',
-        'abinit'
+        'wien2k+...................',
+        'vasp+ ...................................................',
+        'siesta+PseudoDojo_v0.4+OptDiamond',
+        'quantum-espresso+SSSP',
+        'gpaw+..........',
+        'fleur+.........',
+        'cp2k+gth+TZV2P',
+        'castep+.........',
+        'bigdft+...........',
+        'abinit+PseudoDojo_v0.5b'
         ]
 
 def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_codes=None):
@@ -254,20 +254,26 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
 
     if 'Ac' in only_must_have_elements:
         if 'H' not in only_must_have_elements:
+            tag = 'Z=84-96'
             suffix = 'only-actinides'
         else:
+            tag = 'Z=1-96'
             suffix = 'all'
     elif 'Ce' in only_must_have_elements:
         if 'H' not in only_must_have_elements:
+            tag = 'Z=57-71'
             suffix = 'only-lanthanides'
         else:
+            tag = 'Z=1-88'
             suffix = 'no-actinides'
     elif 'Po' in only_must_have_elements:
         suffix = 'delta-set'
+        tag = 'Z=1-56,71-84,86'
     else:
         suffix = 'up-to-Bi-no-lanthanides'
+        tag = 'Z=1-56,71-83'
 
-    fig.suptitle(f"Materials set: {suffix.replace('-',' ')}.   Reference: all electron average.",fontsize=14)
+    fig.suptitle(f"Materials set: {tag}.   Reference: all electron average.",fontsize=14)
     fig.tight_layout()
     fig.savefig(f'{file_name}{suffix}.pdf')
 
