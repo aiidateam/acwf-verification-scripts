@@ -7,7 +7,7 @@
             "unaries": "results-unaries-verification-PBE-v1-AE-average.json"
         }
     },
-    "methods":
+    "methods-main":
     {
         "ABINIT+PseudoDojo":{
             "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
@@ -49,5 +49,7 @@
             "oxides": "results-oxides-verification-PBE-v1-wien2k-dk_0.06.json",
             "unaries": "results-unaries-verification-PBE-v1-wien2k-dk_0.06.json"
         }
+    },
+    "methods-supplementary": {
     }
-}
+}    
