@@ -1,23 +1,23 @@
 import json
 
-with open(f'results-unaries-verification-PBE-v1-fleur.json') as fhandle:
+with open(f'../results-unaries-verification-PBE-v1-fleur.json') as fhandle:
     fleur_un = json.load(fhandle)
 
-with open(f'results-unaries-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
+with open(f'../results-unaries-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
     wien2k_un = json.load(fhandle)
 
-with open(f'results-oxides-verification-PBE-v1-fleur.json') as fhandle:
+with open(f'../results-oxides-verification-PBE-v1-fleur.json') as fhandle:
     fleur_ox = json.load(fhandle)
 
-with open(f'results-oxides-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
+with open(f'../results-oxides-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
     wien2k_ox = json.load(fhandle)
 
 
-for set_name in ['un','ox']:
+for set_name in ['unaries','oxides']:
 
     coll = {'BM_fit_data':{}}
 
-    if set_name == 'un':
+    if set_name == 'unaries':
         all_systems = set(fleur_un['BM_fit_data'].keys())
         ref_BM_fit_data = fleur_un['BM_fit_data']
         wk_BM_fit_data = wien2k_un['BM_fit_data']
@@ -69,5 +69,5 @@ for set_name in ['un','ox']:
     
     js = json.dumps(coll, indent=2)
     
-    with open(f'rename_to_{set_name}_set', 'w') as dump:
+    with open(f'../results-{set_name}-verification-PBE-v1-AE-average.json', 'w') as dump:
         dump.write(js)
