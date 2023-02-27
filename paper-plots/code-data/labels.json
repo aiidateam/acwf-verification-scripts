@@ -1,0 +1,53 @@
+{
+    "references":
+    {
+        "all-electron average":
+        {
+            "oxides": "results-oxides-verification-PBE-v1-AE-average.json",
+            "unaries": "results-unaries-verification-PBE-v1-AE-average.json"
+        }
+    },
+    "methods":
+    {
+        "ABINIT+PseudoDojo":{
+            "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
+            "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json"
+        },
+        "BigDFT":{
+            "oxides": "results-oxides-verification-PBE-v1-bigdft.json",
+            "unaries": "results-unaries-verification-PBE-v1-bigdft.json"
+        },
+        "CP2K+GTH+TZV2P":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k_TZV2P.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k_TZV2P.json"
+        },
+        "FLEUR":{
+            "oxides": "results-oxides-verification-PBE-v1-fleur.json",
+            "unaries": "results-unaries-verification-PBE-v1-fleur.json"
+        },
+        "GPAW+...":{
+            "oxides": "results-oxides-verification-PBE-v1-gpaw.json",
+            "unaries": "results-unaries-verification-PBE-v1-gpaw.json"
+        },
+        "CASTEP+...":{
+            "oxides": "results-oxides-verification-PBE-v1-mk2-castep.json",
+            "unaries": "results-unaries-verification-PBE-v1-mk2-castep.json"
+        },
+        "Quantum ESPRESSO+SSSP":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso.json"
+        },
+        "SIESTA+PseudoDojo+OptDiamond":{
+            "oxides": "results-oxides-verification-PBE-v1-siesta.json",
+            "unaries": "results-unaries-verification-PBE-v1-siesta.json"
+        },
+        "VASP+...":{
+            "oxides": "results-oxides-verification-PBE-v1-vasp.json",
+            "unaries": "results-unaries-verification-PBE-v1-vasp.json"
+        },
+        "WIEN2k":{
+            "oxides": "results-oxides-verification-PBE-v1-wien2k-dk_0.06.json",
+            "unaries": "results-unaries-verification-PBE-v1-wien2k-dk_0.06.json"
+        }
+    }
+}

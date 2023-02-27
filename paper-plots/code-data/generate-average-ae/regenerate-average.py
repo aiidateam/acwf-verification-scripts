@@ -34,10 +34,10 @@ for set_name in ['unaries','oxides']:
     
         element, configuration = element_and_configuration.split('-')
         
-        ref_BM_fit_data[f'{element}-{configuration}']
-        wk_BM_fit_data[f'{element}-{configuration}']
-        num_at_w[f'{element}-{configuration}']
-        num_at_f[f'{element}-{configuration}']
+        #ref_BM_fit_data[f'{element}-{configuration}']
+        #wk_BM_fit_data[f'{element}-{configuration}']
+        #num_at_w[f'{element}-{configuration}']
+        #num_at_f[f'{element}-{configuration}']
         
         if num_at_w[f'{element}-{configuration}'] != num_at_f[f'{element}-{configuration}']:
             print(f'Error! Number of atoms for {element}-{configuration} is different between fleur and wien2k. Change the script.')
@@ -54,8 +54,8 @@ for set_name in ['unaries','oxides']:
         B=(B0+B1)/2
         Br=(B01+B11)/2
     
-        if abs((B0-B1)/B) > 0.01:
-            print(element_and_configuration)
+        if abs((B0-B1)/B) > 0.02:
+            print(f"B0 difference > 2% for {element_and_configuration}")
         
         
         coll['BM_fit_data'][f'{element}-{configuration}'] = {
@@ -67,7 +67,5 @@ for set_name in ['unaries','oxides']:
                 }
         coll['num_atoms_in_sim_cell'] = num_at_f
     
-    js = json.dumps(coll, indent=2)
-    
-    with open(f'../results-{set_name}-verification-PBE-v1-AE-average.json', 'w') as dump:
-        dump.write(js)
+    with open(f'../results-{set_name}-verification-PBE-v1-AE-average.json', 'w') as dumpf:
+        json.dump(coll, dumpf, indent=2, sort_keys=True)
