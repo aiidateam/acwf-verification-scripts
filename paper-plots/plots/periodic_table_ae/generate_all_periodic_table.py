@@ -10,12 +10,28 @@ import tqdm
 
 import quantities_for_comparison as qc
 
-SHOW_IN_BROWSER=True
-DEFAULT_PREFACTOR = 100
+SHOW_IN_BROWSER=False
 DEFAULT_wb0 = 1.0/20.0
 DEFAULT_wb1 = 1.0/400.0
+# Default prefactor if not indicated: 1.
+PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
+# ## IN ORDER TO PLOT ALL
+# # Whether to use
+# USE_AE_AVERAGE_AS_REFERENCE = True
+# # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
+# #REFERENCE_CODE_LABEL = "FLEUR"
+# SET_MAX_SCALE = None
+# ONLY_CODES = None
+
+## IN ORDER TO PLOT ONLY THE AE COMPARISON
+# Whether to use
+USE_AE_AVERAGE_AS_REFERENCE = False
+# The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
+REFERENCE_CODE_LABEL = "FLEUR"
+SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
+ONLY_CODES = ['WIEN2k']
 
 from bokeh.models import (
     ColumnDataSource,
@@ -81,20 +97,26 @@ if __name__ == "__main__":
         print(f"The second argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
         sys.exit(1)
 
+    SET_MAX_SCALE = SET_MAX_SCALE_DICT.get(QUANTITY, None)
+    prefactor = PREFACTOR_DICT.get(QUANTITY, 1.)
+
     DATA_FOLDER = "../../code-data"
     with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
         labels_data = json.load(fhandle)
     
-
+    if USE_AE_AVERAGE_AS_REFERENCE:
+        reference_data_files = labels_data['references']['all-electron average']
+    else:
+        reference_data_files = labels_data['methods-main'][REFERENCE_CODE_LABEL]
     try:
-        with open(os.path.join(DATA_FOLDER, labels_data['references']['all-electron average'][SET_NAME])) as fhandle:
+        with open(os.path.join(DATA_FOLDER, reference_data_files[SET_NAME])) as fhandle:
             compare_plugin_data = json.load(fhandle)
             if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
                     f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                     f"Please re-run ./get_results.py to update the data format for the all-electron dataset!"
                     )
-                sys.exit(1)
+                #sys.exit(1)
     except OSError:
         print(f"No data found for the all-electron dataset (set '{SET_NAME}'), it is the reference and must be present")
         sys.exit(1)
@@ -102,8 +124,8 @@ if __name__ == "__main__":
 
     code_results = {}
     for code_label in labels_data['methods-main']:
-        #if code_label in ["FLEUR", "WIEN2k"]:
-        #    continue
+        if ONLY_CODES is not None and code_label not in ONLY_CODES:
+            continue
         with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][code_label][SET_NAME])) as fhandle:
             code_results[code_label] = json.load(fhandle)
             if not code_results[code_label]['script_version'] in EXPECTED_SCRIPT_VERSION:
@@ -180,7 +202,7 @@ if __name__ == "__main__":
             CB0=compare_BM_fit_data['bulk_modulus_ev_ang3']
             CB01=compare_BM_fit_data['bulk_deriv']
 
-            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
+            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,prefactor,DEFAULT_wb0,DEFAULT_wb1)
 
             collect[configuration]["values"].append(quant)
             collect[configuration]["elements"].append(element)
@@ -195,7 +217,7 @@ if __name__ == "__main__":
 
         width = 1050
         cmap = "plasma"
-        alpha = 0.65
+        alpha = 0.7
         extended = True
         log_scale = False
         cbar_height = None
@@ -218,6 +240,12 @@ if __name__ == "__main__":
         elif cmap == "magma":
             cmap = magma
             bokeh_palette = "Magma256"
+        elif cmap == "viridis":
+            cmap = viridis
+            bokeh_palette = "Viridis256"
+        elif cmap == "inferno":
+            cmap = inferno
+            bokeh_palette = "Inferno256"
         else:
             raise ValueError("Unknown color map")
 
@@ -248,6 +276,11 @@ if __name__ == "__main__":
 
         color_list={}
 
+        if SET_MAX_SCALE:
+            high = SET_MAX_SCALE
+        else:
+            high = max_data
+
         for conf in list_confs:
             data_elements = collect[conf]["elements"]
             data = collect[conf]["values"]
@@ -263,14 +296,15 @@ if __name__ == "__main__":
                             f"Entry for element {datum} is negative but log-scale is selected"
                         )
                 color_mapper = LogColorMapper(
-                    palette=bokeh_palette, low=min_data, high=max_data
+                    palette=bokeh_palette, low=min_data, high=high
                 )
-                norm = LogNorm(vmin=min_data, vmax=max_data)
+                norm = LogNorm(vmin=min_data, vmax=high)
             else:
+                low = 0.
                 color_mapper = LinearColorMapper(
-                    palette=bokeh_palette, low=min_data, high=max_data
+                    palette=bokeh_palette, low=low, high=high
                 )
-                norm = Normalize(vmin=min_data, vmax=max_data)
+                norm = Normalize(vmin=low, vmax=high)
                 
             color_scale = ScalarMappable(norm=norm, cmap=cmap).to_rgba(data, alpha=None)
 
@@ -295,6 +329,9 @@ if __name__ == "__main__":
                     color_list[conf][element_index] = over_color
                 else:
                     color_list[conf][element_index] = to_hex(color_scale[i])
+                if data[i] > high:
+                    print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")                    
+
 
         if unaries:
             # Define figure properties for visualizing data
@@ -431,7 +468,9 @@ if __name__ == "__main__":
         )
         #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
 
-        p.title = f"{QUANTITY}"
+        reference_label = 'all-electron average' if USE_AE_AVERAGE_AS_REFERENCE else REFERENCE_CODE_LABEL
+        p.title = f"{QUANTITY} for {plugin} vs. {reference_label}"
+        p.title.text_font_size = '16pt'
 
         color_bar = ColorBar(
             color_mapper=color_mapper,
@@ -456,7 +495,7 @@ if __name__ == "__main__":
             show_(p)
         else:
             try:
-                export_png(p, filename=f"periodic-table-{plugin.replace(' ', '_')}-{QUANTITY}.png")
+                export_png(p, filename=f"periodic-table-{SET_NAME}-{plugin.replace(' ', '_')}-vs-{reference_label.replace(' ', '_')}-{QUANTITY}.png")
             except RuntimeError as exc:
                 msg = str(exc)
                 msg = f"""
@@ -477,5 +516,5 @@ Please check the following:
   used to work, check that now Chrome is not more recent than the chromedriver you had installed;
   in this case udpate it).
 """
-            raise RuntimeError(msg)
+                raise RuntimeError(msg)
 
