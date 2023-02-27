@@ -59,7 +59,7 @@ quantity_for_comparison_map = {
     "abs_V0_rel_diff": abs_V0_rel_diff,
     "abs_B0_rel_diff": abs_B0_rel_diff,
     "abs_B1_rel_diff": abs_B1_rel_diff,            
-    f"nu({DEFAULT_wb0},{DEFAULT_wb1})": qc.rel_errors_vec_length,
+    f"nu": qc.rel_errors_vec_length,
     "epsilon": qc.epsilon
 }
 
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     try:
         SET_NAME = sys.argv[1]
     except IndexError:
-        print(f"The first argument must be the set name.")
+        print(f"The first argument must be the set name (unaries or oxides).")
         sys.exit(1)
 
     try:
@@ -81,42 +81,41 @@ if __name__ == "__main__":
         print(f"The second argument must be the quantity to use for comparison. Choose among {quantity_for_comparison_map.keys()}")
         sys.exit(1)
 
+    DATA_FOLDER = "../../code-data"
+    with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
+        labels_data = json.load(fhandle)
+    
+
     try:
-        with open(f'results-{SET_NAME}-fleur.json') as fhandle:
+        with open(os.path.join(DATA_FOLDER, labels_data['references']['all-electron average'][SET_NAME])) as fhandle:
             compare_plugin_data = json.load(fhandle)
             if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
                     f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-                    f"Please re-run ./get_results.py to update the data format for results-{SET_NAME}-fleur.json!"
+                    f"Please re-run ./get_results.py to update the data format for the all-electron dataset!"
                     )
                 sys.exit(1)
     except OSError:
-        print(f"No data found for fleur (set '{SET_NAME}'), fleur is the reference and must be present")
+        print(f"No data found for the all-electron dataset (set '{SET_NAME}'), it is the reference and must be present")
         sys.exit(1)
 
 
-    file_prefix = f'results-{SET_NAME}-'
-    file_suffix = '.json'
-    results_folder = os.curdir
     code_results = {}
-    for fname in os.listdir(results_folder):
-        if fname.startswith(file_prefix) and fname.endswith(file_suffix):
-            label = fname[len(file_prefix):-len(file_suffix)]
-            if label in ["fleur","wien2k"]:
-                continue
-            with open(os.path.join(results_folder, fname)) as fhandle:
-                code_results[label] = json.load(fhandle)
-                if not code_results[label]['script_version'] in EXPECTED_SCRIPT_VERSION:
-                    raise ValueError(
-                        f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-                        f"Please re-run ./get_results.py to update the data format for {fname}! Skipping {label}"
-                        )
-                    code_results.pop(label)
+    for code_label in labels_data['methods-main']:
+        #if code_label in ["FLEUR", "WIEN2k"]:
+        #    continue
+        with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][code_label][SET_NAME])) as fhandle:
+            code_results[code_label] = json.load(fhandle)
+            if not code_results[code_label]['script_version'] in EXPECTED_SCRIPT_VERSION:
+                raise ValueError(
+                    f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+                    f"Please re-run ./get_results.py to update the data format for {code_label}! Skipping it"
+                    )
+                #code_results.pop(label)
 
     for plugin, plugin_data in code_results.items():
 
-
-        print(f"Using data for plugin '{plugin}' (set '{SET_NAME}') compared with fleur.")
+        print(f"Using data for method '{plugin}' (set '{SET_NAME}') compared with fleur.")
 
 
         all_systems = set(plugin_data['eos_data'].keys())
@@ -457,7 +456,7 @@ if __name__ == "__main__":
             show_(p)
         else:
             try:
-                export_png(p, filename=f"periodic-table-{plugin}-{QUANTITY}.png")
+                export_png(p, filename=f"periodic-table-{plugin.replace(' ', '_')}-{QUANTITY}.png")
             except RuntimeError as exc:
                 msg = str(exc)
                 msg = f"""

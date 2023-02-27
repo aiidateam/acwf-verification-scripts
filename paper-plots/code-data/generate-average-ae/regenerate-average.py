@@ -66,6 +66,8 @@ for set_name in ['unaries','oxides']:
                 'residuals': 0 
                 }
         coll['num_atoms_in_sim_cell'] = num_at_f
+        coll['script_version'] = '0.0.3'
+        # Keys that I do not add: 'completely_off', 'eos_data', 'failed_wfs', 'missing_outputs', 'set_name', 'stress_data', 'uuid_mapping'])
     
     with open(f'../results-{set_name}-verification-PBE-v1-AE-average.json', 'w') as dumpf:
         json.dump(coll, dumpf, indent=2, sort_keys=True)

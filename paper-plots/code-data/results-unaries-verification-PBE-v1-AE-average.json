@@ -3074,5 +3074,6 @@
     "Zr-X/Diamond": 2,
     "Zr-X/FCC": 1,
     "Zr-X/SC": 1
-  }
+  },
+  "script_version": "0.0.3"
 }
