@@ -41,6 +41,10 @@
             "oxides": "results-oxides-verification-PBE-v1-siesta.json",
             "unaries": "results-unaries-verification-PBE-v1-siesta.json"
         },
+        "SIRIUS(&CP2K)+SSSP":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius.json"
+        },
         "VASP+...":{
             "oxides": "results-oxides-verification-PBE-v1-vasp.json",
             "unaries": "results-unaries-verification-PBE-v1-vasp.json"

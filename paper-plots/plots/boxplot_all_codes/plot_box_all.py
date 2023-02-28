@@ -1,18 +1,15 @@
-# %%
+#!/usr/bin/env python
 import json
-import pathlib as pl
-import numpy as np
 import matplotlib.pyplot as plt
-import tabulate
+import os
 import sys
 import copy
 import quantities_for_comparison as qc
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 DEFAULT_PREFACTOR = 100
-DEFAULT_WB0 = 1.0 / 8.0
-DEFAULT_WB01 = 1.0 / 64.0
-REF_PLUGIN = "ae"
+DEFAULT_WB0 = 1.0 / 20.0
+DEFAULT_WB01 = 1.0 / 400.0
 
 CAPPROPS = {
     'linewidth': 1,
@@ -65,46 +62,40 @@ QUANTITY_FANCY_NAMES = {
     'B1': "$B_1$"
 }
 
-plugin_names_start = [
-        'wien2k',
-        'vasp',
-        'siesta',
-        'quantum_espresso',
-        'gpaw',
-        'fleur',
-        'cp2k', 
-        'castep', 
-        'bigdft', 
-        'abinit'
-        ] # need them in reverse order for up to bottom in plot
-labels_start = [
-        'wien2k+...................',
-        'vasp+ ...................................................',
-        'siesta+PseudoDojo_v0.4+OptDiamond',
-        'quantum-espresso+SSSP',
-        'gpaw+..........',
-        'fleur+.........',
-        'cp2k+gth+TZV2P',
-        'castep+.........',
-        'bigdft+...........',
-        'abinit+PseudoDojo_v0.5b'
-        ]
+ALL_ELECTRON_CODES = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
 
-def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_codes=None):
-    """
+DATA_FOLDER = "../../code-data"
+with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
+    labels_data = json.load(fhandle)
+code_labels = list(labels_data['methods-main'].keys())[::-1] # invert order because they are plot bottom to top, so we keep them alphabetical
 
+def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only_must_have_elements=None, keep_only_codes=None):
     """
-    plugin_names = copy.deepcopy(plugin_names_start)
-    labels =  copy.deepcopy(labels_start)
-    if skip_codes is not None:
-        for skip_code in skip_codes:
-            try:
-                position = plugin_names.index(skip_code)
-                plugin_names.pop(position)
-                labels.pop(position)
-                print(f">>>>>> SKIPPING CODE '{skip_code}'")
-            except IndexError:
-                raise ValueError(f"Code '{skip_code}' asked to be skipped but does not exist!")
+    Generate the box plot
+    """
+    # Double check that there are no mistakes
+    if keep_only_codes is not None:
+        for code in keep_only_codes:
+            if code not in code_labels:
+                raise ValueError(f"Asking to keep code '{code}' but it does not exist a code with such a label")
+
+    for code in ALL_ELECTRON_CODES:
+        if code not in code_labels:
+            raise ValueError(f"All electron code '{code}' expected, but no data exists for a code with such a label")
+
+    # Get the filtered list
+    used_code_labels = []
+    for code_label in code_labels:
+        if keep_only_codes is not None and code_label not in keep_only_codes:
+            print(f">> Skipping code {code_label}")
+            continue
+        # Skip the AE, will add at the end (so they are on the top)
+        if code_label in ALL_ELECTRON_CODES:
+            continue
+        used_code_labels.append(code_label)
+    for code_label in ALL_ELECTRON_CODES:
+        used_code_labels.append(code_label)
+
     all_data = {}
     print()
     print('#####################################################################')
@@ -112,28 +103,17 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
     print('#####################################################################')
     for quantity_name in quantity_names:
         out_data = {}
-        for plugin_name in plugin_names:
+        for code_label in used_code_labels:
             plugin_values = []
             plugin_big = 0
             plugin_small = 0
-            out_data[plugin_name] = {}
-            for SET_NAME in set_name:
-                try:
-                    data_dir = pl.Path(f'../data')
-                    with open(f'{data_dir}/results-{SET_NAME}-{REF_PLUGIN}.json') as fhandle:
-                        ref_plugin_data = json.load(fhandle)
-                except OSError:
-                    print(f"No data found for {REF_PLUGIN} (set '{SET_NAME}'), {REF_PLUGIN} is the reference and must be present")
-                    sys.exit(1)
-
-
-                try:
-                    data_dir = pl.Path(f'../data')
-                    with open(f'{data_dir}/results-{SET_NAME}-{plugin_name}.json') as fhandle:
-                        plugin_data = json.load(fhandle)
-                except OSError:
-                    print(f"No data found for {REF_PLUGIN} (set '{SET_NAME}'), {REF_PLUGIN} is the reference and must be present")
-                    sys.exit(1)
+            out_data[code_label] = {}
+            for set_name in set_names:
+                reference_data_files = labels_data['references']['all-electron average']
+                with open(os.path.join(DATA_FOLDER, reference_data_files[set_name])) as fhandle:
+                    ref_plugin_data = json.load(fhandle)
+                with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][code_label][set_name])) as fhandle:
+                    plugin_data = json.load(fhandle)
 
                 ref_BM_fit_data = ref_plugin_data['BM_fit_data']
                 # List the reference systems that have BM fit data
@@ -141,7 +121,6 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                     el_conf for el_conf in ref_BM_fit_data.keys()
                     if ref_BM_fit_data[el_conf] is not None
                 )
-
                 plugin_BM_fit_data = plugin_data['BM_fit_data']
 
                 plugin_systems = set(
@@ -150,16 +129,13 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                 )
                 # Take the systems that are both in the reference and plugin sets
                 plot_systems = plugin_systems.intersection(ref_systems)
-                set_type = SET_NAME.partition('-')[0] # oxides or unaries
-               
-                #print(f"All systems: {len(plot_systems)} (set: {set_type}; full: {len(plugin_systems)}) for '{plugin_name}'")
-                
-                if set_type == 'oxides':
+                               
+                if set_name == 'oxides':
                     variants = ['XO', 'XO2', 'X2O', 'X2O3', 'X2O5', 'XO3']
-                elif set_type == 'unaries':
+                elif set_name == 'unaries':
                     variants = ['X/SC', 'X/FCC', 'X/BCC', 'X/Diamond']
                 else:
-                    raise ValueError("Unrecognized set type!")
+                    raise ValueError("Unrecognized set name!")
                 missing = []
                 new_plot_systems = set()
                 for element in only_must_have_elements:
@@ -171,10 +147,10 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                             new_plot_systems.add(expected_key)
                 if quantity_name == '% difference in V0':
                     if missing:
-                        print(f"{plugin_name} ({set_type}) misses the following keys: {missing}")
+                        print(f"{code_label} ({set_name}) misses the following keys: {missing}")
                         print(f"   -> Plotting: {len(new_plot_systems)}")
                     else:
-                        print(f"{plugin_name} ({set_type}) is complete")
+                        print(f"{code_label} ({set_name}) is complete")
                         print(f"   -> Plotting: {len(new_plot_systems)}")
                 plot_systems = new_plot_systems
 
@@ -209,9 +185,9 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
                     if quantity_value > xlims[quantity_name][1]:
                         plugin_small = plugin_small+1
 
-            out_data[plugin_name]['values'] = plugin_values
-            out_data[plugin_name]['big'] = plugin_big
-            out_data[plugin_name]['small'] = plugin_small
+            out_data[code_label]['values'] = plugin_values
+            out_data[code_label]['big'] = plugin_big
+            out_data[code_label]['small'] = plugin_small
         all_data[quantity_name] = out_data
     # %%
     # Set up the plot axes for each quantity
@@ -220,23 +196,22 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
     print('#   Description of the outliers (out of picture) for each code      #')
     print('#####################################################################')
     for yy in quantity_names:
-        for plugin_name in plugin_names:
-            if all_data[yy][plugin_name]['small'] != 0:
-                print(f'small {yy} {plugin_name}', all_data[yy][plugin_name]['small'])
+        for code_label in used_code_labels:
+            if all_data[yy][code_label]['small'] != 0:
+                print(f'small {yy} {code_label}', all_data[yy][code_label]['small'])
     for yy in quantity_names:
-        for plugin_name in plugin_names:
-            if all_data[yy][plugin_name]['big'] != 0:
-                print(f'big {yy} {plugin_name}', all_data[yy][plugin_name]['big'])
+        for code_label in used_code_labels:
+            if all_data[yy][code_label]['big'] != 0:
+                print(f'big {yy} {code_label}', all_data[yy][code_label]['big'])
     
     n_quantities = len(quantity_names)
-    n_lines = len(plugin_names)/2+1 if len(plugin_names) % 2 == 1 else len(plugin_names)/2
-    if n_lines <= 2:
-        n_lines = 3
-    fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, n_lines), sharey=True)
+    # + 2 is to keep space for header and footer
+    fig_height = max((len(used_code_labels) + 2) * 0.45, 3) # Set min size of 3
+    fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, fig_height), sharey=True)
     axes = axes.flatten()
 
     for quantity_name, ax in zip(quantity_names, axes):
-        quantity_values = [all_data[quantity_name][plugin_name]['values'] for plugin_name in plugin_names]
+        quantity_values = [all_data[quantity_name][plugin_name]['values'] for plugin_name in used_code_labels]
     
         ax.boxplot(
             quantity_values,
@@ -246,42 +221,36 @@ def generate_box_plt(set_name, file_name, only_must_have_elements=None, skip_cod
             medianprops=MEDIANPROPS,
             capprops=CAPPROPS,
             vert=False,
-            labels=labels
+            labels=used_code_labels
         )
         ax.set_xlabel(f"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [%]",fontsize=14)
         ax.tick_params(axis='both', which='major', labelsize=11)
         ax.set_xlim(xlims[quantity_name][0],xlims[quantity_name][1])
 
-    if 'Ac' in only_must_have_elements:
-        if 'H' not in only_must_have_elements:
-            tag = 'Z=84-96'
-            suffix = 'only-actinides'
-        else:
-            tag = 'Z=1-96'
-            suffix = 'all'
-    elif 'Ce' in only_must_have_elements:
-        if 'H' not in only_must_have_elements:
-            tag = 'Z=57-71'
-            suffix = 'only-lanthanides'
-        else:
-            tag = 'Z=1-88'
-            suffix = 'no-actinides'
-    elif 'Po' in only_must_have_elements:
-        suffix = 'delta-set'
-        tag = 'Z=1-56,71-84,86'
-    else:
-        suffix = 'up-to-Bi-no-lanthanides'
-        tag = 'Z=1-56,71-83'
+        # Put a horizontal dashed line to separate all-electron codes from the rest
+        ax.axhline(len(used_code_labels) - len(ALL_ELECTRON_CODES) + 0.5, linestyle='--', color='gray', linewidth=1)
 
-    fig.suptitle(f"Materials set: {tag}.   Reference: all electron average.",fontsize=14)
-    fig.tight_layout()
-    fig.savefig(f'{file_name}{suffix}.pdf')
+    fig.suptitle(f"Materials set: {material_set_label}",fontsize=14, y=0.98)
+    #fig.tight_layout()
+    fig.subplots_adjust(left=0.25, right=0.99, top=1., bottom=(1.1/(len(used_code_labels) + 2)), wspace=0.05)
+    def make_space_above(axes, topmargin=1):
+        """ increase figure size to make topmargin (in inches) space for 
+            titles, without changing the axes sizes"""
+        fig = axes.flatten()[0].figure
+        s = fig.subplotpars
+        w, h = fig.get_size_inches()
+
+        figh = h - (1-s.top)*h  + topmargin
+        fig.subplots_adjust(bottom=s.bottom*h/figh, top=1-topmargin/figh)
+        fig.set_figheight(figh)
+    make_space_above(axes, topmargin=0.35)
+    fig.savefig(f'{file_name}{file_suffix}.pdf')
 
 
 if __name__ == "__main__":
     import ase.data
-    SET_NAME_1 = 'unaries-verification-PBE-v1'
-    SET_NAME_2 = 'oxides-verification-PBE-v1'
+    SET_NAME_1 = 'unaries'
+    SET_NAME_2 = 'oxides'
 
     try:
         mode = sys.argv[1]
@@ -301,16 +270,22 @@ if __name__ == "__main__":
     only_must_have_elements = None
     if elements == 'all':
         chemical_numbers = list(range(1, 96+1))
+        material_set_label = "Z=1-96"
     elif elements == 'delta-set':
         chemical_numbers = list(range(1, 56+1)) +  list(range(71, 84+1)) + [86]
+        material_set_label = "Delta set (Science 2016)"
     elif elements == 'up-to-Bi-no-lanthanides':
         chemical_numbers = list(range(1, 56+1)) +  list(range(72, 83+1))
+        material_set_label = "Z=1-56,72-83"
     elif elements == 'no-actinides':
         chemical_numbers = list(range(1, 88+1))
+        material_set_label = "Z=1-88"
     elif elements == 'only-actinides':
         chemical_numbers = list(range(84, 96+1))
+        material_set_label = "Z=84-96"
     elif elements == 'only-lanthanides':
         chemical_numbers = list(range(57, 71+1))
+        material_set_label = "Z=57-71"
     else:
         print(
             "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
@@ -333,20 +308,18 @@ if __name__ == "__main__":
     # CP2K    chemical_numbers.remove(11) #Na
     only_must_have_elements = [ase.data.chemical_symbols[i] for i in chemical_numbers]
     
-    skip_codes = None
-    try:
-        skip_codes = sys.argv[3:]
-    except IndexError:
-        pass
+    keep_only_codes = sys.argv[3:]
+    if not keep_only_codes:
+        keep_only_codes = None
 
     if mode == 'together':
         generate_box_plt([SET_NAME_1, SET_NAME_2], 'box_plot_',
-            only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
+            only_must_have_elements=only_must_have_elements, material_set_label=material_set_label, file_suffix=elements, keep_only_codes=keep_only_codes)
     elif mode == 'separate':
         generate_box_plt([SET_NAME_1], 'box_plot_unaries_',
-            only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
+            only_must_have_elements=only_must_have_elements, material_set_label=material_set_label, file_suffix=elements, keep_only_codes=keep_only_codes)
         generate_box_plt([SET_NAME_2], 'box_plot_oxides_',    
-            only_must_have_elements=only_must_have_elements, skip_codes=skip_codes)
+            only_must_have_elements=only_must_have_elements, material_set_label=material_set_label, file_suffix=elements, keep_only_codes=keep_only_codes)
     else:
         print("Pass as first parameter 'separate' (separate analysis for unaries and oxides) or 'together'.")
         sys.exit(1)
