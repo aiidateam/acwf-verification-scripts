@@ -1,4 +1,4 @@
-This script compare FLEUR and WIN2K data and
+This script compare FLEUR and WIEN2K data and
 creates an histogram of the differences
 in V0,B0 and B1.
 

@@ -14,9 +14,6 @@ import quantities_for_comparison as qc
 # The default zoom is obtained from the standard deviation of the data
 # This is a multiplicative number; a number > 1 means zoom in, a number < 1 means zoom out
 
-PLUGIN_NAME = 'wien2k-dk_0.06'
-compare_with = 'fleur'
-
 BINS = 100
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
@@ -45,6 +42,11 @@ quantity_for_comparison_map = {
 }
 
 
+DATA_FOLDER = "../../code-data"
+with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
+    labels_data = json.load(fhandle)
+
+
 def generate_histo(sets, name_file):
     """
     """
@@ -52,31 +54,24 @@ def generate_histo(sets, name_file):
     compare_plugin_data = []
 
     for SET_NAME in sets:
-        
-        try:
-            with open(f'results-{SET_NAME}-{PLUGIN_NAME}.json') as fhandle:
-                reference_plugin_data.append(json.load(fhandle))
-        except OSError:
-            print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}').")
-            sys.exit(1)
+
+        with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['WIEN2k'][SET_NAME])) as fhandle:
+            reference_plugin_data.append(json.load(fhandle))
  
         if not reference_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
             raise ValueError(
                 f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-                f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
+                f"Please re-run ./get_results.py to update the data format for WIEN2k!"
                 )
 
-        try:
-            with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
-                compare_plugin_data.append(json.load(fhandle))
-            if not compare_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
-                raise ValueError(
-                    f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
-                    f"Please re-run ./get_results.py to update the data format for {compare_with}!"
-                    )
-        except OSError:
-            print(f"No data found for the plugin '{compare_with}' (set '{SET_NAME}').")
-            sys.exit(1)
+        with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['FLEUR'][SET_NAME])) as fhandle:
+            compare_plugin_data.append(json.load(fhandle))
+
+        if not compare_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
+            raise ValueError(
+                f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+                f"Please re-run ./get_results.py to update the data format for FLEUR!"
+                )
 
     # Plotting
     #fig = pl.figure(figsize=(18,6))
@@ -212,8 +207,8 @@ def generate_histo(sets, name_file):
 
 
 if __name__ == "__main__":
-    SET_NAME_1 = 'unaries-verification-PBE-v1'
-    SET_NAME_2 = 'oxides-verification-PBE-v1'
+    SET_NAME_1 = 'unaries'
+    SET_NAME_2 = 'oxides'
     
     try:
         mode = sys.argv[1]
