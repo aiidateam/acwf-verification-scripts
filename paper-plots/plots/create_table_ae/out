@@ -1,6 +1,6 @@
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-FCC} The table with all the calculated \gls{eos} parameters for the FCC structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-FCC} The table with all the calculated \gls{eos} parameters for the FCC structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -103,7 +103,7 @@ Am & 17.3701 & 0.9257  & 5.5753 & 17.3574 & 0.9251 & 5.5301& 0.074 \% & 0.063 \%
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-BCC} The table with all the calculated \gls{eos} parameters for the BCC structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-BCC} The table with all the calculated \gls{eos} parameters for the BCC structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -206,7 +206,7 @@ Am & 16.1958 & 1.2122  & 6.1435 & 16.1863 & 1.2124 & 6.1559& 0.058 \% & 0.016 \%
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-SC} The table with all the calculated \gls{eos} parameters for the SC structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-SC} The table with all the calculated \gls{eos} parameters for the SC structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -309,7 +309,7 @@ Am & 16.1199 & 1.296  & 6.5926 & 16.1133 & 1.2914 & 6.5687& 0.041 \% & 0.352 \% 
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-Diamond} The table with all the calculated \gls{eos} parameters for the Diamond structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-Diamond} The table with all the calculated \gls{eos} parameters for the Diamond structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -412,7 +412,7 @@ Am & 38.9056 & 1.4247  & 5.3961 & 38.9465 & 1.4232 & 5.3762& 0.105 \% & 0.106 \%
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-X2O} The table with all the calculated \gls{eos} parameters for the X2O structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-X2O} The table with all the calculated \gls{eos} parameters for the X2O structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -515,7 +515,7 @@ Am & 45.4235 & 0.9482  & 5.2777 & 45.4157 & 0.9472 & 5.264& 0.017 \% & 0.105 \% 
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-XO} The table with all the calculated \gls{eos} parameters for the XO structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-XO} The table with all the calculated \gls{eos} parameters for the XO structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -618,7 +618,7 @@ Am & 26.6697 & 1.1967  & 5.0224 & 26.6613 & 1.1941 & 5.0078& 0.032 \% & 0.218 \%
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-X2O3} The table with all the calculated \gls{eos} parameters for the X2O3 structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-X2O3} The table with all the calculated \gls{eos} parameters for the X2O3 structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -721,7 +721,7 @@ Am & 72.3128 & 0.9563  & 4.4404 & 72.2816 & 0.9534 & 4.4424& 0.043 \% & 0.3 \% &
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-XO2} The table with all the calculated \gls{eos} parameters for the XO2 structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-XO2} The table with all the calculated \gls{eos} parameters for the XO2 structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -824,7 +824,7 @@ Am & 36.9689 & 1.2262  & 4.4039 & 36.9576 & 1.224 & 4.3911& 0.031 \% & 0.182 \% 
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-X2O5} The table with all the calculated \gls{eos} parameters for the X2O5 structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-X2O5} The table with all the calculated \gls{eos} parameters for the X2O5 structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline
@@ -927,7 +927,7 @@ Am & 74.2991 & 1.2649  & 4.6179 & 74.2773 & 1.261 & 4.6534& 0.029 \% & 0.304 \% 
 \end{center}
 \begin{center}
 \begin{longtable}{c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\caption{\label{table-ae-XO3} The table with all the calculated \gls{eos} parameters for the XO3 structures obtained with \fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\ 
+\caption{\label{table-ae-XO3} The table with all the calculated \gls{eos} parameters for the XO3 structures obtained with \fleur{} and \wientwok.} \\ 
 & \multicolumn{3}{c|}{ \fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\
 & V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\
 \hline

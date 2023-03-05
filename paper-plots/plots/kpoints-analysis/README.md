@@ -8,6 +8,9 @@ results-oxides-006.json   has original name results-wien2k-finite-T_delta-k_0.06
 results-unaries-0045.json was created in two stages by WIEN2K team. File here the only available copy.
 results-unaries-006.json  has original name results-unaries-verification-PBE-v1-wien2k-dk_0.06.json 
 
+IMPORTANT NOTE: the oxides results are not the final results used to create the referencee AE
+set, they are an iteration before that. This means the central volumes are not the same as the
+final reference, but also parameters for few materials have changed.
 
 The script also prints the worst cases. Worst cases means % relavive difference more than
 0.03 % for "V0_rel_diff", more than 0.25 % for "B0_rel_diff and more than 2.5%

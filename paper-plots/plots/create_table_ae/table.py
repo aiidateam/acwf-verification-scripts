@@ -1,32 +1,44 @@
 from pymatgen.core.periodic_table import Element
 import json
 import quantities_for_comparison as qc 
+"""
+This script creates a table with the V0, B0, B1 results for WIEN2K, FLEUR and their average
+for every cystal structure (the 4 unaries and the 6 oxides)
+"""
 
-def aa():
+
+def loop_over_configurations():
+    """
+    Main function that reads the data and, for each set, calls the function that creates 
+    the table.
+    """
     l=[0,0,0]
     with open('out', 'w') as w:
-        with open('../data/results-unaries-verification-PBE-v1-fleur.json', 'r') as d:
+        with open('../../code-data/results-unaries-verification-PBE-v1-fleur.json', 'r') as d:
             fleur = json.load(d)
-        with open('../data/results-unaries-verification-PBE-v1-wien2k.json', 'r') as d:
+        with open('../../code-data/results-unaries-verification-PBE-v1-wien2k-dk_0.06.json', 'r') as d:
             wien2k = json.load(d)
-        with open('../data/results-unaries-verification-PBE-v1-ae.json', 'r') as d:
+        with open('../../code-data/results-unaries-verification-PBE-v1-AE-average.json', 'r') as d:
             av = json.load(d)
         for configuration in ['X/FCC', 'X/BCC', 'X/SC', 'X/Diamond']:
             sett = configuration[2:]
-            write_props(w, sett, configuration, fleur, wien2k, av, l)
-        with open('../data/results-oxides-verification-PBE-v1-fleur.json', 'r') as d:
+            create_table(w, sett, configuration, fleur, wien2k, av, l)
+        with open('../../code-data/results-oxides-verification-PBE-v1-fleur.json', 'r') as d:
             fleur = json.load(d)
-        with open('../data/results-oxides-verification-PBE-v1-wien2k.json', 'r') as d:
+        with open('../../code-data/results-oxides-verification-PBE-v1-wien2k-dk_0.06.json', 'r') as d:
             wien2k = json.load(d)
-        with open('../data/results-oxides-verification-PBE-v1-ae.json', 'r') as d:
+        with open('../../code-data/results-oxides-verification-PBE-v1-AE-average.json', 'r') as d:
             av = json.load(d)
         for configuration in ["X2O", "XO", "X2O3", "XO2", "X2O5", "XO3"]:
             sett = configuration
-            write_props(w, sett, configuration, fleur, wien2k, av, l)
-        print(l[0],l[1],l[2], 100*l[0]/960, 100*l[1]/960, 100*l[2]/960)
+            create_table(w, sett, configuration, fleur, wien2k, av, l)
+        print('V0 more than 0.1% diff, B0 more than 1% diff, B1 more than 2% diff')
+        print(l[0], f'({100*l[0]/960})', l[1], f'({100*l[1]/960})', l[2], f'({100*l[2]/960})')
 
-def write_props(w, sett, configuration, fleur, wien2k, av, l):
+
+def create_table(w, sett, configuration, fleur, wien2k, av, l):
     """
+    Creates the table
     """
     set_name = '{table-ae-'+sett+'}'
     w.write('\\begin{center}\n')
@@ -36,7 +48,7 @@ def write_props(w, sett, configuration, fleur, wien2k, av, l):
         f'\label{set_name} The table with all the calculated '
         '\gls{eos} parameters for the '
         f'{sett} structures obtained '
-        'with \\fleur{} and \wientwok. Values of volumes are per-formula-unit.} \\\\ \n'
+        'with \\fleur{} and \wientwok.} \\\\ \n'
         )
     w.write('& \multicolumn{3}{c|}{ \\fleur } & \multicolumn{3}{c|}{ \wientwok } & \multicolumn{3}{c|}{relative difference} & \multicolumn{3}{c|}{ average }\\\\\n')
     w.write('& V0 & B0  & B1 & V0 & B0 &  B1 & \% V0 & \% B0 &  \%  B1 & V0 & B0  & B1\\\\\n' )
@@ -94,4 +106,4 @@ def write_props(w, sett, configuration, fleur, wien2k, av, l):
 
 
 if __name__ == "__main__":
-    aa() > out
+    loop_over_configurations()

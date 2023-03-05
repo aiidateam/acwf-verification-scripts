@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     for set_name in ['unaries','oxides']:
         
-        with open(f'results-{set_name}-006.json') as fhandle:
+        with open(f'../../code-data/results-{set_name}-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
             reference_plugin_data = json.load(fhandle)
 
         compare_plugin_data = []
