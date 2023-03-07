@@ -1,6 +1,6 @@
 from pymatgen.core.periodic_table import Element
 import json
-import quantities_for_comparison as qc 
+import paper_plots.quantities_for_comparison as qc 
 """
 This script creates a table with the V0, B0, B1 results for WIEN2K, FLEUR and their average
 for every cystal structure (the 4 unaries and the 6 oxides)
@@ -33,7 +33,7 @@ def loop_over_configurations():
             sett = configuration
             create_table(w, sett, configuration, fleur, wien2k, av, l)
         print('V0 more than 0.1% diff, B0 more than 1% diff, B1 more than 2% diff')
-        print(l[0], f'({100*l[0]/960})', l[1], f'({100*l[1]/960})', l[2], f'({100*l[2]/960})')
+        print(l[0], f'({100*l[0]/960}%)', l[1], f'({100*l[1]/960}%)', l[2], f'({100*l[2]/960}%)')
 
 
 def create_table(w, sett, configuration, fleur, wien2k, av, l):

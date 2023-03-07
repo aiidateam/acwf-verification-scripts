@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import os
 import sys
 import copy
-import quantities_for_comparison as qc
+import paper_plots.quantities_for_comparison as qc
+
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 DEFAULT_PREFACTOR = 100

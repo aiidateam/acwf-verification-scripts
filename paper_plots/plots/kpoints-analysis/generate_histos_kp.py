@@ -8,7 +8,7 @@ import pylab as pl
 from scipy.optimize import curve_fit
 import tqdm
 
-import quantities_for_comparison as qc
+import paper_plots.quantities_for_comparison as qc
 
 
 BINS = 100
