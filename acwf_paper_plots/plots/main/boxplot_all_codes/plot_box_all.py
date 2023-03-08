@@ -8,9 +8,9 @@ import acwf_paper_plots.quantities_for_comparison as qc
 
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
-DEFAULT_PREFACTOR = 100
-DEFAULT_WB0 = 1.0 / 20.0
-DEFAULT_WB01 = 1.0 / 400.0
+DEFAULT_PREFACTOR = 100 # to convert from relative to % errors
+DEFAULT_WB0 = 0.
+DEFAULT_WB01 = 0.
 
 CAPPROPS = {
     'linewidth': 1,
@@ -42,8 +42,6 @@ quantity_for_comparison_map = {
     "% difference in B0": qc.B0_rel_diff,
     "% difference in V0": qc.V0_rel_diff,
     "% difference in B1": qc.B1_rel_diff,
-    "rel_errors_vec_length": qc.rel_errors_vec_length,
-    "epsilon": qc.epsilon
 }
 
 xlims = {
@@ -51,8 +49,6 @@ xlims = {
     "% difference in B0": [-20,20],
     "% difference in V0": [-7,7],
     "% difference in B1": [-50,50],
-    "rel_errors_vec_length": [0,15],
-    "epsilon": [0,15]
 }
 
 quantity_names = ["% difference in V0","% difference in B0","% difference in B1"]

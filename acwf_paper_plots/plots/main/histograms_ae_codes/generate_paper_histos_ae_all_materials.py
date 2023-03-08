@@ -15,9 +15,9 @@ import acwf_paper_plots.quantities_for_comparison as qc
 # This is a multiplicative number; a number > 1 means zoom in, a number < 1 means zoom out
 
 BINS = 100
-DEFAULT_PREFACTOR = 100
-DEFAULT_wb0 = 1.0/8.0
-DEFAULT_wb1 = 1.0/64.0
+DEFAULT_PREFACTOR = 100. # To convert from relative to % errors
+DEFAULT_wb0 = 0. # not used
+DEFAULT_wb1 = 0. # not used
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 LIMITS = {"V0_rel_diff":0.3,"B0_rel_diff":2,"B1_rel_diff":10}
 
@@ -37,8 +37,6 @@ quantity_for_comparison_map = {
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
-    "rel_errors_vec_length": qc.rel_errors_vec_length,
-    "epsilon": qc.epsilon
 }
 
 
