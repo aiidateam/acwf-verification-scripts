@@ -11,8 +11,8 @@ import tqdm
 import acwf_paper_plots.quantities_for_comparison as qc
 
 SHOW_IN_BROWSER=False
-DEFAULT_wb0 = 1.0/20.0
-DEFAULT_wb1 = 1.0/400.0
+DEFAULT_wb0 = 1.0/20.0**2
+DEFAULT_wb1 = 1.0/400.0**2
 # Default prefactor if not indicated: 1.
 PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
