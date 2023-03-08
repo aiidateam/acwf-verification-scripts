@@ -7,7 +7,7 @@ import ase.data
 
 
 if __name__ == "__main__":
-    DATA_FOLDER = "../../code-data"
+    DATA_FOLDER = "../../../code-data"
     with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
         labels_data = json.load(fhandle)
     code_labels = labels_data['methods-main'].keys()

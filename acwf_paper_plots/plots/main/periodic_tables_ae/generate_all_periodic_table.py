@@ -100,7 +100,7 @@ if __name__ == "__main__":
     SET_MAX_SCALE = SET_MAX_SCALE_DICT.get(QUANTITY, None)
     prefactor = PREFACTOR_DICT.get(QUANTITY, 1.)
 
-    DATA_FOLDER = "../../code-data"
+    DATA_FOLDER = "../../../code-data"
     with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
         labels_data = json.load(fhandle)
     

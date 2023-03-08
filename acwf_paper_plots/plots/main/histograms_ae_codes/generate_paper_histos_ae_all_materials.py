@@ -42,7 +42,7 @@ quantity_for_comparison_map = {
 }
 
 
-DATA_FOLDER = "../../code-data"
+DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
 

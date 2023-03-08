@@ -65,7 +65,7 @@ QUANTITY_FANCY_NAMES = {
 
 ALL_ELECTRON_CODES = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
 
-DATA_FOLDER = "../../code-data"
+DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
 code_labels = list(labels_data['methods-main'].keys())[::-1] # invert order because they are plot bottom to top, so we keep them alphabetical
