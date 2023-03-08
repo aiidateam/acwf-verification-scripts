@@ -45,7 +45,7 @@ beautify = beautify_flat
 
 if __name__ == "__main__":
 
-    fontsize = 18
+    fontsize = 22
 
     pl.rc('xtick', labelsize=fontsize)    # fontsize of the tick labels
     pl.rc('ytick', labelsize=fontsize)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     #                            V0    B0  B1
     #relative_errors_analyzed = [(0.01, 0.1, 1), (2, 0, 0), (0, 2, 0), (0, 0, 2)] 
     ref_error_V0 = 0.4
-    relative_errors_analyzed = [(0.01, 0.1, 1), (ref_error_V0, 0, 0), (0, ref_error_V0*20, 0), (0, 0, ref_error_V0*400)] 
+    relative_errors_analyzed = [(0.06*2, 0.35*2, 2*2), (ref_error_V0, 0, 0), (0, ref_error_V0*20, 0), (0, 0, ref_error_V0*400)] 
 
     for index, value in enumerate(relative_errors_analyzed):
         
@@ -105,7 +105,8 @@ if __name__ == "__main__":
         v2 = nu(a_vol_form_unit, a_B0, a_B1, vol_form_unit, B0, B1, 100, 1/20, 1/400)
         #print(a_vol_form_unit, a_B0, a_B1, "|", vol_form_unit, B0, B1)
 
-        xpos = 48.5
+        xpos = 47.7
+        ypos = 0.098
         err_info = []
         if value[0]:
             err_info.append(rf"$V_0$: {value[0]}%")
@@ -113,8 +114,9 @@ if __name__ == "__main__":
             err_info.append(rf"$B_0$: {value[1]}%")
         if value[2]:
             err_info.append(rf"$B_1$: {value[2]}%")
-        ax[index].annotate("\n".join(err_info), [xpos, 0.105], fontsize=int(fontsize*0.8), verticalalignment='top')
+        ax[index].annotate("\n".join(err_info), [xpos, ypos], fontsize=int(fontsize*0.8), verticalalignment='top')
 
+        xpos = 48.5
         ypos = 0.07
         ax[index].annotate(r'$\varepsilon$ = '+beautify(eps), [xpos, ypos], fontsize=fontsize)
         ax[index].annotate(r'$\nu$ = '+beautify(v2), [xpos, ypos-0.01], fontsize=fontsize)
