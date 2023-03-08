@@ -1,0 +1,23 @@
+After importing the SSSP precision PBE library and importing the Er diamond crystal structure (below it has PK 550) you can run the SCF with:
+
+```bash
+aiida-quantumespresso calculation launch pw -F SSSP/1.2/PBE/precision -S 550 -X pw-7.0@localhost -k 9 9 9 -W 40 -R 320 --smearing f-d 0.0045 -m 1 -i -d -z scf
+```
+
+You can then open a `verdi shell` and run the bands with (replace 653 with the PK of the PW CalcJobNode returned in the previous step):
+
+```python
+from aiida.tools.data.array.kpoints.seekpath import get_explicit_kpoints_path
+from aiida.engine import submit
+
+scf = load_node(653)
+bands_builder = scf.get_builder_restart()
+new_params = bands_builder.parameters.get_dict()
+new_params['CONTROL']['calculation'] = 'bands'
+bands_builder.parameters = Dict(dict=new_params)
+bands_builder.parent_folder = scf.outputs.remote_folder
+seekpath_results = get_explicit_kpoints_path(scf.inputs.structure, {})
+bands_builder.kpoints = seekpath_results['explicit_kpoints']
+
+submit(bands_builder)
+```
