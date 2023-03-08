@@ -8,7 +8,7 @@ import pylab as pl
 from scipy.optimize import curve_fit
 import tqdm
 
-import paper_plots.quantities_for_comparison as qc
+import acwf_paper_plots.quantities_for_comparison as qc
 
 SHOW_IN_BROWSER=False
 DEFAULT_wb0 = 1.0/20.0

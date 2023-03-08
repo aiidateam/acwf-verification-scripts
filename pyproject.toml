@@ -3,9 +3,9 @@ requires = ['flit_core >=3.4,<4']
 build-backend = 'flit_core.buildapi'
 
 [project]
-name = 'paper-plots'
+name = 'acwf-paper-plots'
 dynamic = ['version']  # read from aiida/__init__.py
-description = "Scripts for the acwf paper."
+description = "Scripts for the AiiDA common workflows (ACWF) verification paper."
 authors = [{name = 'AiiDA team', email = 'giovanni.pizzi@psi.ch'}]
 readme = 'README.md'
 license = {file = 'LICENSE'}

@@ -1,6 +1,6 @@
 from pymatgen.core.periodic_table import Element
 import json
-import paper_plots.quantities_for_comparison as qc 
+import acwf_paper_plots.quantities_for_comparison as qc 
 """
 This script creates a table with the V0, B0, B1 results for WIEN2K, FLEUR and their average
 for every cystal structure (the 4 unaries and the 6 oxides)

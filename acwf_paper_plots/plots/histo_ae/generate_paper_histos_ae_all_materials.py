@@ -8,7 +8,7 @@ import pylab as pl
 from scipy.optimize import curve_fit
 import tqdm
 
-import paper_plots.quantities_for_comparison as qc
+import acwf_paper_plots.quantities_for_comparison as qc
 
 # Adapt this factor to change the zoom on the x axis
 # The default zoom is obtained from the standard deviation of the data
