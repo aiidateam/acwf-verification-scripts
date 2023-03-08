@@ -31,6 +31,7 @@ USE_AE_AVERAGE_AS_REFERENCE = False
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
 REFERENCE_CODE_LABEL = "FLEUR"
 SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
+EXCELLENT_AGREEMENT_THRESHOLD = {'nu': 0.1, 'epsilon': 0.07}
 ONLY_CODES = ['WIEN2k']
 
 from bokeh.models import (
@@ -281,8 +282,11 @@ if __name__ == "__main__":
         else:
             high = max_data
 
+        non_excellent = []
+        tot_count = 0
         for conf in list_confs:
             data_elements = collect[conf]["elements"]
+            tot_count += len(data_elements)
             data = collect[conf]["values"]
 
             if len(data) != len(data_elements):
@@ -330,7 +334,10 @@ if __name__ == "__main__":
                 else:
                     color_list[conf][element_index] = to_hex(color_scale[i])
                 if data[i] > high:
-                    print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")                    
+                    print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")
+                if data[i] > EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]:
+                    non_excellent.append(f"{data_element}({conf})")
+        print(f">>> Non excellent agreement ({QUANTITY} >= {EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]}) for {len(non_excellent)}/{tot_count} systems: {','.join(non_excellent)}")
 
 
         if unaries:
