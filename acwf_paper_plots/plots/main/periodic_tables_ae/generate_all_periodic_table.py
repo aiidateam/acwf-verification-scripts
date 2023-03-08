@@ -354,6 +354,9 @@ if __name__ == "__main__":
 
             # Plot the periodic table
             p = figure(x_range=[0,19], y_range=[11,0], tools="save")
+            p.toolbar.logo = None
+            p.toolbar.tools = []
+            p.toolbar_location = None
             p.plot_width = width
             p.outline_line_color = None
             p.background_fill_color = None
@@ -412,6 +415,9 @@ if __name__ == "__main__":
 
             # Plot the periodic table
             p = figure(x_range=[0,19], y_range=[11,0], tools="save")
+            p.toolbar.logo = None
+            p.toolbar.tools = []
+            p.toolbar_location = None
             p.plot_width = width
             p.outline_line_color = None
             p.background_fill_color = None

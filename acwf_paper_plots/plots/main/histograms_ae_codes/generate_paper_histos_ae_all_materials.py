@@ -198,7 +198,7 @@ def generate_histo(sets, name_file):
         ax[indx].tick_params(axis="y",labelsize=SMALL_SIZE)
         #set(xlabel=f"{DEFAULT_PREFACTOR}*{QUANTITY}", ylabel='Frequency', Fontsize=30)
         
-    fig.suptitle(f"FLEUR vs WIEN2K")
+    fig.suptitle(f"FLEUR vs WIEN2k")
     fig.tight_layout()
     fig.savefig(f"{name_file}.pdf")
     pl.close(fig)
