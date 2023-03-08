@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 This scripts reads the data of v3.1 of the "Science 2016 paper",
 downloaded from https://molmod.ugent.be/deltacodesdft, and compares
@@ -5,7 +6,28 @@ with our new results, for the two AE codes.
 The output is the % error (in %, so relative error multiplied by 100) for the discrepancy in the 3 Birch-Murnaghan parameters, for Wien2K and Fleur, old results (Science 2016) vs. new results (this work)
 """
 import json
+import os
 import numpy as np
+
+# The following list summarizes the subset of the 71 elements from the
+# Science 2016 paper that have a FCC, BCC, SC or Diamond structure
+# and thus overlap with the set of unaries of the current work.
+
+# Note that we are removing Cr, Mn, Fe and Ni because they are treated
+# using magnetization in the Science 2016 paper:
+# > Include spin polarization for O, Cr and Mn (antiferromagnetic)
+# > and Fe, Co, and Ni (ferromagnetic). 
+# > The antiferromagnetism in the oxygen crystal should take place
+# > between the O2 molecules.
+# (O and Co are not in the list since they are not cubic structures).
+
+# For reference, the string for these 4 elements is reported below, 
+# commented:
+# 
+## Fe BCC
+## Mn FCC
+## Ni FCC
+## Cr BCC
 
 overlapping_elements_str = """Ag FCC
 Al FCC
@@ -15,9 +37,7 @@ Ca FCC
 Cu FCC
 Ir FCC
 Kr FCC
-Mn FCC
 Ne FCC
-Ni FCC
 Pb FCC
 Pd FCC
 Pt FCC
@@ -27,7 +47,6 @@ Sr FCC
 Xe FCC
 Ba BCC
 Cs BCC
-Fe BCC
 K BCC
 Mo BCC
 Nb BCC
@@ -35,7 +54,6 @@ Rb BCC
 Ta BCC
 V BCC
 W BCC
-Cr BCC
 Po SC
 Ge Diamond
 Si Diamond
@@ -46,8 +64,14 @@ for l in overlapping_elements_str.splitlines():
     element, structure = l.split()
     overlapping_elements[element] = {'structure': structure}
 
-with open('unaries-fleur.json') as f:
-    raw = json.load(f)
+DATA_FOLDER = "../../code-data"
+FLEUR_LABEL = "FLEUR"
+WIEN2k_LABEL = "WIEN2k"
+with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
+    labels_data = json.load(fhandle)
+
+with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][FLEUR_LABEL]["unaries"])) as fhandle:             
+    raw = json.load(fhandle)
     for element in overlapping_elements:
         structure = overlapping_elements[element]['structure']
         fit_data = raw["BM_fit_data"][f"{element}-X/{structure}"]
@@ -58,8 +82,8 @@ with open('unaries-fleur.json') as f:
             fit_data['bulk_deriv']
         ]
 
-with open('unaries-wien2k.json') as f:
-    raw = json.load(f)
+with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][WIEN2k_LABEL]["unaries"])) as fhandle:             
+    raw = json.load(fhandle)
     for element in overlapping_elements:
         structure = overlapping_elements[element]['structure']
         fit_data = raw["BM_fit_data"][f"{element}-X/{structure}"]
@@ -91,12 +115,10 @@ with open('WIEN2k-history.txt') as f:
         if element in overlapping_elements:
             wien2k_science[element] = [float(V0), float(B0), float(B1)]
 
-assert len(overlapping_elements) == 33
-assert len(fleur_science) == 33
-assert len(wien2k_science) == 33
-
-#print(fleur_science)
-#print(wien2k_science)
+# 33 overlapping, minus 4 magnetic == 29
+assert len(overlapping_elements) == 29
+assert len(fleur_science) == 29
+assert len(wien2k_science) == 29
 
 print(r"\begin{tabular}{ll|rrr|rrr}")
 print(r"&& \multicolumn{3}{c|}{FLEUR} & \multicolumn{3}{c}{WIEN2k} \\")
@@ -112,4 +134,5 @@ for element in sorted(overlapping_elements):
     fleur_percent = 100 * np.abs((np.array(fleur_old) - np.array(fleur_new)) / np.array(fleur_new))
 
     print(fr"{element:2s} & {structure:10s} & {fleur_percent[0]:6.2f} & {fleur_percent[1]:5.2f} & {fleur_percent[2]:6.2f} & {wien2k_percent[0]:6.2f} & {wien2k_percent[1]:5.2f} & {wien2k_percent[2]:6.2f} \\ ")
+
 print(r'\end{tabular}')
