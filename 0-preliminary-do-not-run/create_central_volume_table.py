@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 import pymatgen
+from pymatgen.core import Structure
 import ase.io
 from ase.data import chemical_symbols
 
@@ -28,15 +30,28 @@ def get_num_atoms_in_formula_unit(configuration):
 
 
 def get_table():
-    print('  & FCC & BCC & SC & Diamond & X2O & X2O5 & XO2 & X2O3 & XO & XO3 \\\\')
-    print('\hline')
+    print(r'\begin{longtable}{c|cccc|cccccc}')
+
+    for first in [True, False]:
+        if first:
+            continued = ""
+        else:
+            continued = " (continued) "
+        print(rf'\caption{{\label{{table-starting-volume}} {continued} Table with the central volumes used for the calculation of the \gls{{eos}} datapoints. Volumes are expressed in \AA$^3$ per formula unit (see definition of the formula unit in SI Sec.~\ref{{SIsec:structures}}). The reference structures having these central volumes are available in Ref.~\citenum{{MCA-ACWF}}.}} \\')
+        print(r'  & FCC & BCC & SC & Diamond & X$_2$O & X$_2$O$_5$ & XO$_2$ & X$_2$O$_3$ & XO & XO$_3$ \\')
+        print('\hline')
+        if first:
+            print(r"\endfirsthead")
+        else:
+            print(r"\endhead")
+
     SET_NAME = 'oxides-verification-PBE-v1'
     for Z in range(1, 96+1):
         dict_vols = {}
         element_name = chemical_symbols[Z]
         for configuration in ['X2O', 'X2O5', 'XO2', 'X2O3', 'XO', 'XO3']:
             filename = f'oxides/cifs-{SET_NAME}/POSCAR_{element_name}_{configuration}.cif'
-            pmg_structure = pymatgen.Structure.from_file(filename)
+            pmg_structure = Structure.from_file(filename)
             number_units = len(pmg_structure.sites)/get_num_atoms_in_formula_unit(configuration)
             volume = pmg_structure.volume/number_units
             dict_vols[configuration] = volume
@@ -51,6 +66,7 @@ def get_table():
             string = string + f' & {round(dict_vols[i],5)}'
         string = string + ' \\\\'
         print(string)
+    print(r'\end{longtable}')
 
 
 if __name__ == "__main__":
