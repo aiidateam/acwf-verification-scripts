@@ -544,6 +544,5 @@ Please check the following:
 if __name__ == "__main__":
     
     for SET_NAME in ['unaries', 'oxides']:
-        for QUANTITY in ['delta_per_formula_unit']:
-        #for QUANTITY in ['epsilon', 'nu']:
+        for QUANTITY in ['epsilon', 'nu', 'delta_per_formula_unit']:
             plot_periodic_table(SET_NAME, QUANTITY)
