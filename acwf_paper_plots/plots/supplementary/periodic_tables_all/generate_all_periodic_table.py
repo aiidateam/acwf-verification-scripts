@@ -16,7 +16,10 @@ DEFAULT_wb1 = 1.0/400.0
 # Default prefactor if not indicated: 1.
 PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
-EXCELLENT_AGREEMENT_THRESHOLD = {'nu': 0.1, 'epsilon': 0.07}
+EXCELLENT_AGREEMENT_THRESHOLD = {
+    'nu': 0.1, 'epsilon': 0.07,
+    'delta_per_formula_unit': 0. # I put zero, it's not used in this script anyway
+    }
 PRINT_NON_EXCELLENT = False
 
 ## IN ORDER TO PLOT ALL
@@ -541,5 +544,6 @@ Please check the following:
 if __name__ == "__main__":
     
     for SET_NAME in ['unaries', 'oxides']:
-        for QUANTITY in ['epsilon', 'nu']:
+        for QUANTITY in ['delta_per_formula_unit']:
+        #for QUANTITY in ['epsilon', 'nu']:
             plot_periodic_table(SET_NAME, QUANTITY)
