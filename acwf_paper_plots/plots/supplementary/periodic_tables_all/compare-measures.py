@@ -76,10 +76,10 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
 ]:
     fig = pl.figure()
     for method in all_methods:
-        pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', label=method)
+        pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
     pl.xlabel(meas1name)
     pl.ylabel(meas2name)
-    pl.legend(loc='best')
+    #pl.legend(loc='best')
 
     filename = f"comparison-{file_basename}.png"
     pl.savefig(filename)
