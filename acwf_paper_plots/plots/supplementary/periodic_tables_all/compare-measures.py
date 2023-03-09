@@ -29,7 +29,7 @@ for measure in ALL_MEASURES:
                         conf = k.split('-')[1]
                         data_from_file[k] /= get_num_atoms_in_formula_unit(conf)
 
-                print('>', measure, method, set_name, len(data_from_file))
+                # print('>', measure, method, set_name, len(data_from_file))
                 data[measure][method].update(data_from_file)
 
 # Check that, given a method, the keys are the same for all measures.
@@ -40,7 +40,7 @@ for method in all_methods:
     for measure in data:
         if ref_keys is None:
             ref_keys = set(data[measure][method].keys())
-            print(method, len(ref_keys))
+            #print(method, len(ref_keys))
         else:
             assert set(data[measure][method].keys()) == ref_keys, f"Different set of keys for method {method}"
 
@@ -55,20 +55,23 @@ for method in all_methods:
 
 import pylab as pl
 
-for (meas1, meas1name), (meas2, meas2name) in [
+for (meas1, meas1name), (meas2, meas2name), file_basename in [
     [
         ("epsilon", r"$\varepsilon$"),
-        ("nu", r"$\nu$")
+        ("nu", r"$\nu$"),
+        "epsilon-vs-nu"
     ],
     [
+        ("delta_per_formula_unit", r"$\Delta$ per atom"),
         ("epsilon", r"$\varepsilon$"),
         # Note: above I have converted it in delta per atom
-        ("delta_per_formula_unit", r"$\Delta$ per atom"),
+        "delta-vs-epsilon"
     ],
     [
         # Note: above I have converted it in delta per atom
         ("delta_per_formula_unit", r"$\Delta$ per atom"),
-        ("nu", r"$\nu$")
+        ("nu", r"$\nu$"),
+        "delta-vs-nu"
     ],        
 ]:
     fig = pl.figure()
@@ -76,8 +79,10 @@ for (meas1, meas1name), (meas2, meas2name) in [
         pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', label=method)
     pl.xlabel(meas1name)
     pl.ylabel(meas2name)
-    pl.legend(loc='upper left')
+    pl.legend(loc='best')
 
-    pl.show()
+    filename = f"comparison-{file_basename}.png"
+    pl.savefig(filename)
+    print(f"File '{filename}' written.")
 
     
