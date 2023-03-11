@@ -56,7 +56,7 @@ if __name__ == "__main__":
         query = orm.QueryBuilder()
         query.append(orm.Node, project="attributes.element", tag='pseudo')
         query.append(orm.Group, filters={'label': 'SSSP/1.1/PBE/precision'}, with_node='pseudo')
-        valid_elements = [a for a in atomic_numbers.keys() if atomic_numbers[a] < 83]
+        valid_elements = [a for a in atomic_numbers.keys() if atomic_numbers[a] <= 83]
         for elements in ['Dy', 'Ce', 'Er', 'Eu', 'Gd', 'Ho', 'La', 'Lu', 'Nd', 'Pm', 'Pr', 'Sm', 'Tb', 'Tc', 'Tm', 'Yb' ]:
             valid_elements.remove(elements)
     else:
