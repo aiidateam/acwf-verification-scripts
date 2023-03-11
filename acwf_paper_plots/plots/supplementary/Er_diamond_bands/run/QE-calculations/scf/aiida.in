@@ -1,0 +1,30 @@
+&CONTROL
+  calculation = 'scf'
+  outdir = './out/'
+  prefix = 'aiida'
+  pseudo_dir = './pseudo/'
+  verbosity = 'high'
+/
+&SYSTEM
+  degauss =   4.5000000000d-03
+  ecutrho =   3.2000000000d+02
+  ecutwfc =   4.0000000000d+01
+  ibrav = 0
+  nat = 2
+  ntyp = 1
+  occupations = 'smearing'
+  smearing = 'f-d'
+/
+&ELECTRONS
+/
+ATOMIC_SPECIES
+Er     167.259 Er.paw.z_22.atompaw.wentzcovitch.v1.2.upf
+ATOMIC_POSITIONS angstrom
+Er           0.0000000000       0.0000000000       4.3147825731 
+Er           2.1573912866       6.4721738597       2.1573912866 
+K_POINTS automatic
+9 9 9 0 0 0
+CELL_PARAMETERS angstrom
+      0.0000000000       4.3147825731       4.3147825731
+      4.3147825731       0.0000000000       4.3147825731
+      4.3147825731       4.3147825731       0.0000000000

@@ -277,22 +277,11 @@ def B1_rel_diff(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     return prefact*2*(b1w-b1f)/(b1w+b1f)
 
-def rel_errors_vec_length(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
-    """
-    Returns the length of the vector formed by the relative error of V0, B0, B1
-    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
-    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
-    """
-    V0err =  2*(v0w-v0f)/(v0w+v0f)
-    B0err =  2*(b0w-b0f)/(b0w+b0f)
-    B1err =  2*(b1w-b1f)/(b1w+b1f)
-    leng = np.sqrt(V0err**2+(weight_b0*B0err)**2+(weight_b1*B1err)**2)
-    return leng*prefact
-
-def nu(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
+def rel_errors_vec_length_unsquared(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     """
     Returns the length of the vector formed by the relative error of V0, B0, B1.
-    Compared to the function above, here we move the weight to be outside the square root!!
+    Note that this is NOT the nu, but a version in which the weights are outside the square.
+    This version should *not* be used when using the weights discussed in the paper for nu.
     THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
     RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
     """
@@ -300,4 +289,17 @@ def nu(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
     B0err =  2*(b0w-b0f)/(b0w+b0f)
     B1err =  2*(b1w-b1f)/(b1w+b1f)
     leng = np.sqrt(V0err**2+weight_b0*(B0err)**2+weight_b1*(B1err)**2)
+    return leng*prefact
+
+def nu(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
+    """
+    Returns the "nu" measure defined with appropriate weights applied to the relative error of V0, B0, B1.
+    (Note that the weights are directy multiplied to the relative errors, i.e., they are inside the square).
+    THE SIGNATURE OF THIS FUNCTION HAS BEEN CHOSEN TO MATCH THE ONE OF ALL THE OTHER FUNCTIONS
+    RETURNING A QUANTITY THAT IS USEFUL FOR COMPARISON, THIS SIMPLIFIES THE CODE LATER.
+    """
+    V0err =  2*(v0w-v0f)/(v0w+v0f)
+    B0err =  2*(b0w-b0f)/(b0w+b0f)
+    B1err =  2*(b1w-b1f)/(b1w+b1f)
+    leng = np.sqrt(V0err**2+(weight_b0*B0err)**2+(weight_b1*B1err)**2)
     return leng*prefact
