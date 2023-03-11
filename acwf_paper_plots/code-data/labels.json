@@ -1,0 +1,70 @@
+{
+    "references":
+    {
+        "all-electron average":
+        {
+            "oxides": "results-oxides-verification-PBE-v1-AE-average.json",
+            "unaries": "results-unaries-verification-PBE-v1-AE-average.json"
+        }
+    },
+    "methods-main":
+    {
+        "ABINIT+PseudoDojo":{
+            "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
+            "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
+            "short_label": "ABINIT"
+        },
+        "BigDFT+...":{
+            "oxides": "results-oxides-verification-PBE-v1-bigdft.json",
+            "unaries": "results-unaries-verification-PBE-v1-bigdft.json",
+            "short_label": "BigDFT"
+        },
+        "CP2K+GTH+TZV2P":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k_TZV2P.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k_TZV2P.json",
+            "short_label": "CP2K-quickstep"
+        },
+        "FLEUR":{
+            "oxides": "results-oxides-verification-PBE-v1-fleur.json",
+            "unaries": "results-unaries-verification-PBE-v1-fleur.json",
+            "short_label": "FLEUR"
+        },
+        "GPAW+...":{
+            "oxides": "results-oxides-verification-PBE-v1-gpaw.json",
+            "unaries": "results-unaries-verification-PBE-v1-gpaw.json",
+            "short_label": "GPAW"
+        },
+        "CASTEP+...":{
+            "oxides": "results-oxides-verification-PBE-v1-mk2-castep.json",
+            "unaries": "results-unaries-verification-PBE-v1-mk2-castep.json",
+            "short_label": "CASTEP"
+        },
+        "Quantum ESPRESSO+SSSP":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso.json",
+            "short_label": "QE"
+        },
+        "SIESTA+PseudoDojo+OptDiamond":{
+            "oxides": "results-oxides-verification-PBE-v1-siesta.json",
+            "unaries": "results-unaries-verification-PBE-v1-siesta.json",
+            "short_label": "SIESTA"
+        },
+        "SIRIUS(&CP2K)+SSSP":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius.json",
+            "short_label": "SIRIUS"
+        },
+        "VASP+...":{
+            "oxides": "results-oxides-verification-PBE-v1-vasp.json",
+            "unaries": "results-unaries-verification-PBE-v1-vasp.json",
+            "short_label": "VASP"
+        },
+        "WIEN2k":{
+            "oxides": "results-oxides-verification-PBE-v1-wien2k-dk_0.06.json",
+            "unaries": "results-unaries-verification-PBE-v1-wien2k-dk_0.06.json",
+            "short_label": "WIEN2k"
+        }
+    },
+    "methods-supplementary": {
+    }
+}    
