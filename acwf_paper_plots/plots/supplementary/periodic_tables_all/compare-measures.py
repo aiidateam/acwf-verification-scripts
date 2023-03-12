@@ -108,7 +108,7 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
         ("delta_per_formula_unit_over_b0", r"$\Delta/B_0$ per atom"),
         ("epsilon", r"$\varepsilon$"),
         # Note: above I have converted it in delta per atom
-        "delta-vs-epsilon"
+        "deltaoverB0-vs-epsilon"
     ],    
     [
         # Note: above I have converted it in delta per atom
