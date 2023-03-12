@@ -9,7 +9,8 @@ from acwf_paper_plots.quantities_for_comparison import get_num_atoms_in_formula_
 
 PREFIX = "nu-unaries-"
 SUFFIX = "-vs-ae.json"
-ALL_MEASURES = ["nu", "epsilon", "delta_per_formula_unit"]
+ALL_MEASURES = ["nu", "epsilon", "delta_per_formula_unit", "delta_per_formula_unit_over_b0"]
+LOGLOG = False
 
 # List of unaries that are from the Science 2016 paper that also in our set
 overlapping_elements = [
@@ -104,6 +105,12 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
         "delta-vs-epsilon"
     ],
     [
+        ("delta_per_formula_unit_over_b0", r"$\Delta/B_0$ per atom"),
+        ("epsilon", r"$\varepsilon$"),
+        # Note: above I have converted it in delta per atom
+        "delta-vs-epsilon"
+    ],    
+    [
         # Note: above I have converted it in delta per atom
         ("delta_per_formula_unit", r"$\Delta$ per atom"),
         ("nu", r"$\nu$"),
@@ -112,12 +119,25 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
 ]:
     fig = pl.figure()
     for method in all_methods:
-        pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
+        if LOGLOG:
+            pl.loglog(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
+        else:
+            pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
     pl.xlabel(meas1name)
     pl.ylabel(meas2name)
     #pl.legend(loc='best')
 
-    filename = f"comparison-{file_basename}.png"
+    if not LOGLOG and meas1 == "delta_per_formula_unit_over_b0":
+        xlim_max = 750
+
+        outliers_count = 0
+        for method in all_methods:
+            outliers_count += sum(np.array(flat_data[method][meas1]) > xlim_max)
+
+        pl.xlim(0, xlim_max)
+        pl.title(f"{outliers_count} outliers on the right")
+
+    filename = f"comparison-{file_basename}{'-loglog' if LOGLOG else ''}.png"
     pl.savefig(filename)
     print(f"File '{filename}' written.")
 

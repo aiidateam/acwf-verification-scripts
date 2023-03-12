@@ -18,7 +18,9 @@ PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 EXCELLENT_AGREEMENT_THRESHOLD = {
     'nu': 0.1, 'epsilon': 0.07,
-    'delta_per_formula_unit': 0. # I put zero, it's not used in this script anyway
+    'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
+    'delta_per_formula_unit_over_b0': 0. # I put zero, it's not used in this script anyway
+
     }
 PRINT_NON_EXCELLENT = False
 
@@ -74,6 +76,7 @@ def abs_B1_rel_diff(*args, **kwargs):
 
 quantity_for_comparison_map = {
     "delta_per_formula_unit": qc.delta,
+    "delta_per_formula_unit_over_b0": qc.delta_over_b0,
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
@@ -544,5 +547,7 @@ Please check the following:
 if __name__ == "__main__":
     
     for SET_NAME in ['unaries', 'oxides']:
-        for QUANTITY in ['epsilon', 'nu', 'delta_per_formula_unit']:
+        for QUANTITY in [
+            'epsilon', 'nu', 'delta_per_formula_unit', 
+            'delta_per_formula_unit_over_b0']:
             plot_periodic_table(SET_NAME, QUANTITY)
