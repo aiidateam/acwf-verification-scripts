@@ -215,6 +215,13 @@ def delta(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
 
     return Delta  #, Deltarel, Delta1
 
+def delta_over_b0(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
+    """
+    Return Delta/B0, where delta is the same as the funtion 'delta',
+    and b0 is the average b0 of the two calculations
+    """
+    average_b0 = (b0w+b0f)/2.
+    return delta(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1) / average_b0
 
 
 def epsilon(v0w, b0w, b1w, v0f, b0f, b1f, prefact, weight_b0, weight_b1):
