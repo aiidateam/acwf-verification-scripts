@@ -10,7 +10,7 @@ from acwf_paper_plots.quantities_for_comparison import get_num_atoms_in_formula_
 PREFIX = "nu-unaries-"
 SUFFIX = "-vs-ae.json"
 ALL_MEASURES = ["nu", "epsilon", "delta_per_formula_unit", "delta_per_formula_unit_over_b0"]
-LOGLOG = False
+LOGLOG = True
 
 # List of unaries that are from the Science 2016 paper that also in our set
 overlapping_elements = [
@@ -60,7 +60,7 @@ for measure in ALL_MEASURES:
         for set_name in ["unaries", "oxides"]:
             with open(f"{measure}-{set_name}-{method}{SUFFIX}") as fhandle:
                 data_from_file = json.load(fhandle)
-                if measure == "delta_per_formula_unit":
+                if measure.startswith("delta_"):
                     # Convert in delta per atom
                     for k in data_from_file:
                         conf = k.split('-')[1]
@@ -92,47 +92,100 @@ for method in all_methods:
 
 ## Generate pairwise comparison of metrics
 import pylab as pl
-for (meas1, meas1name), (meas2, meas2name), file_basename in [
+# factor1 and 2 are used to change units
+for (meas1, meas1name, factor1), (meas2, meas2name, factor2), file_basename in [
     [
-        ("epsilon", r"$\varepsilon$"),
-        ("nu", r"$\nu$"),
+        ("epsilon", r"$\varepsilon$", 1.),
+        ("nu", r"$\nu$", 1.),
         "epsilon-vs-nu"
     ],
     [
-        ("delta_per_formula_unit", r"$\Delta$ per atom"),
-        ("epsilon", r"$\varepsilon$"),
+        ("delta_per_formula_unit", r"$\Delta$ per atom (meV/atom)", 1.),
+        ("epsilon", r"$\varepsilon$", 1.),
         # Note: above I have converted it in delta per atom
         "delta-vs-epsilon"
     ],
     [
-        ("delta_per_formula_unit_over_b0", r"$\Delta/B_0$ per atom"),
-        ("epsilon", r"$\varepsilon$"),
+        # Delta is in meV. B_0 is in eV/ang^3.
+        # If I want to get Ang^-3, I need to divide by 1000
+        ("delta_per_formula_unit_over_b0", r"$\Delta/B_0$ per atom ($\AA^{-3}$)", 0.001),
+        ("epsilon", r"$\varepsilon$", 1.),
         # Note: above I have converted it in delta per atom
         "deltaoverB0-vs-epsilon"
     ],    
     [
         # Note: above I have converted it in delta per atom
-        ("delta_per_formula_unit", r"$\Delta$ per atom"),
-        ("nu", r"$\nu$"),
+        ("delta_per_formula_unit", r"$\Delta$ per atom (meV/atom)", 1.),
+        ("nu", r"$\nu$", 1.),
         "delta-vs-nu"
     ],        
 ]:
     
     if not LOGLOG and meas1 == 'epsilon' and meas2 == 'nu':
-        fig = pl.figure(figsize=(12,6))
+        fig = pl.figure(figsize=(8, 4))
         pl.subplot(121)
-        print("HERE")
     else:
+        fig = pl.figure(figsize=(4, 3))
         fig = pl.figure()
     all_data_x = []
     all_data_y = []
     for method in all_methods:
-        all_data_x += flat_data[method][meas1]
-        all_data_y += flat_data[method][meas2]
+        all_data_x += (np.array(flat_data[method][meas1]) * factor1).tolist()
+        all_data_y += (np.array(flat_data[method][meas2]) * factor2).tolist()
         if LOGLOG:
-            pl.loglog(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
+            pl.loglog(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, '.', color='#2b8cbe', label=method)
         else:
-            pl.plot(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
+            pl.plot(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, '.', color='#2b8cbe', label=method)
+    if LOGLOG:
+        # Cache limits
+        xlim = pl.xlim()
+        ylim = pl.ylim()
+
+        if meas1 == 'epsilon' and meas2 == 'nu':
+            xmin = 1e-3; xmax = 1; slope = 1.673
+
+            for m1_threshold, m2_threshold, color in [
+                (0.06, 0.1, 'green'),
+                (0.2, 0.35, 'red'),
+            ]:
+                pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
+                pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
+                pl.annotate('(d)', (0.03, 0.95), xycoords='axes fraction')
+
+        elif meas1 == 'delta_per_formula_unit' and meas2 == 'epsilon':
+            xmin = 1e-3; xmax = 10; slope = 0.2
+
+            for m1_threshold, m2_threshold, color in [
+                (0.3, 0.06, 'green'),
+                (0.95, 0.2, 'red'),
+            ]:
+                pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
+                pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
+                pl.annotate('(a)', (0.03, 0.95), xycoords='axes fraction')
+
+        elif meas1 == 'delta_per_formula_unit' and meas2 == 'nu':
+            xmin = 2e-3; xmax = 30; slope = 0.33
+
+            for m1_threshold, m2_threshold, color in [
+                (0.3, 0.1, 'green'),
+                (0.95, 0.35, 'red'),
+            ]:
+                pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
+                pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
+                pl.annotate('(b)', (0.03, 0.95), xycoords='axes fraction')
+
+        elif meas1 == 'delta_per_formula_unit_over_b0' and meas2 == 'epsilon':
+            xmin = 1e-5; xmax = 1e-2; slope = 100.
+            pl.annotate('(c)', (0.03, 0.95), xycoords='axes fraction')
+        else:
+            xmin = None
+        if xmin is not None:
+            # Plot line of slope = 1 (i.e. linear relationship)
+            pl.loglog([xmin, xmax], [xmin * slope, xmax * slope], '-k')
+        # Put back cached limits
+        pl.xlim(xlim)
+        pl.ylim(ylim)
+
     pl.xlabel(meas1name)
     pl.ylabel(meas2name)
     #pl.legend(loc='best')
@@ -145,15 +198,18 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
         all_data_y = all_data_y[filter]
         pl.subplot(122)
         pl.plot(all_data_x, all_data_y, '.', color='#2b8cbe')
+        pl.xlabel(meas1name)
+        pl.ylabel(meas2name)
+
 
         # Linear fit, see https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html
         A = np.vstack([all_data_x, np.ones(len(all_data_x))]).T
         m, c = np.linalg.lstsq(A, all_data_y, rcond=None)[0]
         print(f">> eps-vs-nu fit (on linear scale): nu = {m} * eps + {c}")
         xmin, xmax = all_data_x.min(), all_data_x.max()
-        pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label=f'Fit (m={m:.4f}, c={c:.4f})')
+        pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label='Linear fit') #label=f'Fit (m={m:.3f}, c={c:.3f})')
         m_theor = 2 * np.sqrt(7) / np.sqrt(10) #  ~1.67332
-        pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label=f'Theoretical (m={m_theor:.4f}, c=0)')
+        pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label='Theoretical relation')#label=f'Theoretical (m={m_theor:.3f}, c=0)')
         pl.xlim(0, threshold)
         pl.ylim(0, threshold * m_theor)
         pl.legend(loc='lower right')

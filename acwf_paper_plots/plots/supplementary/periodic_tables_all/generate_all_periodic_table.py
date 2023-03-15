@@ -18,7 +18,7 @@ PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε', 'delta_per_formula_unit': 'Δ per formula unit', 'delta_per_formula_unit_over_b0': 'Δ/B₀ per formula unit'}
 EXCELLENT_AGREEMENT_THRESHOLD = {
-    'nu': 0.1, 'epsilon': 0.07,
+    'nu': 0.1, 'epsilon': 0.06,
     'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
     'delta_per_formula_unit_over_b0': 0. # I put zero, it's not used in this script anyway
 
