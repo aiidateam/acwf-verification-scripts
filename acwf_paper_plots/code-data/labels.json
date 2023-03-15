@@ -35,8 +35,8 @@
             "short_label": "GPAW"
         },
         "CASTEP+...":{
-            "oxides": "results-oxides-verification-PBE-v1-mk2-castep.json",
-            "unaries": "results-unaries-verification-PBE-v1-mk2-castep.json",
+            "oxides": "results-oxides-verification-PBE-v1-castep.json",
+            "unaries": "results-unaries-verification-PBE-v1-castep.json",
             "short_label": "CASTEP"
         },
         "Quantum ESPRESSO+SSSP":{

@@ -33,6 +33,7 @@ REFERENCE_CODE_LABEL = "FLEUR"
 SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
 EXCELLENT_AGREEMENT_THRESHOLD = {'nu': 0.1, 'epsilon': 0.07}
 ONLY_CODES = ['WIEN2k']
+UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε'}
 
 from bokeh.models import (
     ColumnDataSource,
@@ -482,7 +483,7 @@ if __name__ == "__main__":
         #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
 
         reference_label = 'all-electron average' if USE_AE_AVERAGE_AS_REFERENCE else REFERENCE_CODE_LABEL
-        p.title = f"{QUANTITY} for {plugin} vs. {reference_label}"
+        p.title = f"{UNICODE_QUANTITY[QUANTITY]} for {plugin} vs. {reference_label}"
         p.title.text_font_size = '16pt'
 
         color_bar = ColorBar(
