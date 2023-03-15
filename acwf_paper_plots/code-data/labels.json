@@ -54,7 +54,7 @@
             "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius.json",
             "short_label": "SIRIUS"
         },
-        "VASP+...":{
+        "VASP+PAW54":{
             "oxides": "results-oxides-verification-PBE-v1-vasp.json",
             "unaries": "results-unaries-verification-PBE-v1-vasp.json",
             "short_label": "VASP"
