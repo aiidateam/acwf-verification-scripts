@@ -6,6 +6,7 @@ import json
 import numpy as np
 import pylab as pl
 from scipy.interpolate import interp1d
+from scipy.optimize import minimize
 
 smearing_name_mapping = {
     'fermi-dirac': 'FD',
@@ -69,7 +70,30 @@ if __name__ == "__main__":
 
         # smooth interpolation between points
         interpolation_f = interp1d(volumes, energies, kind='cubic')
-        volumes_dense = np.linspace(min(volumes), max(volumes), 300)
+
+        # Left minimum
+        bounds = [(25 * num_atoms_per_cell, 45 * num_atoms_per_cell)]
+        epsilon = 1.
+        minimization = minimize(interpolation_f, (30. * num_atoms_per_cell,), bounds = bounds, method='Nelder-Mead')
+        if minimization.success and minimization.x[0] > bounds[0][0] + epsilon and minimization.x[0] < bounds[0][1] - epsilon:
+            left_min = minimization.x[0]
+            left_min_y = interpolation_f(left_min)
+        else:
+            left_min = None
+            left_min_y = None
+        
+        # Right minimum
+        bounds = [(50 * num_atoms_per_cell, 95 * num_atoms_per_cell)]
+        minimization = minimize(interpolation_f, (90. * num_atoms_per_cell,), bounds = bounds, method='Nelder-Mead')
+        if minimization.success and minimization.x[0] > bounds[0][0] + epsilon and minimization.x[0] < bounds[0][1] - epsilon:
+            right_min = minimization.x[0]
+            right_min_y = interpolation_f(right_min)
+        else:
+            right_min = None
+            right_min_y = None
+
+        # Get data to plot on dense grid
+        volumes_dense = np.linspace(min(volumes), max(volumes), 1000)
         energies_dense = interpolation_f(volumes_dense)
 
         further_args = (marker,)
@@ -79,17 +103,20 @@ if __name__ == "__main__":
         }
 
         # IMPORTANT! These quantities are stil *per simulation cell*
-        # x, y, args, kwargs
         all_plots.append(
-            (volumes_dense, energies_dense, further_args, kwargs))
+            (volumes_dense, energies_dense, further_args, kwargs, left_min, left_min_y, right_min, right_min_y))
         if min_y is None:
             min_y = np.array(energies_dense).min()
         else:
             min_y = min(min_y, np.array(energies_dense).min())
 
     # Plot all, shifting on y AND PLOTTING QUANTITIES PER ATOM AND NOT PER UNIT CELL
-    for x, y, further_args, kwargs in all_plots:
+    for x, y, further_args, kwargs, left_min, left_min_y, right_min, right_min_y in all_plots:
         pl.plot(x / num_atoms_per_cell, (y - min_y)  / num_atoms_per_cell, *further_args, **kwargs)
+        if left_min is not None:
+            pl.plot([left_min / num_atoms_per_cell], [(left_min_y - min_y) / num_atoms_per_cell], 'x', color=kwargs['color'])
+        if right_min is not None:
+            pl.plot([right_min / num_atoms_per_cell], [(right_min_y - min_y) / num_atoms_per_cell], 'x', color=kwargs['color'])
 
     pl.xlabel('Volume per atom ($\AA^3$)')
     pl.ylabel('Free energy per atom (eV)')
