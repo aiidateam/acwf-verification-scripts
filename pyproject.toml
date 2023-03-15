@@ -27,7 +27,7 @@ dependencies = [
     "matplotlib",
     "tqdm",
     "ase",
-    "bokeh",
+    "bokeh<3",
     "selenium",
     "chromedriver-binary",
 #    "aiida-common-workflows @ git+https://github.com/aiidateam/aiida-common-workflows@v0.1.0",
