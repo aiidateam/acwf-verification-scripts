@@ -16,6 +16,7 @@ DEFAULT_wb1 = 1.0/400.0
 # Default prefactor if not indicated: 1.
 PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
+UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε', 'delta_per_formula_unit': 'Δ per formula unit', 'delta_per_formula_unit_over_b0': 'Δ/B₀ per formula unit'}
 EXCELLENT_AGREEMENT_THRESHOLD = {
     'nu': 0.1, 'epsilon': 0.07,
     'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
@@ -493,7 +494,7 @@ def plot_periodic_table(SET_NAME, QUANTITY):
         #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
 
         reference_label = 'all-electron average' if USE_AE_AVERAGE_AS_REFERENCE else REFERENCE_CODE_LABEL
-        p.title = f"{QUANTITY} for {plugin} vs. {reference_label}"
+        p.title = f"{UNICODE_QUANTITY[QUANTITY]} for {plugin} vs. {reference_label}"
         p.title.text_font_size = '16pt'
 
         color_bar = ColorBar(
