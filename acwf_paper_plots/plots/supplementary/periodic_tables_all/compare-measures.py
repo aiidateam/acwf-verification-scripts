@@ -117,8 +117,18 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
         "delta-vs-nu"
     ],        
 ]:
-    fig = pl.figure()
+    
+    if not LOGLOG and meas1 == 'epsilon' and meas2 == 'nu':
+        fig = pl.figure(figsize=(12,6))
+        pl.subplot(121)
+        print("HERE")
+    else:
+        fig = pl.figure()
+    all_data_x = []
+    all_data_y = []
     for method in all_methods:
+        all_data_x += flat_data[method][meas1]
+        all_data_y += flat_data[method][meas2]
         if LOGLOG:
             pl.loglog(flat_data[method][meas1], flat_data[method][meas2], '.', color='#2b8cbe', label=method)
         else:
@@ -126,6 +136,28 @@ for (meas1, meas1name), (meas2, meas2name), file_basename in [
     pl.xlabel(meas1name)
     pl.ylabel(meas2name)
     #pl.legend(loc='best')
+    if not LOGLOG and meas1 == 'epsilon' and meas2 == 'nu':
+        all_data_x = np.array(all_data_x)
+        all_data_y = np.array(all_data_y)
+        threshold = 1.
+        filter = np.copy(all_data_x < threshold)
+        all_data_x = all_data_x[filter]
+        all_data_y = all_data_y[filter]
+        pl.subplot(122)
+        pl.plot(all_data_x, all_data_y, '.', color='#2b8cbe')
+
+        # Linear fit, see https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html
+        A = np.vstack([all_data_x, np.ones(len(all_data_x))]).T
+        m, c = np.linalg.lstsq(A, all_data_y, rcond=None)[0]
+        print(f">> eps-vs-nu fit (on linear scale): nu = {m} * eps + {c}")
+        xmin, xmax = all_data_x.min(), all_data_x.max()
+        pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label=f'Fit (m={m:.4f}, c={c:.4f})')
+        m_theor = 2 * np.sqrt(7) / np.sqrt(10) #  ~1.67332
+        pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label=f'Theoretical (m={m_theor:.4f}, c=0)')
+        pl.xlim(0, threshold)
+        pl.ylim(0, threshold * m_theor)
+        pl.legend(loc='lower right')
+
 
     if not LOGLOG and meas1 == "delta_per_formula_unit_over_b0":
         xlim_max = 750
@@ -169,8 +201,8 @@ for xdata, xlabel, ydata, ylabel, filename in [
     [all_delta_subset_average, r"Average $\Delta$ per atom (on Science 2016 subset)", all_delta_average, r"Average $\Delta$ per atom (full set)", "average-delta-subset-vs-full-delta-on-science-subset.png"],
 ]:
     pl.figure()
-    print(xdata)
-    print(ydata)
+    #print(xdata)
+    #print(ydata)
     pl.plot(xdata, ydata, 'o')
     for label, x, y in zip(all_methods, xdata, ydata):
         pl.annotate(label, (x, y))
