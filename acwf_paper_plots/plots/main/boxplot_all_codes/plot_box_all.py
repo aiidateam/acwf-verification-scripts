@@ -6,6 +6,11 @@ import sys
 import copy
 import acwf_paper_plots.quantities_for_comparison as qc
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",
+})
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 DEFAULT_PREFACTOR = 100 # to convert from relative to % errors
@@ -59,12 +64,14 @@ QUANTITY_FANCY_NAMES = {
     'B1': "$B_1$"
 }
 
-ALL_ELECTRON_CODES = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
-
 DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
 code_labels = list(labels_data['methods-main'].keys())[::-1] # invert order because they are plot bottom to top, so we keep them alphabetical
+
+ALL_ELECTRON_CODES_SHORT = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
+ALL_ELECTRON_CODES = [labels_data['all-electron-keys'][short_label] for short_label in ALL_ELECTRON_CODES_SHORT]
+
 
 def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only_must_have_elements=None, keep_only_codes=None):
     """
@@ -210,6 +217,12 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
     for quantity_name, ax in zip(quantity_names, axes):
         quantity_values = [all_data[quantity_name][plugin_name]['values'] for plugin_name in used_code_labels]
     
+        fancy_labels = []
+        for label in used_code_labels:
+            code_label, sep, rest = label.partition('@')
+            # Use bold code name, and replace pipe as with OT1 font enc it is replaced by a dash
+            fancy_labels.append(rf'\textbf{{{code_label}}}{sep}{rest}'.replace('|', '$|$'))
+
         ax.boxplot(
             quantity_values,
             flierprops=FLIERPROPS,
@@ -218,10 +231,11 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
             medianprops=MEDIANPROPS,
             capprops=CAPPROPS,
             vert=False,
-            labels=used_code_labels
+            labels=fancy_labels
         )
-        ax.set_xlabel(f"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [%]",fontsize=14)
-        ax.tick_params(axis='both', which='major', labelsize=11)
+        ax.set_xlabel(rf"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [\%]",fontsize=14)
+        ax.tick_params(axis='x', which='major', labelsize=11)
+        ax.tick_params(axis='y', which='major', labelsize=9)
         ax.set_xlim(xlims[quantity_name][0],xlims[quantity_name][1])
 
         # Put a horizontal dashed line to separate all-electron codes from the rest

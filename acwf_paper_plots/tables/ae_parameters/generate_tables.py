@@ -21,12 +21,12 @@ def loop_over_configurations():
     Main function that reads the data and, for each set, calls the function that creates 
     the table.
     """
-    FLEUR_LABEL = "FLEUR"
-    WIEN2k_LABEL = "WIEN2k"
     DATA_FOLDER = "../../code-data"
     with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
         labels_data = json.load(fhandle)
     reference_data_files = labels_data['references']['all-electron average']
+    FLEUR_LABEL = labels_data['all-electron-keys']["FLEUR"]
+    WIEN2k_LABEL = labels_data['all-electron-keys']["WIEN2k"]
     
 
     l=[0,0,0]

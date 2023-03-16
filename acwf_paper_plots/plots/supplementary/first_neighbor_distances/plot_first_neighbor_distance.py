@@ -211,10 +211,12 @@ if __name__ == "__main__":
     DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
+    FLEUR_LABEL = labels_data['all-electron-keys']["FLEUR"]
+    WIEN2k_LABEL = labels_data['all-electron-keys']["WIEN2k"]
 
-    with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['WIEN2k'][set_name])) as fhandle:
+    with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][WIEN2k_LABEL][set_name])) as fhandle:
             wien2k_data = json.load(fhandle)
-    with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['FLEUR'][set_name])) as fhandle:
+    with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][FLEUR_LABEL][set_name])) as fhandle:
             fleur_data = json.load(fhandle)
 
     fleur_alats = get_alat_from_raw_json(fleur_data)

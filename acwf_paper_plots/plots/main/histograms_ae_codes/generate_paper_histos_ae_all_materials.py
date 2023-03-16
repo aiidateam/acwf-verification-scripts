@@ -43,7 +43,8 @@ quantity_for_comparison_map = {
 DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
-
+FLEUR_LABEL = labels_data['all-electron-keys']["FLEUR"]
+WIEN2k_LABEL = labels_data['all-electron-keys']["WIEN2k"]
 
 def generate_histo(sets, name_file):
     """
@@ -53,7 +54,7 @@ def generate_histo(sets, name_file):
 
     for SET_NAME in sets:
 
-        with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['WIEN2k'][SET_NAME])) as fhandle:
+        with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][WIEN2k_LABEL][SET_NAME])) as fhandle:
             reference_plugin_data.append(json.load(fhandle))
  
         if not reference_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
@@ -62,7 +63,7 @@ def generate_histo(sets, name_file):
                 f"Please re-run ./get_results.py to update the data format for WIEN2k!"
                 )
 
-        with open(os.path.join(DATA_FOLDER, labels_data['methods-main']['FLEUR'][SET_NAME])) as fhandle:
+        with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][FLEUR_LABEL][SET_NAME])) as fhandle:
             compare_plugin_data.append(json.load(fhandle))
 
         if not compare_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:

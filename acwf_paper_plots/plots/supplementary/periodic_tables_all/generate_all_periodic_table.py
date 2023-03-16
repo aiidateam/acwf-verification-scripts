@@ -16,7 +16,10 @@ DEFAULT_wb1 = 1.0/400.0
 # Default prefactor if not indicated: 1.
 PREFACTOR_DICT = {'nu': 100.}
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
-UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε', 'delta_per_formula_unit': 'Δ per formula unit', 'delta_per_formula_unit_over_b0': 'Δ/B₀ per formula unit'}
+# NOTE! in the code, I call the function e.g. 'delta_per_formula_unit', but in reality I then already divide by
+# the number of atoms in the formula unit, so the numbers I get are per atom.
+# Therefore, the UNICODE name has 'per atom' since it is shown in the final plot
+UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε', 'delta_per_formula_unit': 'Δ per atom', 'delta_per_formula_unit_over_b0': 'Δ/B₀ per atom'}
 EXCELLENT_AGREEMENT_THRESHOLD = {
     'nu': 0.1, 'epsilon': 0.06,
     'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
@@ -37,9 +40,9 @@ ONLY_CODES = None
 # # Whether to use
 # USE_AE_AVERAGE_AS_REFERENCE = False
 # # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
-# REFERENCE_CODE_LABEL = "FLEUR"
+# REFERENCE_CODE_LABEL = "FLEUR@LAPW+LO"
 # SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
-# ONLY_CODES = ['WIEN2k']
+# ONLY_CODES = ['WIEN2k@(L)APW+lo+LO']
 
 from bokeh.models import (
     ColumnDataSource,
@@ -171,6 +174,8 @@ def plot_periodic_table(SET_NAME, QUANTITY):
                     element, configuration
                 )
 
+            # Here I normalize quantities, so that they are now per atom and not per formula unit!
+            # This does not change anything for epsilon and nu, but changes for delta
             V0=ref_BM_fit_data['min_volume']/scaling_factor_ref
             B0=ref_BM_fit_data['bulk_modulus_ev_ang3']
             B01=ref_BM_fit_data['bulk_deriv']
@@ -195,6 +200,8 @@ def plot_periodic_table(SET_NAME, QUANTITY):
                     element, configuration
                 )
 
+            # Here I normalize quantities, so that they are now per atom and not per formula unit!
+            # This does not change anything for epsilon and nu, but changes for delta
             CV0=compare_BM_fit_data['min_volume']/scaling_factor_comp
             CB0=compare_BM_fit_data['bulk_modulus_ev_ang3']
             CB01=compare_BM_fit_data['bulk_deriv']

@@ -65,10 +65,10 @@ for l in overlapping_elements_str.splitlines():
     overlapping_elements[element] = {'structure': structure}
 
 DATA_FOLDER = "../../code-data"
-FLEUR_LABEL = "FLEUR"
-WIEN2k_LABEL = "WIEN2k"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
+FLEUR_LABEL = labels_data['all-electron-keys']["FLEUR"]
+WIEN2k_LABEL = labels_data['all-electron-keys']["WIEN2k"]
 
 with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][FLEUR_LABEL]["unaries"])) as fhandle:             
     raw = json.load(fhandle)

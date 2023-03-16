@@ -29,10 +29,10 @@ EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 # Whether to use
 USE_AE_AVERAGE_AS_REFERENCE = False
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
-REFERENCE_CODE_LABEL = "FLEUR"
+REFERENCE_CODE_LABEL = "FLEUR@LAPW+LO"
 SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
 EXCELLENT_AGREEMENT_THRESHOLD = {'nu': 0.1, 'epsilon': 0.06}
-ONLY_CODES = ['WIEN2k']
+ONLY_CODES = ['WIEN2k@(L)APW+lo+LO']
 UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε'}
 
 from bokeh.models import (
@@ -509,7 +509,9 @@ if __name__ == "__main__":
             show_(p)
         else:
             try:
-                export_png(p, filename=f"periodic-table-{SET_NAME}-{plugin.replace(' ', '_')}-vs-{reference_label.replace(' ', '_')}-{QUANTITY}.png")
+                export_png(p, filename=
+                           f"periodic-table-{SET_NAME}-{labels_data['methods-main'][plugin]['short_label'].replace(' ', '_')}-vs-"
+                           f"{labels_data['methods-main'][reference_label]['short_label'].replace(' ', '_')}-{QUANTITY}.png")
             except RuntimeError as exc:
                 msg = str(exc)
                 msg = f"""
