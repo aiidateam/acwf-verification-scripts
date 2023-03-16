@@ -210,7 +210,7 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
     
     n_quantities = len(quantity_names)
     # + 2 is to keep space for header and footer
-    fig_height = max((len(used_code_labels) + 2) * 0.45, 3) # Set min size of 3
+    fig_height = max((len(used_code_labels) + 2) * 0.45, 3) * 0.7 # Set min size of 3; rescaling factor to make it less wide
     fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, fig_height), sharey=True)
     axes = axes.flatten()
 
@@ -243,7 +243,7 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
 
     fig.suptitle(f"Materials set: {material_set_label}",fontsize=14, y=0.98)
     #fig.tight_layout()
-    fig.subplots_adjust(left=0.25, right=0.99, top=1., bottom=(1.1/(len(used_code_labels) + 2)), wspace=0.05)
+    fig.subplots_adjust(left=0.25, right=0.99, top=1., bottom=(1.8/(len(used_code_labels) + 2)), wspace=0.05)
     def make_space_above(axes, topmargin=1):
         """ increase figure size to make topmargin (in inches) space for 
             titles, without changing the axes sizes"""
