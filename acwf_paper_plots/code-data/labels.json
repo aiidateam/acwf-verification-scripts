@@ -43,7 +43,7 @@
             "unaries": "results-unaries-verification-PBE-v1-castep.json",
             "short_label": "CASTEP"
         },
-        "Quantum ESPRESSO@PW|SSSP-prec-1.2":{
+        "Quantum ESPRESSO@PW|SSSP-prec-v1.2":{
             "oxides": "results-oxides-verification-PBE-v1-quantum_espresso.json",
             "unaries": "results-unaries-verification-PBE-v1-quantum_espresso.json",
             "short_label": "QE"
