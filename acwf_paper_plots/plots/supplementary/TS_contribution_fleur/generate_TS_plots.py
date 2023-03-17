@@ -7,13 +7,25 @@ import numpy as np
 import pylab as pl
 import tqdm
 
-from eos_utils.eosfit_31_adapted import BM, echarge
-from quantities_for_comparison import birch_murnaghan, get_volume_scaling_to_formula_unit
-
-PLUGIN_NAME = 'fleur'
+from acwf_paper_plots.eosfit_31_adapted import BM, echarge
+from acwf_paper_plots.quantities_for_comparison import birch_murnaghan
 
 EXPECTED_SCRIPT_VERSION = '0.0.3'
 RESIDUALS_THRESHOLD = 1.e-3
+
+
+DATA_FOLDER = "../../../code-data"
+with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
+    labels_data = json.load(fhandle)
+FLEUR_LABEL = labels_data['all-electron-keys']['FLEUR']
+
+# ONLY_THESE_SYSTEMS = None # Run for all
+ONLY_THESE_SYSTEMS = [
+    ('Er', 'X/Diamond'),    
+    ('Cs', 'XO2'),
+    ('Rb', 'XO3')
+]
+
 
 def fit_eos_data(eos_data):
     # I need to pass a numpy array
@@ -41,18 +53,13 @@ def get_conf_nice(configuration_string):
     return "".join(ret_pieces)
 
 
-if __name__ == "__main__":
+def plot(SET_NAME):
+    # Load the TS data provided by FLEUR
     try:
-        SET_NAME = sys.argv[1]
-    except IndexError:
-        print("Pass as first parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-verification-PBE-v1")
-        sys.exit(1)
-
-    try:
-        with open(f'ts_contributions-{SET_NAME}-{PLUGIN_NAME}.json') as fhandle:
+        with open(f'TS_data_fleur/ts_contributions-{SET_NAME}-verification-PBE-v1-fleur.json') as fhandle:
             reference_plugin_data = json.load(fhandle)
     except OSError:
-        print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
+        print(f"No TS data found for FLEUR")
         sys.exit(1)
     
     if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
@@ -60,7 +67,7 @@ if __name__ == "__main__":
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             "Please re-run ./get_results.py to update the data format!")
 
-    PLOT_FOLDER = f'TS-plots-{SET_NAME}-{PLUGIN_NAME}'
+    PLOT_FOLDER = f'TS-plots-{SET_NAME}-fleur'
     os.makedirs(PLOT_FOLDER, exist_ok=True)
 
     F_keys = set(reference_plugin_data['free_energy_data'].keys())
@@ -73,6 +80,10 @@ if __name__ == "__main__":
         progress_bar.refresh()
 
         element, configuration = element_and_configuration.split('-')
+
+        if (element, configuration) not in ONLY_THESE_SYSTEMS:
+            continue
+
         F_data = np.array(reference_plugin_data['free_energy_data'][f'{element}-{configuration}'])
         TS_data = np.array(reference_plugin_data['ts_contribution'][f'{element}-{configuration}'])
 
@@ -123,15 +134,15 @@ if __name__ == "__main__":
 
         # Plot EOS: this will be done anyway
         eos_ax.plot(volumes, free_energies - BM_fit_data_free_energy['E0'], 'ob', label=f'E-TS')
-        eos_ax.plot(dense_volumes, fitted_free_energy - BM_fit_data_free_energy['E0'], '-b', label=f'E-TS fit (residuals: {residuals_free_energy:.3g})')
+        eos_ax.plot(dense_volumes, fitted_free_energy - BM_fit_data_free_energy['E0'], '-b', label=f'E-TS fit')# (residuals: {residuals_free_energy:.3g})')
         eos_ax.axvline(BM_fit_data_free_energy['min_volume'], linestyle='--', color='b', alpha=0.5)
 
         eos_ax.plot(volumes, free_energies + TS_contrib / 2  - BM_fit_data_E_minus_TS_half['E0'], 'xg', label=f'E - TS/2')
-        eos_ax.plot(dense_volumes, fitted_E_minus_TS_half - BM_fit_data_E_minus_TS_half['E0'], '-g', label=f'E - TS/2 fit (residuals: {residuals_E_minus_TS_half:.3g})')
+        eos_ax.plot(dense_volumes, fitted_E_minus_TS_half - BM_fit_data_E_minus_TS_half['E0'], '-g', label=f'E - TS/2 fit')# (residuals: {residuals_E_minus_TS_half:.3g})')
         eos_ax.axvline(BM_fit_data_E_minus_TS_half['min_volume'], linestyle='--', color='g', alpha=0.5)
 
         eos_ax.plot(volumes, free_energies + TS_contrib - BM_fit_data_E['E0'], 'sr', label=f'E')
-        eos_ax.plot(dense_volumes, fitted_E - BM_fit_data_E['E0'], '-r', label=f'E fit (residuals: {residuals_E:.3g})')
+        eos_ax.plot(dense_volumes, fitted_E - BM_fit_data_E['E0'], '-r', label=f'E fit')# (residuals: {residuals_E:.3g})')
         eos_ax.axvline(BM_fit_data_E['min_volume'], linestyle='--', color='r', alpha=0.5)
         
         eos_ax.legend(loc='upper center')
@@ -146,9 +157,13 @@ if __name__ == "__main__":
         #    eos_ax.set_facecolor(LIGHTORANGE)
 
         conf_nice = get_conf_nice(configuration)
-        fig.suptitle(f"{PLUGIN_NAME} - {element} ({conf_nice})")
+        fig.suptitle(f"FLEUR - {element} ({conf_nice})")
 
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.pdf")
         pl.close(fig)
 
     print(f"Plots written to: '{PLOT_FOLDER}'")
+
+if __name__ == "__main__":
+    plot("unaries")
+    plot("oxides")
