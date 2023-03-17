@@ -287,16 +287,16 @@ if __name__ == "__main__":
         material_set_label = "Delta set (Science 2016)"
     elif elements == 'up-to-Bi-no-lanthanides':
         chemical_numbers = list(range(1, 56+1)) +  list(range(72, 83+1))
-        material_set_label = "Z=1-56,72-83"
+        material_set_label = "Z=1-56,72-83 (H to Ba, and Hf to Bi)"
     elif elements == 'no-actinides':
         chemical_numbers = list(range(1, 88+1))
         material_set_label = "Z=1-88"
     elif elements == 'only-actinides':
         chemical_numbers = list(range(84, 96+1))
-        material_set_label = "Z=84-96"
+        material_set_label = "Z=84-96 (Po to Cm)"
     elif elements == 'only-lanthanides':
         chemical_numbers = list(range(57, 71+1))
-        material_set_label = "Z=57-71"
+        material_set_label = "Z=57-71 (lanthanides: La to Lu)"
     else:
         print(
             "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "
