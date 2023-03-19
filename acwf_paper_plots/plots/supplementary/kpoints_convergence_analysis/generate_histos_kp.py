@@ -15,8 +15,8 @@ BINS = 100
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
 DEFAULT_wb1 = 1.0/64.0
-LIMITS = {"V0_rel_diff":0.03,"B0_rel_diff":0.25,"B1_rel_diff":2.5}
-
+#LIMITS = {"V0_rel_diff":0.03,"B0_rel_diff":0.25,"B1_rel_diff":2.5}
+LIMITS = {"V0_rel_diff":0.15,"B0_rel_diff":1,"B1_rel_diff":5}
 
 quantity_for_comparison_map = {
     "B0_rel_diff": qc.B0_rel_diff,
@@ -24,47 +24,46 @@ quantity_for_comparison_map = {
     "B1_rel_diff": qc.B1_rel_diff,
 }
 
+QUANTITY_FANCY_NAMES = {
+    'B0': "$B_0$",
+    'V0': "$V_0$",
+    'B1': "$B_1$"
+}
+
 
 if __name__ == "__main__":
+
+    fig, ax = pl.subplots(1, 3, figsize=(18,6))
+    SMALL_SIZE = 22
+    MEDIUM_SIZE = 24
+    BIGGER_SIZE = 28
+
+    pl.rc('font', size=SMALL_SIZE)# controls default text sizes
+    pl.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+    pl.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+    pl.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+    pl.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+    pl.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+    pl.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
    
+    for indx, QUANTITY in enumerate(["V0_rel_diff","B0_rel_diff","B1_rel_diff"]):
+        collect = []
 
-    for set_name in ['unaries','oxides']:
-        
-        with open(f'../../../code-data/results-{set_name}-verification-PBE-v1-wien2k-dk_0.06.json') as fhandle:
-            reference_plugin_data = json.load(fhandle)
+        for set_name in ['unaries','oxides']:
+            
+            with open(f'results-{set_name}-006.json') as fhandle:
+                reference_plugin_data = json.load(fhandle)
 
-        compare_plugin_data = []
-        with open(f'results-{set_name}-0045.json') as fhandle:
-            compare_plugin_data.append(json.load(fhandle))
+            compare_plugin_data = []
+            with open(f'results-{set_name}-0045.json') as fhandle:
+                compare_plugin_data.append(json.load(fhandle))
 
-        name_file = f'histo-{set_name}.pdf'
-
-        all_systems = set(reference_plugin_data['eos_data'].keys())
-        all_systems = set(reference_plugin_data['BM_fit_data'].keys())
-
-        # Plotting
-        fig, ax = pl.subplots(1, 3, figsize=(18,6))
-
-        SMALL_SIZE = 22
-        MEDIUM_SIZE = 24
-        BIGGER_SIZE = 28
-
-        pl.rc('font', size=SMALL_SIZE)# controls default text sizes
-        pl.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
-        pl.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
-        pl.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-        pl.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-        pl.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
-        pl.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
-
-        
-        for indx, QUANTITY in enumerate(["V0_rel_diff","B0_rel_diff","B1_rel_diff"]):
+            all_systems = set(reference_plugin_data['eos_data'].keys())
+            all_systems = set(reference_plugin_data['BM_fit_data'].keys())
 
             print(f'{set_name} {QUANTITY}')
 
             for index, compare_plugin in enumerate(compare_plugin_data):
-
-                collect = []
 
                 progress_bar = tqdm.tqdm(sorted(all_systems))
                 
@@ -111,41 +110,40 @@ if __name__ == "__main__":
 
                     collect.append(quant)
 
-                sta_dev = np.std(np.array(collect))
-                lim = LIMITS[QUANTITY]
-                mean = np.mean(collect)
-                #std = np.std(collect)
+        sta_dev = np.std(np.array(collect))
+        lim = LIMITS[QUANTITY]
+        mean = np.mean(collect)
+        #std = np.std(collect)
 
-
-                hist_y, bins, patches = ax[indx].hist(collect, bins=BINS, range=[-lim,lim], alpha=0.5)
-                countBig = 0
-                countSmall = 0
-                for alls in collect:
-                    if alls > lim:
-                        countBig = countBig + 1
-                    if alls < -lim:
-                        countSmall = countSmall + 1
-                if countBig > 0:
-                    ax[indx].annotate(f"+{countBig}", xy=(lim, max(hist_y)/2), xytext=(0.5*lim, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
-                if countSmall:
-                    ax[indx].annotate(f"+{countSmall}", xy=(-lim, max(hist_y)/2), xytext=(-lim*0.8, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
+        hist_y, bins, patches = ax[indx].hist(collect, bins=BINS, range=[-lim,lim], alpha=0.5)
+        countBig = 0
+        countSmall = 0
+        for alls in collect:
+            if alls > lim:
+                countBig = countBig + 1
+            if alls < -lim:
+                countSmall = countSmall + 1
+        if countBig > 0:
+            ax[indx].annotate(f"+{countBig}", xy=(lim, max(hist_y)/2), xytext=(0.5*lim, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
+        if countSmall:
+            ax[indx].annotate(f"+{countSmall}", xy=(-lim, max(hist_y)/2), xytext=(-lim*0.8, max(hist_y)/2), arrowprops=dict(facecolor='black', shrink=0.05))
                 
-                ax[indx].axvline(mean, color='b', linestyle=':')#, label=f"mean {round(mean,3)}, std {round(sta_dev,3)}")
+        ax[indx].axvline(mean, color='b', linestyle=':')#, label=f"mean {round(mean,3)}, std {round(sta_dev,3)}")
                 
-                # Reset the xlim
-                ax[indx].set_xlim([-lim, lim])
-                ax[indx].set_ylim([0,max(hist_y)+max(hist_y)/20])
-                ax[indx].annotate(f"mean {round(mean,3)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/10)) 
-                ax[indx].annotate(f"std {round(sta_dev,2)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/5))
+        # Reset the xlim
+        ax[indx].set_xlim([-lim, lim])
+        ax[indx].set_ylim([0,max(hist_y)+max(hist_y)/20])
+        ax[indx].annotate(f"Mean: {round(mean,3)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/10), fontsize=18) 
+        ax[indx].annotate(f"Stdev {round(sta_dev,2)}",xy=(-lim+lim/20,max(hist_y)-max(hist_y)/5), fontsize=18)
 
-                #ax[indx].legend(loc='upper center')
-                ax[indx].set_xlabel(f"% difference in {QUANTITY.strip('_rel_diff')}",fontsize=22)
-                ax[indx].set_ylabel("Frequency",fontsize=22)
-                ax[indx].tick_params(axis="x",labelsize=20)
-                ax[indx].tick_params(axis="y",labelsize=20)
-                #set(xlabel=f"{DEFAULT_PREFACTOR}*{QUANTITY}", ylabel='Frequency', Fontsize=30)
+        #ax[indx].legend(loc='upper center')
+        ax[indx].set_xlabel(f"{QUANTITY_FANCY_NAMES[QUANTITY.strip('_rel_diff')]} difference [%]",fontsize=22)
+        ax[indx].set_ylabel("Count",fontsize=SMALL_SIZE)
+        ax[indx].tick_params(axis="x",labelsize=SMALL_SIZE)
+        ax[indx].tick_params(axis="y",labelsize=SMALL_SIZE)
+        #set(xlabel=f"{DEFAULT_PREFACTOR}*{QUANTITY}", ylabel='Frequency', Fontsize=30)
         
-        fig.suptitle(f"WIEN2K kpoints mesh 0.06 vs 0.045 {set_name}")
-        fig.tight_layout()
-        fig.savefig(f"{name_file}")
-        pl.close(fig)
+    fig.suptitle(f"WIEN2K kpoints mesh 0.06 vs 0.045")
+    fig.tight_layout()
+    fig.savefig(f"histo-kp.pdf")
+    pl.close(fig)
