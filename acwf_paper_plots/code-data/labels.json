@@ -13,7 +13,7 @@
     },
     "methods-main":
     {
-        "ABINIT@PW|PseudoDojo-v0.5b":{
+        "ABINIT@PW|PseudoDojo-v0.5":{
             "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
             "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
             "short_label": "ABINIT"
