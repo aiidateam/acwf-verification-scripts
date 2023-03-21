@@ -369,7 +369,6 @@ if __name__ == "__main__":
             p.outline_line_color = None
             p.background_fill_color = None
             p.border_fill_color = None
-            p.toolbar_location = "above"
             p.quad(left="left", right="group", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_dia")
             p.quad(left="left", right="group", top="top", bottom="period", source=source, alpha=alpha, color="type_color_sc")
             p.quad(left="group", right="right", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_bcc")
@@ -430,7 +429,6 @@ if __name__ == "__main__":
             p.outline_line_color = None
             p.background_fill_color = None
             p.border_fill_color = None
-            p.toolbar_location = "above"
             p.quad(left="left", right="group", top="top", bottom="midup", source=source, alpha=alpha, color="type_color_X2O3")
             p.quad(left="left", right="group", top="midup", bottom="middown", source=source, alpha=alpha, color="type_color_X2O")
             p.quad(left="left", right="group", top="middown", bottom="bottom", source=source, alpha=alpha, color="type_color_XO3")
