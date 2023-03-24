@@ -70,5 +70,20 @@
         }
     },
     "methods-supplementary": {
+        "ABINIT@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.4-PBE-SR-standard-psp8.json",
+            "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.4-PBE-SR-standard-psp8.json",
+            "short_label": "ABINIT"
+        },
+        "CASTEP@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "unaries": "results-unaries-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "short_label": "CASTEP"
+        },
+        "Quantum ESPRESSO@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-qauntum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "short_label": "QE"
+        }
     }
 }    
