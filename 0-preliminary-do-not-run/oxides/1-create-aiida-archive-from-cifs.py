@@ -27,7 +27,7 @@ for Z in range(1, 96+1):
             print(f"- Skipping import of {element_name}-{configuration} as node {structure_pk} exists already in the group")
             continue
         filename = f'cifs-{SET_NAME}/POSCAR_{element_name}_{configuration}.cif'
-        pmg_structure = pymatgen.Structure.from_file(filename)
+        pmg_structure = pymatgen.core.Structure.from_file(filename)
         structure = Structure(pymatgen=pmg_structure)
 
         if SET_NAME != "set1":
