@@ -118,9 +118,9 @@ def generate_plots(plugin1, plugin2, what, x_zoom_factor=1., abs_x_range=None):
 
     # Fit Gaussian and plot it
     hist_x = (bins[1:] + bins[:-1])/2
-    popt, pcov = curve_fit(gaussian, hist_x, hist_y, p0=[10., 0., 0.001])
+    #popt, pcov = curve_fit(gaussian, hist_x, hist_y, p0=[10., 0., 0.001])
     x = np.linspace(pl.xlim()[0], pl.xlim()[1], 1000)
-    sigma = abs(popt[2])
+    #sigma = abs(popt[2])
     ## NOTES ON THE RELATION BETWEEN THE SIGMA OF THE GAUSSIAN AND THE FWHM
     #  np.exp(-HWHM**2/(2*sigma**2)) = 1/2
     #  -HWHM**2/(2*sigma**2) = ln(1/2)
