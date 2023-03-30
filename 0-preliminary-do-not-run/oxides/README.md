@@ -12,3 +12,5 @@ only once, when the structures need to be imported.
 
 - `3-export_structure_group.sh`: this will generate the AiiDA archive file containing the structures and the group
 
+
+**Note2**: the original structure for the oxides are in cif format, we later on created a script to transform them is xsf
