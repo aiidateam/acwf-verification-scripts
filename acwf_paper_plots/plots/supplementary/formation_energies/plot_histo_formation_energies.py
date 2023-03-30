@@ -134,7 +134,7 @@ def generate_plots(plugin1, plugin2, what, x_zoom_factor=1., abs_x_range=None):
     pl.xlim(x[0], x[-1])
 
     pl.legend(loc='upper right')
-    pl.xlabel("Formation energy dissimilarity (eV/atom)")
+    pl.xlabel("Formation energy discrepancy (eV/atom)")
     pl.ylabel("Count")
     #pl.title(f"{plugin1} VS {plugin2} ({what})")
     pl.xlim(-half_range, half_range)
