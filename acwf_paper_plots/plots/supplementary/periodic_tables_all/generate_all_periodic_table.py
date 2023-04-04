@@ -34,7 +34,7 @@ PRINT_NON_EXCELLENT = False
 
 # As found in the paper, nu and eps can be roughly related via just a multiplication: nu=NU_EPS_FACTOR*eps
 # Use this to set a consistent maximum colorbar value
-NU_EPS_FACTOR=1.704
+NU_EPS_FACTOR=1.549
 
 ## IN ORDER TO PLOT ALL
 # Whether to use
@@ -228,8 +228,6 @@ def calculate_quantities(plugin_data, compare_plugin_data, QUANTITY):
 
 
 def create_periodic_table(collect, list_confs, short_labels, plugin, reference_short_label, unaries, SET_MAX_SCALE):
-
-    print(SET_MAX_SCALE)
 
     width = 1050
     cmap = "plasma"
@@ -637,8 +635,6 @@ def find_code_nu_colorbar_maximums(master_data_dict):
                         current_eps_max = NU_EPS_FACTOR*nu_colorbar_max[plugin]
                         # check which value is higher and convert back to nu
                         nu_colorbar_max[plugin] = max(current_eps_max, current_conf_max_val) / NU_EPS_FACTOR
-    
-    print(nu_colorbar_max)
 
     return nu_colorbar_max
     
