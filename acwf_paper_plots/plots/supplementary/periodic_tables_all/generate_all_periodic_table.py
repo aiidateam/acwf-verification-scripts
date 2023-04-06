@@ -36,14 +36,57 @@ PRINT_NON_EXCELLENT = False
 # Use this to set a consistent maximum colorbar value
 NU_EPS_FACTOR=1.549
 
+## --------------------------------------------------
 ## IN ORDER TO PLOT ALL
 # Whether to use
 USE_AE_AVERAGE_AS_REFERENCE = True
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
 REFERENCE_CODE_LABEL = None
-SET_MAX_SCALE_DICT = {}
-ONLY_CODES = None #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
+SKIP_PLOT_FOR_QUANTITIES = ['delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
+ONLY_CODES = None #["CASTEP@PW|C19MK2", "Quantum ESPRESSO@PW|SSSP-prec-v1.3"] #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
 
+# # OPTION 1: colorbar with fixed maximum and outliers highlighted
+# CMAP_TYPE = "simple"
+# SET_MAX_SCALE_DICT = {"nu": 1.0*NU_EPS_FACTOR, "epsilon":1.0}
+# OUTLIER_COLOR = "#140F0E" # dark gray
+
+# # OPTION 2: colorbar encompassing the whole data w colors matching quality thresholds  
+# CMAP_TYPE = "quality"
+# SET_MAX_SCALE_DICT = {"nu": "max", "epsilon": "max"}
+# OUTLIER_COLOR = None
+
+# # OPTION 3: colorbar maximum determined by the n*epsilon_average  
+# CMAP_TYPE = "simple"
+# SET_MAX_SCALE_DICT = {"nu": ("avg", 5), "epsilon": ("avg", 5)}
+# OUTLIER_COLOR = "#140F0E" # dark gray
+
+# OPTION 4:
+CMAP_TYPE = "quality"
+SET_MAX_SCALE_DICT = {"nu": 2.0*NU_EPS_FACTOR, "epsilon":2.0}
+OUTLIER_COLOR = "#bf0000" # darker red
+
+
+# For the Figure S39, hightlight some boxes
+# Note: This only works for unaries currently
+HIGHLIGHT = {}
+# HIGHLIGHT = {
+#     "unaries": {
+#         "epsilon" : {
+#             "CASTEP@PW|C19MK2": {
+#                 "X/FCC": ["Ne", "Al", "Ar", "Ca", "Cu", "Kr", "Sr", "Rh", "Pd", "Ag", "Xe", "Ir", "Pt", "Au", "Pb", "Rn"],
+#                 "X/BCC": ["K", "V", "Rb", "Nb", "Mo", "Cs", "Ba", "Ta", "W"],
+#                 "X/Diamond": ["Si", "Ge", "Sn"],
+#                 },
+#             "Quantum ESPRESSO@PW|SSSP-prec-v1.3": {
+#                 "X/FCC": ["Ne", "Al", "Ar", "Ca", "Cu", "Kr", "Sr", "Rh", "Pd", "Ag", "Xe", "Ir", "Pt", "Au", "Pb", "Rn"],
+#                 "X/BCC": ["K", "V", "Rb", "Nb", "Mo", "Cs", "Ba", "Ta", "W"],
+#                 "X/Diamond": ["Si", "Ge", "Sn"],
+#                 },
+#         }
+#     }
+# }
+
+# ## --------------------------------------------------
 # ## IN ORDER TO PLOT ONLY THE AE COMPARISON
 # # Whether to use
 # USE_AE_AVERAGE_AS_REFERENCE = False
@@ -63,7 +106,8 @@ from bokeh.plotting import figure, output_file
 from bokeh.io import show as show_, export_png
 from bokeh.sampledata.periodic_table import elements
 from bokeh.transform import dodge
-from matplotlib.colors import Normalize, LogNorm, to_hex
+from bokeh.colors import RGB
+from matplotlib.colors import Normalize, LogNorm, to_hex, LinearSegmentedColormap
 from matplotlib.cm import (
     plasma,
     inferno,
@@ -77,6 +121,87 @@ from pandas import options
 from typing import List
 import warnings
 from bokeh.io import export_svg
+
+def make_quality_matching_cmap(exc_thresh, good_thresh, max_val):
+    """
+    Custom colormap matching the excellent/good/bad thresholds
+    """
+
+    # cvals  = [0.0, exc_thresh, good_thresh, 3*good_thresh]
+    # colors = ["darkgreen","lime","white", "red"]
+    # if max_val > 3*good_thresh:
+    #     cvals.append(max_val)
+    #     colors.append("#140F0E") # dark gray
+
+    #cvals  = [0.0, exc_thresh, good_thresh, max_val]
+    #colors = ["darkgreen","lime","white", "red"]
+
+    # colorblind version from https://www.datylon.com/blog/data-visualization-for-colorblind-readers
+    #colors = ["#1F449C","#3D65A5","white", "#F05039"]
+
+    # colorblind version higher contrast
+    #colors = ["#0000d4","#3b3bff","white", "red"]
+
+    # colorblind version with a jump at excellent threshold and
+    # extending the colorbar over the maximum accompanying with a jump to dark red
+    cvals  = [0.0, exc_thresh-0.01, exc_thresh, good_thresh, max_val, max_val+0.01, 1.04*max_val]
+    #colors = ["#0000be", "#0000be", "#3a50de","white", "#f53216", "#bf0000", "#bf0000"]
+    #colors = ["#0000be", "#0000be", "#3a50de","#dbdbdb", "#f53216", "#bf0000", "#bf0000"]
+    colors = ["#0000be", "#0000be", "#3a50de","#ffffb8", "#f53216", "#bf0000", "#bf0000"]
+
+    norm = Normalize(min(cvals),max(cvals))
+    tuples = list(zip(map(norm,cvals), colors))
+    cmap = LinearSegmentedColormap.from_list("", tuples)
+
+    # also create corresponding bokeh colormappable for the colorbar
+    custom_rgb = (255 * cmap(range(256))).astype('int')
+    bokeh_palette = [RGB(*tuple(rgb)).to_hex() for rgb in custom_rgb]
+
+    color_mapper = LinearColorMapper(
+                palette=bokeh_palette, low=min(cvals), high=max(cvals)
+            )
+
+    return norm, cmap, color_mapper
+
+def make_simple_cmap(data, high, min_data, cmap_name="plasma", log_scale=False):
+
+    cmap = None
+
+    # Assign color palette based on input argument
+    if cmap_name == "plasma":
+        cmap = plasma
+        bokeh_palette = "Plasma256"
+    elif cmap_name == "magma":
+        cmap = magma
+        bokeh_palette = "Magma256"
+    elif cmap_name == "viridis":
+        cmap = viridis
+        bokeh_palette = "Viridis256"
+    elif cmap_name == "inferno":
+        cmap = inferno
+        bokeh_palette = "Inferno256"
+    else:
+        raise ValueError("Unknown color map")
+
+    # Define matplotlib and bokeh color map
+    if log_scale:
+        for datum in data:
+            if datum < 0:
+                raise ValueError(
+                    f"Entry for element {datum} is negative but log-scale is selected"
+                )
+        color_mapper = LogColorMapper(
+            palette=bokeh_palette, low=min_data, high=high
+        )
+        norm = LogNorm(vmin=min_data, vmax=high)
+    else:
+        low = 0.
+        color_mapper = LinearColorMapper(
+            palette=bokeh_palette, low=low, high=high
+        )
+        norm = Normalize(vmin=low, vmax=high)
+
+    return norm, cmap, color_mapper
 
 
 def abs_V0_rel_diff(*args, **kwargs):
@@ -98,6 +223,8 @@ quantity_for_comparison_map = {
     "nu": qc.nu,
     "epsilon": qc.epsilon
 }
+
+outliers_dict = {}
 
 def load_data(SET_NAME):
 
@@ -225,43 +352,47 @@ def calculate_quantities(plugin_data, compare_plugin_data, QUANTITY):
 
     return collect
 
+def export_json_file(SET_NAME, QUANTITY, collect, list_confs, short_labels, plugin, reference_short_label):
+    # EXPORT JSON: a dictionary with key = element+config, value = measure
+    data_to_export = {}
+    for conf in list_confs:
+        
+        data_to_export.update(dict(zip(
+            (f'{element}-{conf}' for element in collect[conf]["elements"]),
+            collect[conf]["values"])))
+    with open(f"{QUANTITY}-{SET_NAME}-{short_labels[plugin].replace(' ', '_')}-vs-{reference_short_label.replace(' ', '_')}.json", 'w') as fhandle:
+        json.dump(data_to_export, fhandle)
 
-
-def create_periodic_table(collect, list_confs, short_labels, plugin, reference_short_label, unaries, SET_MAX_SCALE):
+def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels, plugin, reference_short_label, unaries, SET_MAX_SCALE):
 
     width = 1050
-    cmap = "plasma"
+    width_cbar = 80 # needs to be manually adjusted to make the quads square...
     alpha = 0.7
     extended = True
-    log_scale = False
     cbar_height = None
     cbar_standoff = 12
     cbar_fontsize = 14
     blank_color = "#c4c4c4"
     under_value = None
     under_color = "#140F0E"
-    over_value = None
-    over_color = "#140F0E"
+
+    #over_value = None
+    over_value = SET_MAX_SCALE
+
+    over_color = OUTLIER_COLOR # "#140F0E"
     special_elements = None
     special_color = "#6F3023"
 
+    # following is only used for "simple" colormap
+    cmap_name = "plasma"
+    log_scale = False
+
     options.mode.chained_assignment = None
 
-    # Assign color palette based on input argument
-    if cmap == "plasma":
-        cmap = plasma
-        bokeh_palette = "Plasma256"
-    elif cmap == "magma":
-        cmap = magma
-        bokeh_palette = "Magma256"
-    elif cmap == "viridis":
-        cmap = viridis
-        bokeh_palette = "Viridis256"
-    elif cmap == "inferno":
-        cmap = inferno
-        bokeh_palette = "Inferno256"
-    else:
-        raise ValueError("Unknown color map")
+    if plugin not in outliers_dict:
+        outliers_dict[plugin] = {}
+    if QUANTITY not in outliers_dict[plugin]:
+        outliers_dict[plugin][QUANTITY] = []
 
     # Define number of and groups
     period_label = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -294,21 +425,12 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
         min_data = max_data
 
     color_list={}
+    highlight_list = {}
 
     if SET_MAX_SCALE:
         high = SET_MAX_SCALE
     else:
         high = max_data
-
-    # EXPORT JSON: a dictionary with key = element+config, value = measure
-    data_to_export = {}
-    for conf in list_confs:
-        
-        data_to_export.update(dict(zip(
-            (f'{element}-{conf}' for element in collect[conf]["elements"]),
-            collect[conf]["values"])))
-    with open(f"{QUANTITY}-{SET_NAME}-{short_labels[plugin].replace(' ', '_')}-vs-{reference_short_label.replace(' ', '_')}.json", 'w') as fhandle:
-        json.dump(data_to_export, fhandle)
 
     non_excellent = []
     tot_count = 0
@@ -320,29 +442,24 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
         if len(data) != len(data_elements):
             raise ValueError("Unequal number of atomic elements and data points")
 
-        # Define matplotlib and bokeh color map
-        if log_scale:
-            for datum in data:
-                if datum < 0:
-                    raise ValueError(
-                        f"Entry for element {datum} is negative but log-scale is selected"
-                    )
-            color_mapper = LogColorMapper(
-                palette=bokeh_palette, low=min_data, high=high
+        if CMAP_TYPE == "simple":
+            norm, cmap, color_mapper = make_simple_cmap(data, high, min_data, cmap_name=cmap_name, log_scale=log_scale)
+        elif CMAP_TYPE == "quality":
+            norm, cmap, color_mapper = make_quality_matching_cmap(
+                EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY],
+                GOOD_AGREEMENT_THRESHOLD[QUANTITY],
+                high
             )
-            norm = LogNorm(vmin=min_data, vmax=high)
         else:
-            low = 0.
-            color_mapper = LinearColorMapper(
-                palette=bokeh_palette, low=low, high=high
-            )
-            norm = Normalize(vmin=low, vmax=high)
-            
+            raise ValueError("Unknown colormap type!")
+
         color_scale = ScalarMappable(norm=norm, cmap=cmap).to_rgba(data, alpha=None)
 
         # Set blank color
         color_list[conf] = [blank_color] * len(elements)
 
+        # list of line widths for highlight
+        highlight_list[conf] = [0] * len(elements)
 
         # Compare elements in dataset with elements in periodic table
         for i, data_element in enumerate(data_elements):
@@ -363,11 +480,19 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
                 color_list[conf][element_index] = to_hex(color_scale[i])
             if data[i] > high:
                 print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")
+                outliers_dict[plugin][QUANTITY].append((conf.replace("X", data_element), data[i]))
+
             if data[i] > EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]:
                 non_excellent.append(f"{data_element}({conf})")
+            
+            try:                
+                highlight = data_element in HIGHLIGHT[SET_NAME][QUANTITY][plugin][conf]
+                highlight_list[conf][element_index] = 1.0 if highlight else 0.0
+            except KeyError:
+                pass
+            
     if PRINT_NON_EXCELLENT:
         print(f">>> Non excellent agreement ({QUANTITY} >= {EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]}) for {len(non_excellent)}/{tot_count} systems: {','.join(non_excellent)}")
-
 
     if unaries:
         # Define figure properties for visualizing data
@@ -385,11 +510,15 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
                 type_color_sc=color_list["X/SC"],
                 type_color_bcc=color_list["X/BCC"],
                 type_color_fcc=color_list["X/FCC"],
+                la_dia=highlight_list["X/Diamond"],
+                la_sc=highlight_list["X/SC"],
+                la_bcc=highlight_list["X/BCC"],
+                la_fcc=highlight_list["X/FCC"],
             )
         )
 
         # Plot the periodic table
-        p = figure(x_range=[0,19], y_range=[11,0], tools="save")
+        p = figure(x_range=[0,19], y_range=[11,0], tools="save", match_aspect=True)
         p.toolbar.logo = None
         p.toolbar.tools = []
         p.toolbar_location = None
@@ -398,10 +527,30 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
         p.background_fill_color = None
         p.border_fill_color = None
         p.toolbar_location = "above"
-        p.quad(left="left", right="group", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_dia")
-        p.quad(left="left", right="group", top="top", bottom="period", source=source, alpha=alpha, color="type_color_sc")
-        p.quad(left="group", right="right", top="period", bottom="bottom", source=source, alpha=alpha, color="type_color_bcc")
-        p.quad(left="group", right="right", top="top", bottom="period", source=source, alpha=alpha, color="type_color_fcc")
+        quad_args = {
+            "source": source,
+            "alpha": alpha,
+        }
+        p.quad(left="left", right="group", top="period", bottom="bottom", color="type_color_dia", **quad_args)
+        p.quad(left="left", right="group", top="top", bottom="period", color="type_color_sc", **quad_args)
+        p.quad(left="group", right="right", top="period", bottom="bottom", color="type_color_bcc", **quad_args)
+        p.quad(left="group", right="right", top="top", bottom="period", color="type_color_fcc", **quad_args)
+        # border around each box:
+        p.quad(left="left", right="right", top="top", bottom="bottom", line_width=1, line_color="#b5b5b5", fill_color=None, source=source)
+        # separate boxes for highlight border
+        # very hacky but otherwise the colors are overlapping on the highlight border and it doesn't look nice
+        quad_args_hl = {
+            "source": source,
+            "alpha": alpha,
+            "line_color": "lime",
+            "line_width": 5,
+            "color": None,
+        }
+        p.quad(left="left", right="group", top="period", bottom="bottom", line_alpha="la_dia", **quad_args_hl)
+        p.quad(left="left", right="group", top="top", bottom="period", line_alpha="la_sc", **quad_args_hl)
+        p.quad(left="group", right="right", top="period", bottom="bottom", line_alpha="la_bcc", **quad_args_hl)
+        p.quad(left="group", right="right", top="top", bottom="period", line_alpha="la_fcc", **quad_args_hl)
+
         p.axis.visible = False
 
         #The reference block
@@ -454,17 +603,25 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
         p.toolbar.logo = None
         p.toolbar.tools = []
         p.toolbar_location = None
-        p.plot_width = width
+        p.plot_width = width - width_cbar
         p.outline_line_color = None
         p.background_fill_color = None
         p.border_fill_color = None
         p.toolbar_location = "above"
-        p.quad(left="left", right="group", top="top", bottom="midup", source=source, alpha=alpha, color="type_color_X2O3")
-        p.quad(left="left", right="group", top="midup", bottom="middown", source=source, alpha=alpha, color="type_color_X2O")
-        p.quad(left="left", right="group", top="middown", bottom="bottom", source=source, alpha=alpha, color="type_color_XO3")
-        p.quad(left="group", right="right", top="top", bottom="midup", source=source, alpha=alpha, color="type_color_X2O5")
-        p.quad(left="group", right="right", top="midup", bottom="middown", source=source, alpha=alpha, color="type_color_XO2")
-        p.quad(left="group", right="right", top="middown", bottom="bottom", source=source, alpha=alpha, color="type_color_XO")
+        quad_args = {
+            "source": source,
+            "alpha": alpha,
+        #    "line_width": 1,
+        #    "line_color": "#b5b5b5",
+        }
+        p.quad(left="left", right="group", top="top", bottom="midup", color="type_color_X2O3", **quad_args)
+        p.quad(left="left", right="group", top="midup", bottom="middown", color="type_color_X2O", **quad_args)
+        p.quad(left="left", right="group", top="middown", bottom="bottom", color="type_color_XO3", **quad_args)
+        p.quad(left="group", right="right", top="top", bottom="midup", color="type_color_X2O5", **quad_args)
+        p.quad(left="group", right="right", top="midup", bottom="middown", color="type_color_XO2", **quad_args)
+        p.quad(left="group", right="right", top="middown", bottom="bottom", color="type_color_XO", **quad_args)
+        # border around each box:
+        p.quad(left="left", right="right", top="top", bottom="bottom", line_width=1, line_color="#b5b5b5", fill_color=None, **quad_args)
         p.axis.visible = False
 
         #The reference block
@@ -528,7 +685,9 @@ def create_periodic_table(collect, list_confs, short_labels, plugin, reference_s
     if cbar_height is not None:
         color_bar.height = cbar_height
 
-    p.add_layout(color_bar, "right")
+    # Skip the colorbar for oxides
+    if unaries:
+        p.add_layout(color_bar, "right")
     p.grid.grid_line_color = None
 
         # Open in a browser
@@ -563,7 +722,7 @@ in this case udpate it).
 
 
 
-def plot_periodic_tables(SET_NAME, QUANTITY, nu_colorbar_max, master_data_dict):
+def plot_periodic_tables(SET_NAME, QUANTITY, measures_max_and_avg, master_data_dict):
 
 
     ld = master_data_dict[SET_NAME]["loaded_data"]
@@ -583,27 +742,52 @@ def plot_periodic_tables(SET_NAME, QUANTITY, nu_colorbar_max, master_data_dict):
             unaries = False
             list_confs = ["X2O3","X2O5","X2O","XO2","XO3","XO"]
 
-        SET_MAX_SCALE = SET_MAX_SCALE_DICT.get(QUANTITY, None)
+        export_json_file(SET_NAME, QUANTITY, collect, list_confs, ld["short_labels"], plugin, ld["reference_short_label"])
 
-        if SET_MAX_SCALE == None:
-            # Unless user defined a max scale, read a consistent one for NU/EPS from nu_colorbar_max
+        if QUANTITY in SKIP_PLOT_FOR_QUANTITIES:
+            continue
+
+        ### Determine maximum scale for the colorbar
+        if QUANTITY not in SET_MAX_SCALE_DICT:
+            # 0. Default (None) will take the data maximum of each periodic table separately
+            SET_MAX_SCALE = None
+        elif isinstance(SET_MAX_SCALE_DICT[QUANTITY], (int, float)):
+            # 1. User defined a fixed maximum
+            SET_MAX_SCALE = SET_MAX_SCALE_DICT[QUANTITY]
+        elif SET_MAX_SCALE_DICT[QUANTITY] == 'max':
+            # 2. consistent maximum for NU/EPS
+            nu_max = measures_max_and_avg[plugin]["nu"]["max"]
+            eps_max = measures_max_and_avg[plugin]["epsilon"]["max"]
+            effective_nu_max = max(nu_max, NU_EPS_FACTOR * eps_max)
+
             if QUANTITY == "nu":
-                SET_MAX_SCALE = nu_colorbar_max[plugin]
+                SET_MAX_SCALE = effective_nu_max
             elif QUANTITY == "epsilon":
-                SET_MAX_SCALE = nu_colorbar_max[plugin] / NU_EPS_FACTOR
+                SET_MAX_SCALE = effective_nu_max / NU_EPS_FACTOR
 
-        create_periodic_table(collect, list_confs, ld["short_labels"], plugin, ld["reference_short_label"], unaries, SET_MAX_SCALE)
+        elif isinstance(SET_MAX_SCALE_DICT[QUANTITY], tuple) and SET_MAX_SCALE_DICT[QUANTITY][0] == "avg":
+            # 3. take the N*avg epsilon and use that for the maximum of NU and EPS
+            n = SET_MAX_SCALE_DICT[QUANTITY][1]
+            eps_max_scale = n*measures_max_and_avg[plugin]["epsilon"]["avg"]
+            if QUANTITY == "nu":
+                SET_MAX_SCALE = eps_max_scale * NU_EPS_FACTOR
+            elif QUANTITY == "epsilon":
+                SET_MAX_SCALE = eps_max_scale
+        else:
+            raise ValueError("Unknown max scale type!")
+
+        create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, ld["short_labels"], plugin, ld["reference_short_label"], unaries, SET_MAX_SCALE)
 
 
-def find_code_nu_colorbar_maximums(master_data_dict):
+def find_code_measures_max_and_avg(master_data_dict):
     """
     For every code, we plot 4 periodic tables: unaries and oxides for nu and epsilon.
-    Set the maximum color scale such that
-    * the same quantity always has the same color maximum within the code
-    * the colorbar maximum follows the relation found in the paper of nu=NU_EPS_FACTOR*eps
+
+    Calculate the maximum and average of each code for each quantity over all the unaries
+    and oxides to allow later for multiple colorscale options
     """
 
-    nu_colorbar_max = {}
+    tmp = {}
 
     for SET_NAME in ['unaries', 'oxides']:
 
@@ -613,37 +797,59 @@ def find_code_nu_colorbar_maximums(master_data_dict):
 
             for plugin, plugin_data in ld["code_results"].items():
 
-                if plugin not in nu_colorbar_max:
-                    nu_colorbar_max[plugin] = 0.0
+                if plugin not in tmp:
+                    tmp[plugin] = {}
+                if QUANTITY not in tmp[plugin]:
+                    tmp[plugin][QUANTITY] = {"max": 0.0, "total": 0.0, "count": 0}
                 
                 collect = master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY][plugin]
 
-                # find the maximum in all of the collected data
-
+                # find the maximum and total/count in all of the collected data
                 for configuration, conf_data in collect.items():
-
                     if len(conf_data['values']) == 0:
                         continue
-
                     current_conf_max_val = max(conf_data['values'])
-                    
-                    if QUANTITY == "nu":
-                        nu_colorbar_max[plugin] = max(nu_colorbar_max[plugin], current_conf_max_val)
-                    elif QUANTITY == "eps":
+                    tmp[plugin][QUANTITY]["max"] = max(tmp[plugin][QUANTITY]["max"], current_conf_max_val)
+                    tmp[plugin][QUANTITY]["total"] += sum(conf_data['values'])
+                    tmp[plugin][QUANTITY]["count"] += len(conf_data['values'])
 
-                        # convert current max to eps
-                        current_eps_max = NU_EPS_FACTOR*nu_colorbar_max[plugin]
-                        # check which value is higher and convert back to nu
-                        nu_colorbar_max[plugin] = max(current_eps_max, current_conf_max_val) / NU_EPS_FACTOR
+    # build the final dict by calculating the avg
+    measures_max_and_avg = {}
+    for plugin in tmp:
+        measures_max_and_avg[plugin] = {}
+        for QUANTITY in tmp[plugin]:
+            measures_max_and_avg[plugin][QUANTITY] = {
+                "max": tmp[plugin][QUANTITY]["max"],
+                "avg": tmp[plugin][QUANTITY]["total"]/tmp[plugin][QUANTITY]["count"],
+            }
+    return measures_max_and_avg
 
-    return nu_colorbar_max
-    
+def export_outliers():
+    with open("outliers.txt", "a") as f:
+
+        def frm(s):
+            return '{0: >10}'.format(s)
+
+        # header
+        f.write(frm("eps_max"))
+        for plugin in outliers_dict:
+            f.write(frm(plugin[:8]))
+        f.write("\n")
+        
+        f.write(frm(SET_MAX_SCALE_DICT["epsilon"]))
+        for plugin in outliers_dict:
+            total = 0
+            for q in outliers_dict[plugin]:
+                total += len(outliers_dict[plugin][q])
+            f.write(frm(total))
+        f.write("\n")
+
 
 if __name__ == "__main__":
 
     SET_NAMES = ['unaries', 'oxides']
-    #QUANTITIES = ['epsilon', 'nu', 'delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
-    QUANTITIES = ['epsilon', 'nu']
+    QUANTITIES = ['epsilon', 'nu', 'delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
+    #QUANTITIES = ['epsilon', 'nu']
 
     master_data_dict = {}
 
@@ -656,17 +862,15 @@ if __name__ == "__main__":
         }
         for QUANTITY in QUANTITIES:
             master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY] = {}
-            print(ld["code_results"].keys())
             for plugin, plugin_data in ld["code_results"].items():
                 collect = calculate_quantities(plugin_data, ld["compare_plugin_data"], QUANTITY)
                 master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY][plugin] = collect
 
-        
-    print("Calculating a consistent colorbar scale for nu/eps.")
-    nu_colorbar_max = find_code_nu_colorbar_maximums(master_data_dict)
-
+    measures_max_and_avg = find_code_measures_max_and_avg(master_data_dict)
 
     print("Plotting the periodic tables.")
     for SET_NAME in SET_NAMES:
         for QUANTITY in QUANTITIES:
-            plot_periodic_tables(SET_NAME, QUANTITY, nu_colorbar_max, master_data_dict)
+            plot_periodic_tables(SET_NAME, QUANTITY, measures_max_and_avg, master_data_dict)
+
+    export_outliers()
