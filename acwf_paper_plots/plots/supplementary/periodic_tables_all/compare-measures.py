@@ -194,6 +194,10 @@ for LOGLOG in [True, False]:
             all_data_x = np.array(all_data_x)
             all_data_y = np.array(all_data_y)
 
+            print(f"EPS > 1: {sum(all_data_x > 1)}/{len(all_data_x)} ({100*sum(all_data_x > 1)/len(all_data_x):.1f}%)")
+            print(f"EPS > 2: {sum(all_data_x > 2)}/{len(all_data_x)} ({100*sum(all_data_x > 2)/len(all_data_x):.2f}%)")
+            # print(f"NU > 1.65: {sum(all_data_y > 1.65)}/{len(all_data_y)} ({100*sum(all_data_y > 1.65)/len(all_data_y):.1f}%)")
+
             # Theoretical fit
             m_theor =6. / np.sqrt(15) #  ~1.549
 
