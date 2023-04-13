@@ -147,7 +147,7 @@ for LOGLOG in [True, False]:
 
                 for m1_threshold, m2_threshold, color in [
                     (0.06, 0.1, 'green'),
-                    (0.2, 0.35, 'red'),
+                    (0.2, 0.33, 'red'),
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
@@ -169,7 +169,7 @@ for LOGLOG in [True, False]:
 
                 for m1_threshold, m2_threshold, color in [
                     (0.3, 0.1, 'green'),
-                    (0.95, 0.35, 'red'),
+                    (0.95, 0.33, 'red'),
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)

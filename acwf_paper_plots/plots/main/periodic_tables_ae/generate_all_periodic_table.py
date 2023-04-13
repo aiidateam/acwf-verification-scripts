@@ -30,7 +30,7 @@ EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 USE_AE_AVERAGE_AS_REFERENCE = False
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
 REFERENCE_CODE_LABEL = "FLEUR@LAPW+LO"
-SET_MAX_SCALE_DICT = {'nu': 0.350000000001, 'epsilon': 0.2}
+SET_MAX_SCALE_DICT = {'nu': 0.330000000001, 'epsilon': 0.2}
 EXCELLENT_AGREEMENT_THRESHOLD = {'nu': 0.1, 'epsilon': 0.06}
 ONLY_CODES = ['WIEN2k@(L)APW+lo+LO']
 UNICODE_QUANTITY = {'nu': 'ν', 'epsilon': 'ε'}
