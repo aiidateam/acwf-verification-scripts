@@ -54,6 +54,14 @@
             "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius.json",
             "short_label": "SIRIUS"
         },
+        "VASP+PAW54PBErecPOT+defCutoff":{
+            "unaries": "results-unaries-verification-PBE-v1-recPOTs-defaultENCUTs.json",
+            "short_label": "VASP-recPBE-defCutoff"
+        },
+        "VASP+PAW54PBErecPOT+800Cutoff":{
+            "unaries": "results-unaries-verification-PBE-v1-recPOTs-800ENCUTs.json",
+            "short_label": "VASP-recPBE-800Cutoff"
+        },
         "VASP+PAW54":{
             "oxides": "results-oxides-verification-PBE-v1-vasp.json",
             "unaries": "results-unaries-verification-PBE-v1-vasp.json",
