@@ -193,7 +193,11 @@ for LOGLOG in [True, False]:
         if not LOGLOG and meas1 == 'epsilon' and meas2 == 'nu':
             all_data_x = np.array(all_data_x)
             all_data_y = np.array(all_data_y)
-            threshold = 1.
+
+            # Theoretical fit
+            m_theor =6. / np.sqrt(15) #  ~1.549
+
+            threshold = 1/m_theor # So that we go up to nu ~= 1
             filter = np.copy(all_data_x < threshold)
             all_data_x = all_data_x[filter]
             all_data_y = all_data_y[filter]
@@ -209,7 +213,6 @@ for LOGLOG in [True, False]:
             print(f">> eps-vs-nu fit (on linear scale): nu = {m} * eps + {c}")
             xmin, xmax = all_data_x.min(), all_data_x.max()
             pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label='Linear fit') #label=f'Fit (m={m:.3f}, c={c:.3f})')
-            m_theor =6. / np.sqrt(15) #  ~1.549
             pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label='Theoretical relation')#label=f'Theoretical (m={m_theor:.3f}, c=0)')
             pl.xlim(0, threshold)
             pl.ylim(0, threshold * m_theor)

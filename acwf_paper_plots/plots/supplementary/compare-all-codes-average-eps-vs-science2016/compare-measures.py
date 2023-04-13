@@ -9,7 +9,7 @@ import acwf_paper_plots.quantities_for_comparison as qc
 DO_ZOOM_PANEL = False
 
 EXCELLENT_EPS_THR = 0.06
-GOOD_EPS_THR = 0.1
+GOOD_EPS_THR = 0.2
 
 
 # List of unaries that are from the Science 2016 paper that also in our set
@@ -127,6 +127,7 @@ ydata = all_eps_average
 ylabel = r"Average $\varepsilon$"
 filename = "average-eps-on-science-subset-vs-eps.pdf"
 fig = pl.figure(figsize=(5,5))
+ax = pl.subplot(111)
 #print(xdata)
 #print(ydata)
 pl.plot(xdata, ydata, 'o')
@@ -156,10 +157,15 @@ if DO_ZOOM_PANEL:
     ax2.set_ylim([0,0.15])
 
 
-pl.plot([EXCELLENT_EPS_THR, EXCELLENT_EPS_THR], [0., 0.3], '--', color='green')
+pl.plot([EXCELLENT_EPS_THR, EXCELLENT_EPS_THR], [0., 0.4], '--', color='green')
 pl.plot([0., EXCELLENT_EPS_THR], [EXCELLENT_EPS_THR, EXCELLENT_EPS_THR], '--', color='green')
-pl.plot([GOOD_EPS_THR, GOOD_EPS_THR], [0., 0.3], '--', color='red')
+pl.plot([GOOD_EPS_THR, GOOD_EPS_THR], [0., 0.4], '--', color='red')
 pl.plot([0., GOOD_EPS_THR], [GOOD_EPS_THR, GOOD_EPS_THR], '--', color='red')
+
+from matplotlib import patches
+e1 = patches.Rectangle((0., 0.2), width=0.2, height=0.2,
+                     linewidth=1, fill='#0000BB', alpha=0.2, zorder=2)
+ax.add_patch(e1)
 
 pl.savefig(filename)
 print(f"File '{filename}' written.")
