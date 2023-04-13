@@ -85,6 +85,16 @@
             "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf.json",
             "short_label": "QE"
         },
+        "Quantum ESPRESSO@PW|PseudoDojo-v0.4-trim":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf-trim.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf-trim.json",
+            "short_label": "QE"
+        },
+        "CASTEP@PW|PseudoDojo-v0.4-trim":{
+            "oxides": "results-oxides-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf-trim.json",
+            "unaries": "results-unaries-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf-trim.json",
+            "short_label": "CASTEP"
+        },
         "SIRIUS/CP2K@PW|SSSP-prec-v1.2":{
             "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
             "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
