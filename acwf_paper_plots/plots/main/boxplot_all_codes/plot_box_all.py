@@ -6,6 +6,11 @@ import sys
 import copy
 import acwf_paper_plots.quantities_for_comparison as qc
 
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",
+})
 
 EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 DEFAULT_PREFACTOR = 100 # to convert from relative to % errors
@@ -59,12 +64,14 @@ QUANTITY_FANCY_NAMES = {
     'B1': "$B_1$"
 }
 
-ALL_ELECTRON_CODES = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
-
 DATA_FOLDER = "../../../code-data"
 with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
     labels_data = json.load(fhandle)
 code_labels = list(labels_data['methods-main'].keys())[::-1] # invert order because they are plot bottom to top, so we keep them alphabetical
+
+ALL_ELECTRON_CODES_SHORT = ["FLEUR", "WIEN2k"][::-1] # Revert order as they are printed from top to bottom
+ALL_ELECTRON_CODES = [labels_data['all-electron-keys'][short_label] for short_label in ALL_ELECTRON_CODES_SHORT]
+
 
 def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only_must_have_elements=None, keep_only_codes=None):
     """
@@ -203,13 +210,19 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
     
     n_quantities = len(quantity_names)
     # + 2 is to keep space for header and footer
-    fig_height = max((len(used_code_labels) + 2) * 0.45, 3) # Set min size of 3
+    fig_height = max((len(used_code_labels) + 2) * 0.45, 3) * 0.7 # Set min size of 3; rescaling factor to make it less wide
     fig, axes = plt.subplots(1, n_quantities, dpi=300, figsize=(4 * n_quantities, fig_height), sharey=True)
     axes = axes.flatten()
 
     for quantity_name, ax in zip(quantity_names, axes):
         quantity_values = [all_data[quantity_name][plugin_name]['values'] for plugin_name in used_code_labels]
     
+        fancy_labels = []
+        for label in used_code_labels:
+            code_label, sep, rest = label.partition('@')
+            # Use bold code name, and replace pipe as with OT1 font enc it is replaced by a dash
+            fancy_labels.append(rf'\textbf{{{code_label}}}{sep}{rest}'.replace('|', '$|$'))
+
         ax.boxplot(
             quantity_values,
             flierprops=FLIERPROPS,
@@ -218,10 +231,11 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
             medianprops=MEDIANPROPS,
             capprops=CAPPROPS,
             vert=False,
-            labels=used_code_labels
+            labels=fancy_labels
         )
-        ax.set_xlabel(f"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [%]",fontsize=14)
-        ax.tick_params(axis='both', which='major', labelsize=11)
+        ax.set_xlabel(rf"{QUANTITY_FANCY_NAMES[quantity_name[-2:]]} difference [\%]",fontsize=14)
+        ax.tick_params(axis='x', which='major', labelsize=11)
+        ax.tick_params(axis='y', which='major', labelsize=9)
         ax.set_xlim(xlims[quantity_name][0],xlims[quantity_name][1])
 
         # Put a horizontal dashed line to separate all-electron codes from the rest
@@ -229,7 +243,7 @@ def generate_box_plt(set_names, file_name, material_set_label, file_suffix, only
 
     fig.suptitle(f"Materials set: {material_set_label}",fontsize=14, y=0.98)
     #fig.tight_layout()
-    fig.subplots_adjust(left=0.25, right=0.99, top=1., bottom=(1.1/(len(used_code_labels) + 2)), wspace=0.05)
+    fig.subplots_adjust(left=0.25, right=0.99, top=1., bottom=(1.8/(len(used_code_labels) + 2)), wspace=0.05)
     def make_space_above(axes, topmargin=1):
         """ increase figure size to make topmargin (in inches) space for 
             titles, without changing the axes sizes"""
@@ -273,16 +287,16 @@ if __name__ == "__main__":
         material_set_label = "Delta set (Science 2016)"
     elif elements == 'up-to-Bi-no-lanthanides':
         chemical_numbers = list(range(1, 56+1)) +  list(range(72, 83+1))
-        material_set_label = "Z=1-56,72-83"
+        material_set_label = "Z=1-56,72-83 (H to Ba, and Hf to Bi)"
     elif elements == 'no-actinides':
         chemical_numbers = list(range(1, 88+1))
         material_set_label = "Z=1-88"
     elif elements == 'only-actinides':
         chemical_numbers = list(range(84, 96+1))
-        material_set_label = "Z=84-96"
+        material_set_label = "Z=84-96 (Po to Cm)"
     elif elements == 'only-lanthanides':
         chemical_numbers = list(range(57, 71+1))
-        material_set_label = "Z=57-71"
+        material_set_label = "Z=57-71 (lanthanides: La to Lu)"
     else:
         print(
             "Pass as second parameter 'all' (atomic number 1-96), 'up-to-Bi-no-lanthanides' (1-56,71-83), "

@@ -21,12 +21,12 @@ def loop_over_configurations():
     Main function that reads the data and, for each set, calls the function that creates 
     the table.
     """
-    FLEUR_LABEL = "FLEUR"
-    WIEN2k_LABEL = "WIEN2k"
     DATA_FOLDER = "../../code-data"
     with open(os.path.join(DATA_FOLDER, "labels.json")) as fhandle:
         labels_data = json.load(fhandle)
     reference_data_files = labels_data['references']['all-electron average']
+    FLEUR_LABEL = labels_data['all-electron-keys']["FLEUR"]
+    WIEN2k_LABEL = labels_data['all-electron-keys']["WIEN2k"]
     
 
     l=[0,0,0]
@@ -61,8 +61,8 @@ def create_table(w, sett, configuration, fleur, wien2k, av, l):
             label_string = '(continued) '
         caption = f'\\caption{{{label_string}Table with all calculated \\gls{{eos}} parameters for the {sett} structures obtained with \\fleur{{}} and \\wientwok.}} \\\\ \n'
         w.write(caption)
-        w.write('& \\multicolumn{3}{c|}{ \\fleur } & \\multicolumn{3}{c|}{ \\wientwok } & \\multicolumn{3}{c|}{Relative difference} & \\multicolumn{3}{c}{ Average set }\\\\ \n')
-        w.write('& $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$]  & $B_1$ & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ & $V_0$ [\\%] & $B_0$ [\\%] & $B_1$  [\\%] & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ \\\\ \n' )
+        w.write('& \\multicolumn{3}{c|}{ \\fleur } & \\multicolumn{3}{c|}{ \\wientwok } & \\multicolumn{3}{c|}{Abs. percentage difference [\\%]} & \\multicolumn{3}{c}{ Average set }\\\\ \n')
+        w.write('& $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$]  & $B_1$ & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ & $|\\eta(V_0)|$ & $|\\eta(B_0)|$ & $|\\eta(B_1)|$ & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ \\\\ \n' )
         w.write('\\hline\n')
         if is_first:
             w.write('\\endfirsthead\n')

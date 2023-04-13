@@ -17,8 +17,18 @@ from acwf_paper_plots.quantities_for_comparison import birch_murnaghan
 
 eV_over_ang3_to_GPa = 160.21766208
 
+SMALL_SIZE = 18
+BIGGER_SIZE = 18
 
-def make_histograms(stats, bins, title, outlier_range=None, outlier_what=None, raw_data=None):
+plt.rc('font', size=SMALL_SIZE)# controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=BIGGER_SIZE)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
+plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+
+def make_histograms(stats, bins, fname, title, outlier_range=None, outlier_what=None, raw_data=None):
     """
     outlier_what should a valid key inside the raw data 'BM_fit_data' dictionaries, e.g. 'bulk_deriv'
     """
@@ -55,26 +65,28 @@ def make_histograms(stats, bins, title, outlier_range=None, outlier_what=None, r
         outlier_str = "-outliers-{outlier_what}-{outlier_range[0]}-{outlier_range[1]}"
 
     plt.hist(B0V0,bins=bins, range=(0, 100))
-    plt.xlabel(r'absDevB0/absDevV0')
-    plt.savefig(f'B0V0_{title}_hist{outlier_str}.png',
+    plt.xlabel(r'$\bar \eta_{B_0}/\bar \eta_{V_0}$')
+    plt.title(title)    
+    plt.savefig(f'B0V0_{fname}_hist{outlier_str}.png',
                 dpi=300,
                 orientation='landscape',
                 bbox_inches='tight')
     plt.clf()
     plt.hist(B1V0,bins=bins, range=(0, 1000))
-    plt.xlabel(r'absDevB1/absDevV0')
-    plt.savefig(f'B1V0_{title}_hist{outlier_str}.png',
+    plt.xlabel(r'$\bar \eta_{B_1}/\bar \eta_{V_0}$')
+    plt.title(title)    
+    plt.savefig(f'B1V0_{fname}_hist{outlier_str}.png',
                 dpi=300,
                 orientation='landscape',
                 bbox_inches='tight')
     plt.clf()
-    plt.hist(B1B0,bins=bins, range=(0, 100))
-    plt.xlabel(r'absDevB1/absDevB0')
-    plt.savefig(f'B1B0_{title}_hist{outlier_str}.png',
-                dpi=300,
-                orientation='landscape',
-                bbox_inches='tight')
-    plt.clf()
+    #plt.hist(B1B0,bins=bins, range=(0, 100))
+    #plt.xlabel(r'absDevB1/absDevB0')
+    #plt.savefig(f'B1B0_{title}_hist{outlier_str}.png',
+    #            dpi=300,
+    #            orientation='landscape',
+    #            bbox_inches='tight')
+    #plt.clf()
     out_dict = {'B0V0': {'hist': B0V0_hist,
                          'bin_edges': B0V0_bin_edges,
                          'in_top_bin': B0V0_top_bin},
@@ -165,9 +177,13 @@ def get_statistics(dataset, noise_sigma, volumes_percents, nr_of_samples=10000):
             try:
                 eos = fit_eos(data, eos_type='AiiDA')
                 for k, v in eos['fitted_parameters'].items():
-                    dev = 100*(new_fit_with_different_vols['fitted_parameters'][k]-eos['fitted_parameters'][k])/eos['fitted_parameters'][k]
+                    # Symmetric deviation, as in the definition of epsilon and nu
+                    dev = (100*
+                        (new_fit_with_different_vols['fitted_parameters'][k]-eos['fitted_parameters'][k])/
+                        ((new_fit_with_different_vols['fitted_parameters'][k]+eos['fitted_parameters'][k])/2)
+                    )
                     deviations[key][k].append(dev)
-            except:
+            except Exception:
                 deviations[key]['failed_runs'] += 1
         stats[key] = {'mean_V0': np.mean(abs(np.asarray(deviations[key]['equilibrium_volume']))),
                       'mean_B0': np.mean(abs(np.asarray(deviations[key]['bulk_modulus']))),
@@ -198,8 +214,8 @@ if __name__ == '__main__':
 
     #print(set_vols_perc)
 
-    unaries_title = f'unaries_ae_{noise_sigma}'
-    oxides_title = f'oxides_ae_{noise_sigma}'
+    #unaries_fname = f'unaries_ae_{noise_sigma}'
+    #oxides_fname = f'oxides_ae_{noise_sigma}'
 
     print("Unaries set:")
     stats_unaries, deviations_unaries = get_statistics(unaries, noise_sigma, set_vols_perc, nr_of_samples)
@@ -207,6 +223,6 @@ if __name__ == '__main__':
     stats_oxides, deviations_oxides = get_statistics(oxides, noise_sigma, set_vols_perc, nr_of_samples)
 
     print('Generating histograms...')
-    make_histograms(stats=stats_unaries, bins=50, title=unaries_title)
-    make_histograms(stats=stats_oxides, bins=50, title=oxides_title)
+    make_histograms(stats=stats_unaries, bins=50, fname="Unaries", title="Unaries")
+    make_histograms(stats=stats_oxides, bins=50, fname="Oxides", title="Oxides")
 

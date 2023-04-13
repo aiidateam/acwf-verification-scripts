@@ -7,72 +7,101 @@
             "unaries": "results-unaries-verification-PBE-v1-AE-average.json"
         }
     },
+    "all-electron-keys": {
+        "FLEUR": "FLEUR@LAPW+LO",
+        "WIEN2k": "WIEN2k@(L)APW+lo+LO"
+    },
     "methods-main":
     {
-        "ABINIT+PseudoDojo":{
+        "ABINIT@PW|PseudoDojo-v0.5":{
             "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
             "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.5b1-PBE-SR-standard-psp8.json",
             "short_label": "ABINIT"
         },
-        "BigDFT+...":{
+        "BigDFT@DW|HGH-K(Valence)":{
             "oxides": "results-oxides-verification-PBE-v1-bigdft.json",
             "unaries": "results-unaries-verification-PBE-v1-bigdft.json",
             "short_label": "BigDFT"
         },
-        "CP2K+GTH+TZV2P":{
+        "CP2K/Quickstep@TZV2P|GTH":{
             "oxides": "results-oxides-verification-PBE-v1-cp2k_TZV2P.json",
             "unaries": "results-unaries-verification-PBE-v1-cp2k_TZV2P.json",
             "short_label": "CP2K-quickstep"
         },
-        "FLEUR":{
+        "FLEUR@LAPW+LO":{
             "oxides": "results-oxides-verification-PBE-v1-fleur.json",
             "unaries": "results-unaries-verification-PBE-v1-fleur.json",
             "short_label": "FLEUR"
         },
-        "GPAW+...":{
+        "GPAW@PW|PAW-v0.9.20000":{
             "oxides": "results-oxides-verification-PBE-v1-gpaw.json",
             "unaries": "results-unaries-verification-PBE-v1-gpaw.json",
             "short_label": "GPAW"
         },
-        "CASTEP+...":{
+        "CASTEP@PW|C19MK2":{
             "oxides": "results-oxides-verification-PBE-v1-castep.json",
             "unaries": "results-unaries-verification-PBE-v1-castep.json",
             "short_label": "CASTEP"
         },
-        "Quantum ESPRESSO+SSSP":{
-            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso.json",
-            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso.json",
+        "Quantum ESPRESSO@PW|SSSP-prec-v1.3":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso-SSSP-1.3-PBE-precision.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-SSSP-1.3-PBE-precision.json",
             "short_label": "QE"
         },
-        "SIESTA+PseudoDojo+OptDiamond":{
+        "SIESTA@AtOrOptDiamond|PseudoDojo-v0.4":{
             "oxides": "results-oxides-verification-PBE-v1-siesta.json",
             "unaries": "results-unaries-verification-PBE-v1-siesta.json",
             "short_label": "SIESTA"
         },
-        "SIRIUS(&CP2K)+SSSP":{
-            "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius.json",
-            "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius.json",
-            "short_label": "SIRIUS"
+        "SIRIUS/CP2K@PW|SSSP-prec-v1.2":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
+            "short_label": "SIRIUS-CP2K"
         },
-        "VASP+PAW54PBErecPOT+defCutoff":{
-            "unaries": "results-unaries-verification-PBE-v1-recPOTs-defaultENCUTs.json",
-            "short_label": "VASP-recPBE-defCutoff"
-        },
-        "VASP+PAW54PBErecPOT+800Cutoff":{
-            "unaries": "results-unaries-verification-PBE-v1-recPOTs-800ENCUTs.json",
-            "short_label": "VASP-recPBE-800Cutoff"
-        },
-        "VASP+PAW54":{
+        "VASP@PW|GW-PAW54*":{
             "oxides": "results-oxides-verification-PBE-v1-vasp.json",
             "unaries": "results-unaries-verification-PBE-v1-vasp.json",
             "short_label": "VASP"
         },
-        "WIEN2k":{
+        "WIEN2k@(L)APW+lo+LO":{
             "oxides": "results-oxides-verification-PBE-v1-wien2k-dk_0.06.json",
             "unaries": "results-unaries-verification-PBE-v1-wien2k-dk_0.06.json",
             "short_label": "WIEN2k"
         }
     },
     "methods-supplementary": {
+        "ABINIT@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-abinit-PseudoDojo-0.4-PBE-SR-standard-psp8.json",
+            "unaries": "results-unaries-verification-PBE-v1-abinit-PseudoDojo-0.4-PBE-SR-standard-psp8.json",
+            "short_label": "ABINIT"
+        },
+        "CASTEP@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "unaries": "results-unaries-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "short_label": "CASTEP"
+        },
+        "Quantum ESPRESSO@PW|PseudoDojo-v0.4":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-PseudoDojo-0.4-PBE-SR-standard-upf.json",
+            "short_label": "QE"
+        },
+        "SIRIUS/CP2K@PW|SSSP-prec-v1.2":{
+            "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
+            "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
+            "short_label": "SIRIUS-CP2K"
+        },
+        "Quantum ESPRESSO@PW|SSSP-prec-v1.2":{
+            "oxides": "results-oxides-verification-PBE-v1-quantum_espresso-SSSP-1.2-PBE-precision.json",
+            "unaries": "results-unaries-verification-PBE-v1-quantum_espresso-SSSP-1.2-PBE-precision.json",
+            "short_label": "QE"
+        },
+        "VASP@PW|PBErec-PAW54*|defCutoff":{
+            "unaries": "results-unaries-verification-PBE-v1-recPOTs-defaultENCUTs.json",
+            "short_label": "VASP-recPBE-defCutoff"
+        },
+        "VASP@PW|PBErec-PAW54*|800Cutoff":{
+            "unaries": "results-unaries-verification-PBE-v1-recPOTs-800ENCUTs.json",
+            "short_label": "VASP-recPBE-800Cutoff"
+        }
     }
 }    
