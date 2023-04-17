@@ -147,7 +147,7 @@ for LOGLOG in [True, False]:
 
                 for m1_threshold, m2_threshold, color in [
                     (0.06, 0.1, 'green'),
-                    (0.2, 0.35, 'red'),
+                    (0.2, 0.33, 'red'),
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
@@ -169,7 +169,7 @@ for LOGLOG in [True, False]:
 
                 for m1_threshold, m2_threshold, color in [
                     (0.3, 0.1, 'green'),
-                    (0.95, 0.35, 'red'),
+                    (0.95, 0.33, 'red'),
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
@@ -193,7 +193,15 @@ for LOGLOG in [True, False]:
         if not LOGLOG and meas1 == 'epsilon' and meas2 == 'nu':
             all_data_x = np.array(all_data_x)
             all_data_y = np.array(all_data_y)
-            threshold = 1.
+
+            print(f"EPS > 1: {sum(all_data_x > 1)}/{len(all_data_x)} ({100*sum(all_data_x > 1)/len(all_data_x):.1f}%)")
+            print(f"EPS > 2: {sum(all_data_x > 2)}/{len(all_data_x)} ({100*sum(all_data_x > 2)/len(all_data_x):.2f}%)")
+            # print(f"NU > 1.65: {sum(all_data_y > 1.65)}/{len(all_data_y)} ({100*sum(all_data_y > 1.65)/len(all_data_y):.1f}%)")
+
+            # Theoretical fit
+            m_theor =6. / np.sqrt(15) #  ~1.549
+
+            threshold = 1/m_theor # So that we go up to nu ~= 1
             filter = np.copy(all_data_x < threshold)
             all_data_x = all_data_x[filter]
             all_data_y = all_data_y[filter]
@@ -209,7 +217,6 @@ for LOGLOG in [True, False]:
             print(f">> eps-vs-nu fit (on linear scale): nu = {m} * eps + {c}")
             xmin, xmax = all_data_x.min(), all_data_x.max()
             pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label='Linear fit') #label=f'Fit (m={m:.3f}, c={c:.3f})')
-            m_theor =6. / np.sqrt(15) #  ~1.549
             pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label='Theoretical relation')#label=f'Theoretical (m={m_theor:.3f}, c=0)')
             pl.xlim(0, threshold)
             pl.ylim(0, threshold * m_theor)

@@ -130,7 +130,7 @@ def plot(SET_NAME):
         )
         residuals_E_minus_TS_half = BM_fit_data_E_minus_TS_half['residuals']
 
-        fig, eos_ax = pl.subplots(nrows=1, ncols=1, gridspec_kw={'left': 0.15, 'right': 0.95})
+        fig, eos_ax = pl.subplots(figsize=(5.5,4.5), nrows=1, ncols=1, gridspec_kw={'left': 0.2, 'right': 0.95, 'bottom': 0.2})
 
         # Plot EOS: this will be done anyway
         eos_ax.plot(volumes, free_energies - BM_fit_data_free_energy['E0'], 'ob', label=f'E-TS')

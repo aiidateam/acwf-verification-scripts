@@ -48,7 +48,8 @@ USE_AE_AVERAGE_AS_REFERENCE = True
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
 REFERENCE_CODE_LABEL = "FLEUR@LAPW+LO"
 SKIP_PLOT_FOR_QUANTITIES = ['delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
-ONLY_CODES = None#['WIEN2k@(L)APW+lo+LO']#['Quantum ESPRESSO@PW|SSSP-prec-v1.3']# #["CASTEP@PW|C19MK2", "Quantum ESPRESSO@PW|SSSP-prec-v1.3"] #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
+LABELS_KEY = 'methods-main'
+ONLY_CODES = None #["CASTEP@PW|C19MK2", "Quantum ESPRESSO@PW|SSSP-prec-v1.3"] #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
 
 CBAR_MAX_DICT = {}
 
@@ -223,8 +224,8 @@ def load_data(SET_NAME):
         reference_data_files = labels_data['references']['all-electron average']
         reference_short_label = "ae"
     else:
-        reference_data_files = labels_data['methods-main'][REFERENCE_CODE_LABEL]
-        reference_short_label = labels_data['methods-main'][REFERENCE_CODE_LABEL]['short_label']
+        reference_data_files = labels_data[LABELS_KEY][REFERENCE_CODE_LABEL]
+        reference_short_label = labels_data[LABELS_KEY][REFERENCE_CODE_LABEL]['short_label']
     try:
         with open(os.path.join(DATA_FOLDER, reference_data_files[SET_NAME])) as fhandle:
             compare_plugin_data = json.load(fhandle)
@@ -240,11 +241,11 @@ def load_data(SET_NAME):
 
     code_results = {}
     short_labels = {}
-    for code_label in labels_data['methods-main']:
+    for code_label in labels_data[LABELS_KEY]:
         if ONLY_CODES is not None and code_label not in ONLY_CODES:
             continue
-        short_labels[code_label] = labels_data['methods-main'][code_label]['short_label']
-        with open(os.path.join(DATA_FOLDER, labels_data['methods-main'][code_label][SET_NAME])) as fhandle:
+        short_labels[code_label] = labels_data[LABELS_KEY][code_label]['short_label']
+        with open(os.path.join(DATA_FOLDER, labels_data[LABELS_KEY][code_label][SET_NAME])) as fhandle:
             code_results[code_label] = json.load(fhandle)
             if not code_results[code_label]['script_version'] in EXPECTED_SCRIPT_VERSION:
                 raise ValueError(
