@@ -10,6 +10,10 @@ import tqdm
 
 import acwf_paper_plots.quantities_for_comparison as qc
 
+# As found in the paper, nu and eps can be roughly related via just a multiplication: nu=NU_EPS_FACTOR*eps
+# Use this to set a consistent maximum colorbar value
+NU_EPS_FACTOR=1.65
+
 SHOW_IN_BROWSER=False
 DEFAULT_wb0 = 1.0/20.0
 DEFAULT_wb1 = 1.0/400.0
@@ -26,44 +30,32 @@ EXCELLENT_AGREEMENT_THRESHOLD = {
     'delta_per_formula_unit_over_b0': 0. # I put zero, it's not used in this script anyway
     }
 GOOD_AGREEMENT_THRESHOLD = {
-    'nu': 0.35, 'epsilon': 0.20,
+    'nu': 0.33, 'epsilon': 0.20,
+    'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
+    'delta_per_formula_unit_over_b0': 0. # I put zero, it's not used in this script anyway
+    }
+OUTLIER_THRESHOLD = {
+    'nu': 1.0 * NU_EPS_FACTOR, 'epsilon': 1.0,
     'delta_per_formula_unit': 0., # I put zero, it's not used in this script anyway
     'delta_per_formula_unit_over_b0': 0. # I put zero, it's not used in this script anyway
     }
 PRINT_NON_EXCELLENT = False
-
-# As found in the paper, nu and eps can be roughly related via just a multiplication: nu=NU_EPS_FACTOR*eps
-# Use this to set a consistent maximum colorbar value
-NU_EPS_FACTOR=1.549
 
 ## --------------------------------------------------
 ## IN ORDER TO PLOT ALL
 # Whether to use
 USE_AE_AVERAGE_AS_REFERENCE = True
 # The following line is ony used if USE_AE_AVERAGE_AS_REFERENCE is False
-REFERENCE_CODE_LABEL = None
+REFERENCE_CODE_LABEL = "FLEUR@LAPW+LO"
 SKIP_PLOT_FOR_QUANTITIES = ['delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
-ONLY_CODES = None #["CASTEP@PW|C19MK2", "Quantum ESPRESSO@PW|SSSP-prec-v1.3"] #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
+ONLY_CODES = None#['WIEN2k@(L)APW+lo+LO']#['Quantum ESPRESSO@PW|SSSP-prec-v1.3']# #["CASTEP@PW|C19MK2", "Quantum ESPRESSO@PW|SSSP-prec-v1.3"] #["ABINIT@PW|PseudoDojo-v0.5", "BigDFT@DW|HGH-K(Valence)"]
 
-# # OPTION 1: colorbar with fixed maximum and outliers highlighted
-# CMAP_TYPE = "simple"
-# SET_MAX_SCALE_DICT = {"nu": 1.0*NU_EPS_FACTOR, "epsilon":1.0}
-# OUTLIER_COLOR = "#140F0E" # dark gray
+CBAR_MAX_DICT = {}
 
-# # OPTION 2: colorbar encompassing the whole data w colors matching quality thresholds  
-# CMAP_TYPE = "quality"
-# SET_MAX_SCALE_DICT = {"nu": "max", "epsilon": "max"}
-# OUTLIER_COLOR = None
-
-# # OPTION 3: colorbar maximum determined by the n*epsilon_average  
-# CMAP_TYPE = "simple"
-# SET_MAX_SCALE_DICT = {"nu": ("avg", 5), "epsilon": ("avg", 5)}
-# OUTLIER_COLOR = "#140F0E" # dark gray
-
-# OPTION 4:
 CMAP_TYPE = "quality"
-SET_MAX_SCALE_DICT = {"nu": 2.0*NU_EPS_FACTOR, "epsilon":2.0}
+SET_MAX_SCALE_DICT = {"nu": 1.0*NU_EPS_FACTOR, "epsilon":1.0}
 OUTLIER_COLOR = "#bf0000" # darker red
+#CBAR_MAX_DICT = {"nu": 0.4*NU_EPS_FACTOR, "epsilon":0.4}
 
 
 # For the Figure S39, hightlight some boxes
@@ -73,11 +65,13 @@ HIGHLIGHT = {}
 #     "unaries": {
 #         "epsilon" : {
 #             "CASTEP@PW|C19MK2": {
+#                 "X/SC": ["Po"],
 #                 "X/FCC": ["Ne", "Al", "Ar", "Ca", "Cu", "Kr", "Sr", "Rh", "Pd", "Ag", "Xe", "Ir", "Pt", "Au", "Pb", "Rn"],
 #                 "X/BCC": ["K", "V", "Rb", "Nb", "Mo", "Cs", "Ba", "Ta", "W"],
 #                 "X/Diamond": ["Si", "Ge", "Sn"],
 #                 },
 #             "Quantum ESPRESSO@PW|SSSP-prec-v1.3": {
+#                 "X/SC": ["Po"],
 #                 "X/FCC": ["Ne", "Al", "Ar", "Ca", "Cu", "Kr", "Sr", "Rh", "Pd", "Ag", "Xe", "Ir", "Pt", "Au", "Pb", "Rn"],
 #                 "X/BCC": ["K", "V", "Rb", "Nb", "Mo", "Cs", "Ba", "Ta", "W"],
 #                 "X/Diamond": ["Si", "Ge", "Sn"],
@@ -122,43 +116,35 @@ from typing import List
 import warnings
 from bokeh.io import export_svg
 
-def make_quality_matching_cmap(exc_thresh, good_thresh, max_val):
+def make_quality_matching_cmap(quantity):
     """
     Custom colormap matching the excellent/good/bad thresholds
     """
+    exc_thresh = EXCELLENT_AGREEMENT_THRESHOLD[quantity]
+    good_thresh = GOOD_AGREEMENT_THRESHOLD[quantity]
+    outl_thresh = OUTLIER_THRESHOLD[quantity]
 
-    # cvals  = [0.0, exc_thresh, good_thresh, 3*good_thresh]
-    # colors = ["darkgreen","lime","white", "red"]
-    # if max_val > 3*good_thresh:
-    #     cvals.append(max_val)
-    #     colors.append("#140F0E") # dark gray
-
-    #cvals  = [0.0, exc_thresh, good_thresh, max_val]
-    #colors = ["darkgreen","lime","white", "red"]
-
-    # colorblind version from https://www.datylon.com/blog/data-visualization-for-colorblind-readers
-    #colors = ["#1F449C","#3D65A5","white", "#F05039"]
-
-    # colorblind version higher contrast
-    #colors = ["#0000d4","#3b3bff","white", "red"]
-
-    # colorblind version with a jump at excellent threshold and
-    # extending the colorbar over the maximum accompanying with a jump to dark red
-    cvals  = [0.0, exc_thresh-0.01, exc_thresh, good_thresh, max_val, max_val+0.01, 1.04*max_val]
-    #colors = ["#0000be", "#0000be", "#3a50de","white", "#f53216", "#bf0000", "#bf0000"]
-    #colors = ["#0000be", "#0000be", "#3a50de","#dbdbdb", "#f53216", "#bf0000", "#bf0000"]
-    colors = ["#0000be", "#0000be", "#3a50de","#ffffb8", "#f53216", "#bf0000", "#bf0000"]
+    colorbar_max = 1.04*outl_thresh
+    cvals  = [0.0, exc_thresh, good_thresh, outl_thresh, outl_thresh+0.001, colorbar_max]
+    colors = ["#0000be", "#3a50de","#ffff55", "#f53216", "#bf0000", "#bf0000"]
 
     norm = Normalize(min(cvals),max(cvals))
     tuples = list(zip(map(norm,cvals), colors))
-    cmap = LinearSegmentedColormap.from_list("", tuples)
+    cmap = LinearSegmentedColormap.from_list("", tuples, N=256)
 
-    # also create corresponding bokeh colormappable for the colorbar
-    custom_rgb = (255 * cmap(range(256))).astype('int')
+    num_colors= 256
+    high = max(cvals)
+
+    if quantity in CBAR_MAX_DICT:
+        # cap the colorbar at max_value
+        num_colors = int(round(CBAR_MAX_DICT[quantity]/colorbar_max*256))
+        high = CBAR_MAX_DICT[quantity]
+
+    custom_rgb = (255 * cmap(range(num_colors))).astype('int')
     bokeh_palette = [RGB(*tuple(rgb)).to_hex() for rgb in custom_rgb]
 
     color_mapper = LinearColorMapper(
-                palette=bokeh_palette, low=min(cvals), high=max(cvals)
+                palette=bokeh_palette, low=min(cvals), high=high
             )
 
     return norm, cmap, color_mapper
@@ -225,6 +211,7 @@ quantity_for_comparison_map = {
 }
 
 outliers_dict = {}
+total_number_of_values = 0
 
 def load_data(SET_NAME):
 
@@ -365,6 +352,8 @@ def export_json_file(SET_NAME, QUANTITY, collect, list_confs, short_labels, plug
 
 def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels, plugin, reference_short_label, unaries, SET_MAX_SCALE):
 
+    global total_number_of_values
+
     width = 1050
     width_cbar = 80 # needs to be manually adjusted to make the quads square...
     alpha = 0.7
@@ -428,9 +417,9 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
     highlight_list = {}
 
     if SET_MAX_SCALE:
-        high = SET_MAX_SCALE
+       high = SET_MAX_SCALE
     else:
-        high = max_data
+       high = max_data
 
     non_excellent = []
     tot_count = 0
@@ -445,11 +434,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         if CMAP_TYPE == "simple":
             norm, cmap, color_mapper = make_simple_cmap(data, high, min_data, cmap_name=cmap_name, log_scale=log_scale)
         elif CMAP_TYPE == "quality":
-            norm, cmap, color_mapper = make_quality_matching_cmap(
-                EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY],
-                GOOD_AGREEMENT_THRESHOLD[QUANTITY],
-                high
-            )
+            norm, cmap, color_mapper = make_quality_matching_cmap(QUANTITY)
         else:
             raise ValueError("Unknown colormap type!")
 
@@ -481,6 +466,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
             if data[i] > high:
                 print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")
                 outliers_dict[plugin][QUANTITY].append((conf.replace("X", data_element), data[i]))
+            total_number_of_values += 1
 
             if data[i] > EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]:
                 non_excellent.append(f"{data_element}({conf})")
@@ -543,7 +529,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
             "source": source,
             "alpha": alpha,
             "line_color": "lime",
-            "line_width": 5,
+            "line_width": 6,
             "color": None,
         }
         p.quad(left="left", right="group", top="period", bottom="bottom", line_alpha="la_dia", **quad_args_hl)
@@ -688,6 +674,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
     # Skip the colorbar for oxides
     if unaries:
         p.add_layout(color_bar, "right")
+    #p.add_layout(color_bar, "right")
     p.grid.grid_line_color = None
 
         # Open in a browser
@@ -723,7 +710,6 @@ in this case udpate it).
 
 
 def plot_periodic_tables(SET_NAME, QUANTITY, measures_max_and_avg, master_data_dict):
-
 
     ld = master_data_dict[SET_NAME]["loaded_data"]
 
@@ -834,14 +820,26 @@ def export_outliers():
         f.write(frm("eps_max"))
         for plugin in outliers_dict:
             f.write(frm(plugin[:8]))
+        f.write(frm("all_outl."))
+        f.write(frm("all_cases"))
         f.write("\n")
+
+        all_outliers = 0
+
+        eps_max = OUTLIER_THRESHOLD["epsilon"]
+        if "epsilon" in SET_MAX_SCALE_DICT:
+            eps_max = SET_MAX_SCALE_DICT["epsilon"]
         
-        f.write(frm(SET_MAX_SCALE_DICT["epsilon"]))
+        f.write(frm(eps_max))
         for plugin in outliers_dict:
             total = 0
-            for q in outliers_dict[plugin]:
-                total += len(outliers_dict[plugin][q])
+            #for q in outliers_dict[plugin]:
+            #    total += len(outliers_dict[plugin][q])
+            total += len(outliers_dict[plugin]["epsilon"])
             f.write(frm(total))
+            all_outliers += total
+        f.write(frm(all_outliers))
+        f.write(frm(total_number_of_values))
         f.write("\n")
 
 
