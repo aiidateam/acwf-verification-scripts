@@ -11,6 +11,8 @@ PREFIX = "nu-unaries-"
 SUFFIX = "-vs-ae.json"
 ALL_MEASURES = ["nu", "epsilon", "delta_per_formula_unit", "delta_per_formula_unit_over_b0"]
 
+MARKERSIZE = 2
+
 # List of unaries that are from the Science 2016 paper that also in our set
 overlapping_elements = [
     "Ag-X/FCC",
@@ -133,9 +135,9 @@ for LOGLOG in [True, False]:
             all_data_x += (np.array(flat_data[method][meas1]) * factor1).tolist()
             all_data_y += (np.array(flat_data[method][meas2]) * factor2).tolist()
             if LOGLOG:
-                pl.loglog(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, '.', color='#2b8cbe', label=method)
+                pl.loglog(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, 'o', markersize=MARKERSIZE, color='#2b8cbe',  fillstyle='full', markeredgewidth=0, label=method)
             else:
-                pl.plot(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, '.', color='#2b8cbe', label=method)
+                pl.plot(np.array(flat_data[method][meas1]) * factor1, np.array(flat_data[method][meas2]) * factor2, 'o', markersize=MARKERSIZE, color='#2b8cbe',  fillstyle='full', markeredgewidth=0,label=method)
         if LOGLOG:
             # Cache limits
             xlim = pl.xlim()
@@ -205,7 +207,7 @@ for LOGLOG in [True, False]:
             all_data_x = all_data_x[filter]
             all_data_y = all_data_y[filter]
             pl.subplot(122)
-            pl.plot(all_data_x, all_data_y, '.', color='#2b8cbe')
+            pl.plot(all_data_x, all_data_y, 'o', markersize=MARKERSIZE, color='#2b8cbe',  fillstyle='full', markeredgewidth=0)
             pl.xlabel(meas1name)
             pl.ylabel(meas2name)
 
@@ -232,6 +234,6 @@ for LOGLOG in [True, False]:
             pl.xlim(0, xlim_max)
             pl.title(f"{outliers_count} outliers on the right")
 
-        filename = f"comparison-{file_basename}{'-loglog' if LOGLOG else ''}.pdf"
-        pl.savefig(filename)
+        filename = f"comparison-{file_basename}{'-loglog' if LOGLOG else ''}.png"
+        pl.savefig(filename, dpi=400)
         print(f"File '{filename}' written.")

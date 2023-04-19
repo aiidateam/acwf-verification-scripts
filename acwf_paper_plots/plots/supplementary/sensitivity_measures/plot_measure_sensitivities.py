@@ -77,8 +77,8 @@ if __name__ == "__main__":
             a_B1 = B1+B1*value[2]/100
             
             dense_volumes = np.linspace(
-                0.94*(vol_form_unit+a_vol_form_unit)/2.,
-                1.06*(vol_form_unit+a_vol_form_unit)/2.,
+                0.94*vol_form_unit,
+                1.06*vol_form_unit,
                 100
             )
             
