@@ -126,7 +126,7 @@ for LOGLOG in [True, False]:
             pl.subplot(121)
         else:
             fig = pl.figure(figsize=(4, 3))
-            fig = pl.figure()
+            fig.subplots_adjust(right=0.99, top=0.99, left=0.18, bottom=0.18)
         all_data_x = []
         all_data_y = []
         for method in all_methods:
@@ -150,7 +150,7 @@ for LOGLOG in [True, False]:
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
-                    pl.annotate('(d)', (0.03, 0.95), xycoords='axes fraction')
+                    pl.annotate('(d)', (0.03, 0.92), xycoords='axes fraction')
 
             elif meas1 == 'delta_per_formula_unit' and meas2 == 'epsilon':
                 xmin = 1e-3; xmax = 10; slope = 0.2
@@ -161,7 +161,7 @@ for LOGLOG in [True, False]:
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
-                    pl.annotate('(a)', (0.03, 0.95), xycoords='axes fraction')
+                    pl.annotate('(a)', (0.03, 0.92), xycoords='axes fraction')
 
             elif meas1 == 'delta_per_formula_unit' and meas2 == 'nu':
                 xmin = 2e-3; xmax = 30; slope = 0.33
@@ -172,11 +172,11 @@ for LOGLOG in [True, False]:
                 ]:
                     pl.plot([xlim[0], m2_threshold / slope], [m2_threshold, m2_threshold], '--', color=color, linewidth=0.5)
                     pl.plot([m1_threshold, m1_threshold], [ylim[0], m1_threshold * slope], '--', color=color, linewidth=0.5)
-                    pl.annotate('(b)', (0.03, 0.95), xycoords='axes fraction')
+                    pl.annotate('(b)', (0.03, 0.92), xycoords='axes fraction')
 
             elif meas1 == 'delta_per_formula_unit_over_b0' and meas2 == 'epsilon':
                 xmin = 1e-5; xmax = 1e-2; slope = 100.
-                pl.annotate('(c)', (0.03, 0.95), xycoords='axes fraction')
+                pl.annotate('(c)', (0.03, 0.92), xycoords='axes fraction')
             else:
                 xmin = None
             if xmin is not None:
@@ -232,6 +232,6 @@ for LOGLOG in [True, False]:
             pl.xlim(0, xlim_max)
             pl.title(f"{outliers_count} outliers on the right")
 
-        filename = f"comparison-{file_basename}{'-loglog' if LOGLOG else ''}.png"
+        filename = f"comparison-{file_basename}{'-loglog' if LOGLOG else ''}.pdf"
         pl.savefig(filename)
         print(f"File '{filename}' written.")
