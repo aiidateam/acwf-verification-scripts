@@ -62,6 +62,8 @@ HIGHLIGHT = {}
 
 EXPORT_JSON=False
 
+PRINT_LATEX_CODE=False
+
 SET_NAMES = ['unaries', 'oxides']
 QUANTITIES = ['epsilon', 'nu', 'delta_per_formula_unit', 'delta_per_formula_unit_over_b0']
 
@@ -83,6 +85,7 @@ if len(sys.argv) == 2:
         LABELS_KEY = 'methods-main'
         ONLY_CODES = None
         EXPORT_JSON=True
+        PRINT_LATEX_CODE=True
 
     if sys.argv[1] == "SI-29-vs-960-highlight":
         # Figure S39
@@ -281,9 +284,6 @@ quantity_for_comparison_map = {
     "epsilon": qc.epsilon
 }
 
-outliers_dict = {}
-total_number_of_values = 0
-
 def load_data(SET_NAME):
 
     DATA_FOLDER = "../../../code-data"
@@ -423,8 +423,6 @@ def export_json_file(SET_NAME, QUANTITY, collect, list_confs, short_labels, plug
 
 def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels, plugin, reference_short_label, unaries, SET_MAX_SCALE):
 
-    global total_number_of_values
-
     width = 1050
     width_cbar = 80 # needs to be manually adjusted to make the quads square...
     alpha = 0.7
@@ -448,11 +446,6 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
     log_scale = False
 
     options.mode.chained_assignment = None
-
-    if plugin not in outliers_dict:
-        outliers_dict[plugin] = {}
-    if QUANTITY not in outliers_dict[plugin]:
-        outliers_dict[plugin][QUANTITY] = []
 
     # Define number of and groups
     period_label = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -536,8 +529,6 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
                 color_list[conf][element_index] = to_hex(color_scale[i])
             if data[i] > high:
                 print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")
-                outliers_dict[plugin][QUANTITY].append((conf.replace("X", data_element), data[i]))
-            total_number_of_values += 1
 
             if data[i] > EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]:
                 non_excellent.append(f"{data_element}({conf})")
@@ -882,37 +873,85 @@ def find_code_measures_max_and_avg(master_data_dict):
             }
     return measures_max_and_avg
 
-def export_outliers():
-    with open("outliers.txt", "a") as f:
 
-        def frm(s):
-            return '{0: >10}'.format(s)
+def analyze_stats(master_data_dict):
 
-        # header
-        f.write(frm("eps_max"))
-        for plugin in outliers_dict:
-            f.write(frm(plugin[:8]))
-        f.write(frm("all_outl."))
-        f.write(frm("all_cases"))
-        f.write("\n")
+    stats = {}
 
-        all_outliers = 0
+    for SET_NAME in SET_NAMES:
 
-        eps_max = OUTLIER_THRESHOLD["epsilon"]
-        if "epsilon" in SET_MAX_SCALE_DICT:
-            eps_max = SET_MAX_SCALE_DICT["epsilon"]
-        
-        f.write(frm(eps_max))
-        for plugin in outliers_dict:
-            total = 0
-            #for q in outliers_dict[plugin]:
-            #    total += len(outliers_dict[plugin][q])
-            total += len(outliers_dict[plugin]["epsilon"])
-            f.write(frm(total))
-            all_outliers += total
-        f.write(frm(all_outliers))
-        f.write(frm(total_number_of_values))
-        f.write("\n")
+        for QUANTITY in QUANTITIES:
+
+            calc_q = master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY]
+
+            for plugin in calc_q:
+
+                if plugin not in stats:
+                    stats[plugin] = {}
+                if QUANTITY not in stats[plugin]:
+                    stats[plugin][QUANTITY] = {
+                        "total":        0,
+                        "excellent":    0, # 0 to excellent
+                        "good":         0, # excellent to good
+                        "different":    0, # good to outlier
+                        "outlier":      0, # over outlier threshold
+                    }
+
+                collect = master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY][plugin]
+
+                for configuration, conf_data in collect.items():
+                    vals_arr = np.array(conf_data["values"])
+                    d = stats[plugin][QUANTITY]
+                    d["total"] += len(vals_arr)
+                    d["excellent"] += sum(vals_arr <= EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY])
+                    d["good"] += sum(np.logical_and(
+                        EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY] < vals_arr,
+                        vals_arr <= GOOD_AGREEMENT_THRESHOLD[QUANTITY]
+                    ))
+                    d["different"] += sum(np.logical_and(
+                        GOOD_AGREEMENT_THRESHOLD[QUANTITY] < vals_arr,
+                        vals_arr <= OUTLIER_THRESHOLD[QUANTITY]
+                    ))
+                    d["outlier"] += sum(vals_arr > OUTLIER_THRESHOLD[QUANTITY])
+
+    if PRINT_LATEX_CODE:
+        # print the latex lines for the captions of S14.
+    
+        # map from plugin name (before @) to the latex convention
+        latex_names = {
+            "ABINIT": ("\\abinitlong", "ABINIT"),
+            "BigDFT": ("\\bigdftlong", "BigDFT"),
+            "CASTEP": ("\\casteplong", "CASTEP"),
+            "CP2K/Quickstep": ("\\cptwoklong", "CP2K-quickstep"),
+            "FLEUR": ("\\fleurlong", "FLEUR"),
+            "GPAW": ("\\gpawlong", "GPAW"),
+            "Quantum ESPRESSO": ("\\qelong", "QE"),
+            "SIESTA": ("\\siestalong", "SIESTA"),
+            "SIRIUS/CP2K": ("\\siriuslong", "SIRIUS-CP2K"),
+            "VASP": ("\\vasplong", "VASP"),
+            "WIEN2k": ("\\wientwoklong", "WIEN2k"),
+        }
+
+        print()
+        print("Statistics for the captions")
+        print("Copy-paste these lines into the latex code:")
+        print("----")
+        for plugin in stats:
+
+            assert stats[plugin]["epsilon"]["total"] == stats[plugin]["nu"]["total"]
+             
+            label_long, label = latex_names[plugin.split("@")[0]]
+            
+            s = "\\singleapproachtemplate{" + f"{label_long}, {label}"
+            s += f""", {stats[plugin]["epsilon"]["total"]}"""
+            for quantity in ["epsilon", "nu"]:
+                for key in ["excellent", "good", "different", "outlier"]:
+                    s += f", {stats[plugin][quantity][key]}"
+            s += "}"
+            print(s)
+
+        print("----")
+        print()
 
 
 if __name__ == "__main__":
@@ -940,4 +979,4 @@ if __name__ == "__main__":
         for QUANTITY in QUANTITIES:
             plot_periodic_tables(SET_NAME, QUANTITY, measures_max_and_avg, master_data_dict)
 
-    #export_outliers()
+    analyze_stats(master_data_dict)
