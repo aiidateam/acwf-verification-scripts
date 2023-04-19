@@ -4,7 +4,6 @@ import json
 import copy
 
 import numpy as np
-from adjustText import adjust_text
 
 from acwf_paper_plots.quantities_for_comparison import get_num_atoms_in_formula_unit
 
