@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 import numpy as np
 import pylab as pl
+from scipy import stats
 import string
 from acwf_paper_plots.quantities_for_comparison import birch_murnaghan, nu, epsilon, delta
+
+ESTIMATE_RSQUARED = False
 
 def beautify_exp(float_value):
     """Typesets a floa value as a nice LaTeX expression in exponential form."""
@@ -64,6 +67,7 @@ if __name__ == "__main__":
     ### SECON FIGURE, large changes
     relative_errors_analyzed_large = [(1.8, 0, 0), (0, 143, 0), (0, -50.5, 0), (3.52, 0, 0)]
 
+    cnt = 1
     for FILENAME, relative_errors_analyzed in [
             ('measures_sensitivity.pdf', relative_errors_analyzed_small),
             ('measures_sensitivity_large.pdf', relative_errors_analyzed_large),
@@ -89,7 +93,7 @@ if __name__ == "__main__":
                 B0=B0,
                 B01=B1
             )
-            
+
             eos = birch_murnaghan(
                 V=dense_volumes,
                 E0=0, ## IMPORTANT! here we use the E0 of the reference plugin
@@ -97,7 +101,25 @@ if __name__ == "__main__":
                 B0=a_B0,
                 B01=a_B1
             )
-            
+
+            if ESTIMATE_RSQUARED:
+                # Validate the approximation eps^2 = 1-R^2
+                residuals = eos - eos_ref
+                ss_res = np.sum(residuals**2)
+                ss_tot_ref = np.sum((eos-np.mean(eos_ref))**2)
+                ss_tot_eos = np.sum((eos-np.mean(eos))**2)
+                r_squared_1 = 1 - (ss_res / ss_tot_ref)            
+                r_squared_2 = 1 - (ss_res / ss_tot_eos)            
+                print(f"# {cnt}")
+                print(f"R2[1] = {r_squared_1}")
+                print(f"R2[2] = {r_squared_2}")
+                average = (r_squared_1+r_squared_2)/2
+                print(f"average={average} (eps={np.sqrt(1-average)})")
+                proper_average = 1-np.sqrt((1-r_squared_1)*(1-r_squared_2))
+                print(f"proper_average={proper_average} (eps={np.sqrt(1-proper_average)}))")
+                cnt+=1
+                print("-"*32)
+
             ax[index].plot(dense_volumes, eos_ref, '--b', linewidth=2, label='Reference')
             ax[index].plot(dense_volumes, eos, '-r', linewidth=1, label='Perturbed')
             if index==NUM_SUBPLOTS - 1:
