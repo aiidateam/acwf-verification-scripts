@@ -430,7 +430,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
     cbar_height = None
     cbar_standoff = 12
     cbar_fontsize = 14
-    blank_color = "#c4c4c4"
+    blank_color = "#fafafa"
     under_value = None
     under_color = "#140F0E"
 
