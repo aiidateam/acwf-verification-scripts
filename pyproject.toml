@@ -31,7 +31,7 @@ dependencies = [
     "selenium",
     "chromedriver-binary",
 #    "aiida-common-workflows @ git+https://github.com/aiidateam/aiida-common-workflows@v0.1.0",
-    "aiida_submission_controller @ git+https://github.com/aiidateam/aiida-submission-controller@v0.1.2"
+    "aiida_submission_controller==0.1.2",
 ]
 
 [project.urls]
