@@ -5,7 +5,7 @@ from scipy import stats
 import string
 from acwf_paper_plots.quantities_for_comparison import birch_murnaghan, nu, epsilon, delta
 
-ESTIMATE_RSQUARED = False
+ESTIMATE_RSQUARED = True
 
 def beautify_exp(float_value):
     """Typesets a floa value as a nice LaTeX expression in exponential form."""
@@ -80,9 +80,13 @@ if __name__ == "__main__":
             a_B0 = B0+B0*value[1]/100
             a_B1 = B1+B1*value[2]/100
             
+            #central_v = (vol_form_unit + a_vol_form_unit)/2.
+            # Use the ref curve as central volume so all blue curves look the same
+            central_v = vol_form_unit
+
             dense_volumes = np.linspace(
-                0.94*vol_form_unit,
-                1.06*vol_form_unit,
+                0.94*central_v,
+                1.06*central_v,
                 100
             )
             
@@ -106,11 +110,12 @@ if __name__ == "__main__":
                 # Validate the approximation eps^2 = 1-R^2
                 residuals = eos - eos_ref
                 ss_res = np.sum(residuals**2)
-                ss_tot_ref = np.sum((eos-np.mean(eos_ref))**2)
+                ss_tot_ref = np.sum((eos_ref-np.mean(eos_ref))**2)
                 ss_tot_eos = np.sum((eos-np.mean(eos))**2)
                 r_squared_1 = 1 - (ss_res / ss_tot_ref)            
                 r_squared_2 = 1 - (ss_res / ss_tot_eos)            
                 print(f"# {cnt}")
+                print(f"ss_tot = {ss_tot_ref} vs {ss_tot_eos}")
                 print(f"R2[1] = {r_squared_1}")
                 print(f"R2[2] = {r_squared_2}")
                 average = (r_squared_1+r_squared_2)/2
