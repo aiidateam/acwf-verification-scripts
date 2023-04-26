@@ -527,8 +527,8 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
                 color_list[conf][element_index] = over_color
             else:
                 color_list[conf][element_index] = to_hex(color_scale[i])
-            if data[i] > high:
-                print(f"** WARNING! {data_element}-{conf} has value {data[i]} > max of colorbar ({high})")
+            if data[i] > GOOD_AGREEMENT_THRESHOLD[QUANTITY]:
+                print(f"** WARNING! {data_element}-{conf} has value {data[i]:.4f} > good_agreement_threshold_for({QUANTITY}) ({GOOD_AGREEMENT_THRESHOLD[QUANTITY]:.2f})")
 
             if data[i] > EXCELLENT_AGREEMENT_THRESHOLD[QUANTITY]:
                 non_excellent.append(f"{data_element}({conf})")
