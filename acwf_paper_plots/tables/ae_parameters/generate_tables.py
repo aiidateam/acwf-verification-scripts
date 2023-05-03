@@ -54,12 +54,15 @@ def create_table(w, sett, configuration, fleur, wien2k, av, l):
     """
     w.write('\\begin{center}\n')
     w.write('\\begin{longtable}{c|ccc|ccc|ccc|ccc}\n')
+    added_note = ""
+    if configuration in ["X2O5", "X2O3"]:
+        added_note = f" Note that for {sett} the primitive cell includes two formula units, therefore the volume of the primitive cells are twice those reported in this table."
     for is_first in [True, False]:
         if is_first:
             label_string = f'\\label{{sitab:table-ae-{configuration}}}'
         else:
             label_string = '(continued) '
-        caption = f'\\caption{{{label_string}Table with all calculated \\gls{{eos}} parameters for the {sett} structures obtained with \\fleur{{}} and \\wientwok.}} \\\\ \n'
+        caption = f'\\caption{{{label_string}Table with all calculated \\gls{{eos}} parameters for the {sett} structures obtained with \\fleur{{}} and \\wientwok.{added_note}}} \\\\ \n'
         w.write(caption)
         w.write('& \\multicolumn{3}{c|}{ \\fleur } & \\multicolumn{3}{c|}{ \\wientwok } & \\multicolumn{3}{c|}{Abs. percentage difference [\\%]} & \\multicolumn{3}{c}{ Average set }\\\\ \n')
         w.write('& $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$]  & $B_1$ & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ & $|\\eta(V_0)|$ & $|\\eta(B_0)|$ & $|\\eta(B_1)|$ & $V_0$ [\\AA$^3$] & $B_0$ [eV/\AA$^3$] & $B_1$ \\\\ \n' )
