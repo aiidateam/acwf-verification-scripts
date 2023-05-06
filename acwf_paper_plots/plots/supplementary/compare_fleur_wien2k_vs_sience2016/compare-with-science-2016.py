@@ -144,14 +144,9 @@ print('Delta_old, Delta_new')
 correct_new = []
 correct_old = []
 for conf, new, old in zip(save_conf, save_delta_new, save_delta_old):
-    if 'Diamond' in conf:
-        correct_new.append(new/2)
-        correct_old.append(old/2)
-        print(conf, old/2, new/2)
-    else:
-        correct_new.append(new)
-        correct_old.append(old)
-        print(conf, old, new)
+    correct_new.append(new)
+    correct_old.append(old)
+    print(conf, old, new)
 
 xlabel = r"$\Delta$ of Science 2016"
 ylabel = r"$\Delta$ of this work"
@@ -186,12 +181,16 @@ for i in range(len(correct_new)):
     elif save_conf[i].split('-')[0] == 'Ba':
         pl.annotate(save_conf[i].split('-')[0], (+0.18, -0.09), fontsize=8)
         pl.plot([correct_old[i], +0.186], [correct_new[i], -0.085], '--k', linewidth=0.6)
-    elif save_conf[i].split('-')[0] in['Sr','Ag', 'Po']:
+    elif save_conf[i].split('-')[0] == 'Po':
+        pl.annotate(save_conf[i].split('-')[0], (correct_old[i]+0.02, correct_new[i]-0.02), fontsize=8)
+    elif save_conf[i].split('-')[0] == 'Ge':
+        pl.annotate(save_conf[i].split('-')[0], (correct_old[i]+0.005, correct_new[i]+0.015), fontsize=8)
+    elif save_conf[i].split('-')[0] in['Sr','Ag']:
         pl.annotate(save_conf[i].split('-')[0], (correct_old[i]-0.05, correct_new[i]+0.01), fontsize=8)
     elif save_conf[i].split('-')[0] == 'Si':
         pl.annotate(save_conf[i].split('-')[0], (correct_old[i]-0.01, correct_new[i]+0.015), fontsize=8)
     elif save_conf[i].split('-')[0] == 'Ca':
-        pl.annotate(save_conf[i].split('-')[0], (correct_old[i]+0.01, correct_new[i]-0.01), fontsize=8)
+        pl.annotate(save_conf[i].split('-')[0], (correct_old[i]-0.05, correct_new[i]+0.01), fontsize=8)
     elif save_conf[i].split('-')[0] == 'Sn':
         pl.annotate(save_conf[i].split('-')[0], (correct_old[i]-0.01, correct_new[i]+0.02), fontsize=8)
     elif save_conf[i].split('-')[0] in ['Rb', 'Ba']:
