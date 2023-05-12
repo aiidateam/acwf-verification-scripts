@@ -147,7 +147,7 @@ def plot(SET_NAME):
         
         eos_ax.legend(loc='upper center')
         eos_ax.set_xlabel("Cell volume per simulation cell ($\\AA^3$)")
-        eos_ax.set_ylabel("$E - TS$ per simulation cell (eV)")
+        eos_ax.set_ylabel("Energy per simulation cell (eV)")
 
         #LIGHTYELLOW = (255/255, 244/255, 214/255)
         #LIGHTORANGE = (255/255, 205/255, 171/255)
