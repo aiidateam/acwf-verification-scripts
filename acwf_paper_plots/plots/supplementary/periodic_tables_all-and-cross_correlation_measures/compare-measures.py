@@ -218,7 +218,7 @@ for LOGLOG in [True, False]:
             print(f">> eps-vs-nu fit (on linear scale): nu = {m} * eps + {c}")
             xmin, xmax = all_data_x.min(), all_data_x.max()
             pl.plot([xmin, xmax], [m*xmin + c, m*xmax + c], 'r', label='Linear fit') #label=f'Fit (m={m:.3f}, c={c:.3f})')
-            pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label='Theoretical relation')#label=f'Theoretical (m={m_theor:.3f}, c=0)')
+            pl.plot([xmin, xmax], [m_theor*xmin, m_theor*xmax], 'y', label='Parabolic model')#label=f'Theoretical (m={m_theor:.3f}, c=0)')
             pl.xlim(0, threshold)
             pl.ylim(0, threshold * m_theor)
             pl.legend(loc='lower right')
