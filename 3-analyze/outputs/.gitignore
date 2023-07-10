@@ -2,6 +2,11 @@ results-*.json
 warnings-*.txt
 errors-*.json
 plots-*
+TS-plots-*
+
+periodic-table-plot.html
+periodic-table-plot.png
+ts_contributions-*.json
 
 histo-*.pdf
 

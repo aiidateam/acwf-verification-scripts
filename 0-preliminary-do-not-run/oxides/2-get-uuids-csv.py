@@ -1,7 +1,7 @@
-SET_NAME = 'set2'
+SET_NAME = 'oxides-verification-PBE-v1'
 
 out_lines = []
-for node in Group.get(label=f'commonwf-oxides/{SET_NAME}/structures').nodes:
+for node in Group.get(label=f'acwf-verification/{SET_NAME}/structures').nodes:
     out_lines.append(f"{node.extras['element']},{node.extras['configuration']},{node.uuid}")
 out_lines.sort()
 

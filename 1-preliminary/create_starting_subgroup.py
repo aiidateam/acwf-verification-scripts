@@ -33,11 +33,11 @@ if __name__ == "__main__":
     try:
         SET_NAME = sys.argv[1]
     except IndexError:
-        print("Pass as parameter the set name, e.g. set2 or unaries-set1")
+        print("Pass as parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-verification-PBE-v1")
         sys.exit(1)
 
-    STRUCTURES_FULL_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures'
-    STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
+    STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
+    STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
 
     group = orm.Group.objects.get(label=STRUCTURES_FULL_GROUP_LABEL)
     subgroup, _ = orm.Group.objects.get_or_create(label=STRUCTURES_GROUP_LABEL)
@@ -61,6 +61,14 @@ if __name__ == "__main__":
                 ]
     #elif PLUGIN_NAME == 'xxx':
     #    yyy
+    elif PLUGIN_NAME == 'gpaw':
+        from ase.data import atomic_numbers
+        query = orm.QueryBuilder()
+        query.append(orm.Node, project="attributes.element", tag='pseudo')
+        query.append(orm.Group, filters={'label': 'SSSP/1.1/PBE/precision'}, with_node='pseudo')
+        valid_elements = [a for a in atomic_numbers.keys() if atomic_numbers[a] <= 83]
+        for elements in ['Dy', 'Ce', 'Er', 'Eu', 'Gd', 'Ho', 'La', 'Lu', 'Nd', 'Pm', 'Pr', 'Sm', 'Tb', 'Tc', 'Tm', 'Yb' ]:
+            valid_elements.remove(elements)
     else:
         raise ValueError(f"Unknown plugin name `{PLUGIN_NAME}`!")
     #####################################################################################

@@ -1,0 +1,2 @@
+This script compares the subset of unaries that were also in the 71 materials of the Science 2016 paper with the results of the current work.
+Reference data comes from v3.1 of the dataset from https://molmod.ugent.be/deltacodesdft; for WIEN2k, only the topmost set from the "WIEN2k-history.txt" file has been considered.

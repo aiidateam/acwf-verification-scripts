@@ -1,0 +1,41 @@
+[build-system]
+requires = ['flit_core >=3.4,<4']
+build-backend = 'flit_core.buildapi'
+
+[project]
+name = 'acwf-paper-plots'
+dynamic = ['version']  # read from aiida/__init__.py
+description = "Scripts for the AiiDA common workflows (ACWF) verification paper."
+authors = [{name = 'AiiDA team', email = 'giovanni.pizzi@psi.ch'}]
+readme = 'README.md'
+license = {file = 'LICENSE'}
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Framework :: AiiDA',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: POSIX :: Linux',
+    'Operating System :: MacOS :: MacOS X',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+]
+keywords = ['aiida', 'dft']
+requires-python = '>=3.6'
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "tqdm",
+    "ase",
+    "bokeh<3",
+    "selenium",
+    "chromedriver-binary",
+#    "aiida-common-workflows @ git+https://github.com/aiidateam/aiida-common-workflows@v0.1.0",
+    "aiida_submission_controller==0.1.2",
+]
+
+[project.urls]
+Home = 'https://www.aiida.net'
+Source = 'https://github.com/aiida/acwf-verification-scripts'
+Documentation = ''
+

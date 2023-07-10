@@ -19,7 +19,7 @@ configuration = sys.argv[4]
 
 Z = atomic_numbers[element_name]
 
-STRUCTURES_FULL_GROUP_LABEL = f'commonwf-oxides/{set_name}/structures/{code_name}'
+STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{set_name}/structures/{code_name}'
 
 Structure = DataFactory('structure')
 group, created = orm.Group.objects.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)

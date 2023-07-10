@@ -20,7 +20,7 @@ def get_plugin_name():
             # Simple check e.g. to make sure there are no weird characters,
             # newlines, ... - one might still make a typo, but at least we
             # do a basic check
-            assert plugin_name.isidentifier()
+            #assert plugin_name.isidentifier()
         return plugin_name
     except FileNotFoundError as exc:
         raise FileNotFoundError(
@@ -31,7 +31,7 @@ def get_plugin_name():
 
 PLUGIN_NAME = get_plugin_name()
 
-EXPECTED_SCRIPT_VERSION = '0.0.3'
+EXPECTED_SCRIPT_VERSION = ['0.0.3','0.0.4']
 RESIDUALS_THRESHOLD = 1.e-3
 
 def get_conf_nice(configuration_string):
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     try:
         SET_NAME = sys.argv[1]
     except IndexError:
-        print("Pass as first parameter the set name, e.g. set2 or unaries-set1")
+        print("Pass as first parameter the set name, e.g. oxides-verification-PBE-v1 or unaries-verification-PBE-v1")
         sys.exit(1)
 
     try:
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
     
-    if not reference_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
         raise ValueError(
             f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
             "Please re-run ./get_results.py to update the data format!")
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         except OSError:
             print(f"No data found for the reference plugin '{compare_with}': you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
-        if not compare_plugin_data['script_version'] == EXPECTED_SCRIPT_VERSION:
+        if not compare_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
             raise ValueError(
                 f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
                 "Please ask the other plugin you want to compare with to re-run ./get_results.py "
@@ -196,6 +196,12 @@ if __name__ == "__main__":
                     160.21766208 * (stress_tensor[0][0] + stress_tensor[1][1] + stress_tensor[2][2])/3
                     )
 
+        # Check missing data
+        miss_data = False
+        if reference_plugin_data["missing_outputs"]:
+            if f'{element}-{configuration}' in reference_plugin_data['missing_outputs']:
+                miss_data = True
+
         #### START Plotting ####
         if hydro_stresses_GPa:
             fig, (stress_ax, eos_ax) = pl.subplots(nrows=2, ncols=1, gridspec_kw={'height_ratios': [1, 2], 'left': 0.15, 'right': 0.95}, sharex=True)
@@ -218,6 +224,9 @@ if __name__ == "__main__":
 
         LIGHTYELLOW = (255/255, 244/255, 214/255)
         LIGHTORANGE = (255/255, 205/255, 171/255)
+        LIGHTGREEN = (144/255, 238/255, 144/255)
+        if miss_data:
+            eos_ax.set_facecolor(LIGHTGREEN)
         if residuals is None:
             eos_ax.set_facecolor(LIGHTYELLOW)
         elif residuals > RESIDUALS_THRESHOLD:
@@ -234,9 +243,13 @@ if __name__ == "__main__":
             # Quadratic fit (the linear one is typically not enough);
             a, b, c = np.polyfit(stress_volumes, hydro_stresses_GPa, 2)
             stress_ax.plot(dense_volumes, a * dense_volumes**2 + b * dense_volumes + c)
-            # The stress is typically having a negative slope (for a positive-curvature EOS), so I want the smaller of the two solutions
-            stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
-
+            # The quadratic fit leads to two solutions for zero stress, we choose the one within the volume range
+            zero_stress_sol_1 = (-b - np.sqrt(b**2 - 4 * a * c))/2/a
+            if zero_stress_sol_1 < max(stress_volumes) and zero_stress_sol_1 > min(stress_volumes):
+                stress_ax.axvline((-b - np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
+            else:
+                 stress_ax.axvline((-b + np.sqrt(b**2 - 4 * a * c))/2/a, linestyle='--', color='gray')
+ 
             stress_ax.set_ylabel("Volumetric stress (GPa)")
 
         pl.savefig(f"{PLOT_FOLDER}/{element}-{configuration.replace('/', '_')}.pdf")

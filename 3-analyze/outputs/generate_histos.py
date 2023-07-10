@@ -26,7 +26,7 @@ def get_plugin_name():
             # Simple check e.g. to make sure there are no weird characters,
             # newlines, ... - one might still make a typo, but at least we
             # do a basic check
-            assert plugin_name.isidentifier()
+            #assert plugin_name.isidentifier()
         return plugin_name
     except FileNotFoundError as exc:
         raise FileNotFoundError(
@@ -41,6 +41,7 @@ BINS = 100
 DEFAULT_PREFACTOR = 100
 DEFAULT_wb0 = 1.0/8.0
 DEFAULT_wb1 = 1.0/64.0
+EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
 def gaussian(x, a, x0, sigma):
@@ -48,13 +49,12 @@ def gaussian(x, a, x0, sigma):
 
 
 quantity_for_comparison_map = {
-    "delta": qc.delta,
-    "delta_per_atom": qc.delta_per_atom,
+    "delta_per_formula_unit": qc.delta,
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
     "rel_errors_vec_length": qc.rel_errors_vec_length,
-    "epsilon2": qc.epsilon2
+    "epsilon": qc.epsilon
 }
 
 
@@ -87,7 +87,13 @@ if __name__ == "__main__":
     except OSError:
         print(f"No data found for your plugin '{PLUGIN_NAME}' (set '{SET_NAME}'). Did you run `./get_results.py` first?")
         sys.exit(1)
-    
+ 
+    if not reference_plugin_data['script_version'] in EXPECTED_SCRIPT_VERSION:
+        raise ValueError(
+            f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+            f"Please re-run ./get_results.py to update the data format for {PLUGIN_NAME}!"
+            )
+
     print(f"Using data for plugin '{PLUGIN_NAME}' (set '{SET_NAME}') compared with {all_args}.")
 
     compare_plugin_data = []
@@ -95,6 +101,11 @@ if __name__ == "__main__":
         try:
             with open(f'results-{SET_NAME}-{compare_with}.json') as fhandle:
                 compare_plugin_data.append(json.load(fhandle))
+            if not compare_plugin_data[-1]['script_version'] in EXPECTED_SCRIPT_VERSION:
+                raise ValueError(
+                    f"This script only works with data generated at version {EXPECTED_SCRIPT_VERSION}. "
+                    f"Please re-run ./get_results.py to update the data format for {compare_with}!"
+                    )
         except OSError:
             print(f"No data found for the plugin '{compare_with}' (set '{SET_NAME}'): you need the file results-{SET_NAME}-{compare_with}.json.")
             sys.exit(1)
@@ -122,7 +133,7 @@ if __name__ == "__main__":
 
     
     for index, compare_plugin in enumerate(compare_plugin_data):
-        
+
         collect = []
 
         print(f"comparing with {all_args[index]}")
@@ -137,8 +148,13 @@ if __name__ == "__main__":
         
             if ref_BM_fit_data is None:
                 continue
-        
-            V0=ref_BM_fit_data['min_volume']
+       
+            scaling_factor_ref = qc.get_volume_scaling_to_formula_unit(
+                    reference_plugin_data['num_atoms_in_sim_cell'][f'{element}-{configuration}'],
+                    element, configuration
+                )
+
+            V0=ref_BM_fit_data['min_volume']/scaling_factor_ref
             B0=ref_BM_fit_data['bulk_modulus_ev_ang3']
             B01=ref_BM_fit_data['bulk_deriv']
 
@@ -157,11 +173,16 @@ if __name__ == "__main__":
                 # points
                 continue
 
-            CV0=compare_BM_fit_data['min_volume']
+            scaling_factor_comp = qc.get_volume_scaling_to_formula_unit(
+                    compare_plugin['num_atoms_in_sim_cell'][f'{element}-{configuration}'],
+                    element, configuration
+                )
+
+            CV0=compare_BM_fit_data['min_volume']/scaling_factor_comp
             CB0=compare_BM_fit_data['bulk_modulus_ev_ang3']
             CB01=compare_BM_fit_data['bulk_deriv']
 
-            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,configuration,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
+            quant = quantity_for_comparison_map[QUANTITY](V0,B0,B01,CV0,CB0,CB01,DEFAULT_PREFACTOR,DEFAULT_wb0,DEFAULT_wb1)
 
             collect.append(quant)
 
@@ -210,8 +231,8 @@ if __name__ == "__main__":
             pl.xlim(x[0], x[-1])
 
     pl.legend(loc='upper right')
-    if QUANTITY in ["delta_per_atom","delta"]:
-        pl.xlabel(f"{QUANTITY}")
+    if QUANTITY in ["delta_per_formula_unit"]:
+        pl.xlabel(f"{QUANTITY} (meV)")
     elif QUANTITY == "rel_errors_vec_length":
         pl.xlabel(f"{DEFAULT_PREFACTOR}*{QUANTITY}({DEFAULT_wb0},{DEFAULT_wb1})")
     else:
@@ -221,5 +242,3 @@ if __name__ == "__main__":
     pl.tight_layout()
     pl.savefig(f"{name_file}")
     pl.close(fig)
-
-    print("*** IMPORTANT WARNING!!! THIS SCRIPT USES (STILL) THE EOS (ENERGIES AND VOLUMES) FROM THE SIMULATION CELL, AND NOT FROM PER FORMULA UNIT!! ***")

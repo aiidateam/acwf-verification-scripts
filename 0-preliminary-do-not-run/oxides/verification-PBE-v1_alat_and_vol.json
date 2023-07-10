@@ -1,0 +1,2882 @@
+{
+  "Ac-X2O": {
+    "average_vol_wien2k_fleur": 80.39637305472624,
+    "new_latt_constant": 4.844517006903796,
+    "vol_rel_diff_wien2k_fleur": 8.639829371087364e-05
+  },
+  "Ac-X2O3": {
+    "average_vol_wien2k_fleur": 203.31705263625344,
+    "new_latt_constant": 5.880188771727535,
+    "vol_rel_diff_wien2k_fleur": 0.000186382435717174
+  },
+  "Ac-X2O5": {
+    "average_vol_wien2k_fleur": 207.7645144573801,
+    "new_latt_constant": 5.922755314923443,
+    "vol_rel_diff_wien2k_fleur": 0.0008902920006473912
+  },
+  "Ac-XO": {
+    "average_vol_wien2k_fleur": 38.9953761394559,
+    "new_latt_constant": 3.8063557028391632,
+    "vol_rel_diff_wien2k_fleur": 8.841358718730007e-05
+  },
+  "Ac-XO2": {
+    "average_vol_wien2k_fleur": 52.9535559247412,
+    "new_latt_constant": 4.215056259365324,
+    "vol_rel_diff_wien2k_fleur": 3.187983296143058e-05
+  },
+  "Ac-XO3": {
+    "average_vol_wien2k_fleur": 91.45267819449045,
+    "new_latt_constant": 4.505387427310089,
+    "vol_rel_diff_wien2k_fleur": 0.0005287585878901601
+  },
+  "Ag-X2O": {
+    "average_vol_wien2k_fleur": 48.384537346368276,
+    "new_latt_constant": 4.090162194184057,
+    "vol_rel_diff_wien2k_fleur": 0.000125550290851257
+  },
+  "Ag-X2O3": {
+    "average_vol_wien2k_fleur": 131.2769263028721,
+    "new_latt_constant": 5.082329287881612,
+    "vol_rel_diff_wien2k_fleur": 0.0005321011674442042
+  },
+  "Ag-X2O5": {
+    "average_vol_wien2k_fleur": 149.90293815801493,
+    "new_latt_constant": 5.312146558652194,
+    "vol_rel_diff_wien2k_fleur": 1.2516872937575644e-05
+  },
+  "Ag-XO": {
+    "average_vol_wien2k_fleur": 25.510287590200974,
+    "new_latt_constant": 3.304279562187379,
+    "vol_rel_diff_wien2k_fleur": 0.000555665252766407
+  },
+  "Ag-XO2": {
+    "average_vol_wien2k_fleur": 34.38485675073671,
+    "new_latt_constant": 3.650010152149105,
+    "vol_rel_diff_wien2k_fleur": 0.0004918880888768806
+  },
+  "Ag-XO3": {
+    "average_vol_wien2k_fleur": 65.1900599932008,
+    "new_latt_constant": 4.024640812425084,
+    "vol_rel_diff_wien2k_fleur": 0.00020984815169413872
+  },
+  "Al-X2O": {
+    "average_vol_wien2k_fleur": 46.20984917555011,
+    "new_latt_constant": 4.027941764531288,
+    "vol_rel_diff_wien2k_fleur": 8.876135657129862e-05
+  },
+  "Al-X2O3": {
+    "average_vol_wien2k_fleur": 98.47655383593604,
+    "new_latt_constant": 4.617897412153301,
+    "vol_rel_diff_wien2k_fleur": 0.0001979387719070579
+  },
+  "Al-X2O5": {
+    "average_vol_wien2k_fleur": 126.14149843034514,
+    "new_latt_constant": 5.015173883142186,
+    "vol_rel_diff_wien2k_fleur": 0.0011178172216464728
+  },
+  "Al-XO": {
+    "average_vol_wien2k_fleur": 22.458199936290576,
+    "new_latt_constant": 3.166868137729502,
+    "vol_rel_diff_wien2k_fleur": 0.0005343316674038635
+  },
+  "Al-XO2": {
+    "average_vol_wien2k_fleur": 26.30127453176214,
+    "new_latt_constant": 3.3380840228060085,
+    "vol_rel_diff_wien2k_fleur": 0.0001616247330747142
+  },
+  "Al-XO3": {
+    "average_vol_wien2k_fleur": 49.74088318270033,
+    "new_latt_constant": 3.677656510035037,
+    "vol_rel_diff_wien2k_fleur": 0.00022584308682390824
+  },
+  "Am-X2O": {
+    "average_vol_wien2k_fleur": 45.41541601627159,
+    "new_latt_constant": 4.00472560810489,
+    "vol_rel_diff_wien2k_fleur": 2.5717422832749677e-05
+  },
+  "Am-X2O3": {
+    "average_vol_wien2k_fleur": 144.59832805849635,
+    "new_latt_constant": 5.2487323083854465,
+    "vol_rel_diff_wien2k_fleur": 0.00041948007149922545
+  },
+  "Am-X2O5": {
+    "average_vol_wien2k_fleur": 148.54551246451948,
+    "new_latt_constant": 5.296063440502689,
+    "vol_rel_diff_wien2k_fleur": 0.00022232195702880567
+  },
+  "Am-XO": {
+    "average_vol_wien2k_fleur": 26.663711260666823,
+    "new_latt_constant": 3.3533472769788837,
+    "vol_rel_diff_wien2k_fleur": 0.0002183687513236033
+  },
+  "Am-XO2": {
+    "average_vol_wien2k_fleur": 36.963364423317685,
+    "new_latt_constant": 3.739057672893419,
+    "vol_rel_diff_wien2k_fleur": 0.0005066867404408016
+  },
+  "Am-XO3": {
+    "average_vol_wien2k_fleur": 67.84801888001097,
+    "new_latt_constant": 4.078611978186382,
+    "vol_rel_diff_wien2k_fleur": 3.5043030860866447e-06
+  },
+  "Ar-X2O": {
+    "average_vol_wien2k_fleur": 113.32949392970167,
+    "new_latt_constant": 5.431911044102181,
+    "vol_rel_diff_wien2k_fleur": 0.0018972302190816096
+  },
+  "Ar-X2O3": {
+    "average_vol_wien2k_fleur": 206.40957031728988,
+    "new_latt_constant": 5.909852066858164,
+    "vol_rel_diff_wien2k_fleur": 0.0018852838750719574
+  },
+  "Ar-X2O5": {
+    "average_vol_wien2k_fleur": 185.39464278827597,
+    "new_latt_constant": 5.702068017317497,
+    "vol_rel_diff_wien2k_fleur": 0.0010071187637351704
+  },
+  "Ar-XO": {
+    "average_vol_wien2k_fleur": 39.417862894792364,
+    "new_latt_constant": 3.8200527277605034,
+    "vol_rel_diff_wien2k_fleur": 0.0001452587523581694
+  },
+  "Ar-XO2": {
+    "average_vol_wien2k_fleur": 51.321832133787694,
+    "new_latt_constant": 4.1713091992596825,
+    "vol_rel_diff_wien2k_fleur": 0.0021257180279405387
+  },
+  "Ar-XO3": {
+    "average_vol_wien2k_fleur": 68.32473416554856,
+    "new_latt_constant": 4.08814210457608,
+    "vol_rel_diff_wien2k_fleur": 0.002250014885245012
+  },
+  "As-X2O": {
+    "average_vol_wien2k_fleur": 47.81491238808525,
+    "new_latt_constant": 4.0740478050795215,
+    "vol_rel_diff_wien2k_fleur": 0.0006823138335107149
+  },
+  "As-X2O3": {
+    "average_vol_wien2k_fleur": 130.601432305218,
+    "new_latt_constant": 5.073597141012572,
+    "vol_rel_diff_wien2k_fleur": 0.0005426020923750522
+  },
+  "As-X2O5": {
+    "average_vol_wien2k_fleur": 144.05987949190478,
+    "new_latt_constant": 5.2422092093263615,
+    "vol_rel_diff_wien2k_fleur": 0.0002099197659827563
+  },
+  "As-XO": {
+    "average_vol_wien2k_fleur": 27.194097061657573,
+    "new_latt_constant": 3.375436018834649,
+    "vol_rel_diff_wien2k_fleur": 0.0002792563142628236
+  },
+  "As-XO2": {
+    "average_vol_wien2k_fleur": 31.505892599658893,
+    "new_latt_constant": 3.545157998641052,
+    "vol_rel_diff_wien2k_fleur": 0.0004438915442102072
+  },
+  "As-XO3": {
+    "average_vol_wien2k_fleur": 47.341597352790394,
+    "new_latt_constant": 3.617548001026774,
+    "vol_rel_diff_wien2k_fleur": 0.0009462018200816831
+  },
+  "At-X2O": {
+    "average_vol_wien2k_fleur": 77.80559911209545,
+    "new_latt_constant": 4.791909598905515,
+    "vol_rel_diff_wien2k_fleur": 0.00014135517644500354
+  },
+  "At-X2O3": {
+    "average_vol_wien2k_fleur": 177.5476970609754,
+    "new_latt_constant": 5.6204576682305225,
+    "vol_rel_diff_wien2k_fleur": 0.0003457894580841181
+  },
+  "At-X2O5": {
+    "average_vol_wien2k_fleur": 169.11593782820512,
+    "new_latt_constant": 5.530038812932398,
+    "vol_rel_diff_wien2k_fleur": 0.0006497060999764596
+  },
+  "At-XO": {
+    "average_vol_wien2k_fleur": 40.788954877325466,
+    "new_latt_constant": 3.8638405130833546,
+    "vol_rel_diff_wien2k_fleur": 0.00012969798723641264
+  },
+  "At-XO2": {
+    "average_vol_wien2k_fleur": 43.85025406829365,
+    "new_latt_constant": 3.958181493728439,
+    "vol_rel_diff_wien2k_fleur": 0.00031717345504169494
+  },
+  "At-XO3": {
+    "average_vol_wien2k_fleur": 71.68554144343688,
+    "new_latt_constant": 4.1541023245274165,
+    "vol_rel_diff_wien2k_fleur": 0.00010159492035762092
+  },
+  "Au-X2O": {
+    "average_vol_wien2k_fleur": 49.44228742563392,
+    "new_latt_constant": 4.119753053192824,
+    "vol_rel_diff_wien2k_fleur": 0.00046974260175749354
+  },
+  "Au-X2O3": {
+    "average_vol_wien2k_fleur": 134.267285395178,
+    "new_latt_constant": 5.120630077324514,
+    "vol_rel_diff_wien2k_fleur": 0.0002574773911175469
+  },
+  "Au-X2O5": {
+    "average_vol_wien2k_fleur": 150.34218884596245,
+    "new_latt_constant": 5.317330109779927,
+    "vol_rel_diff_wien2k_fleur": 0.0008621818603952993
+  },
+  "Au-XO": {
+    "average_vol_wien2k_fleur": 26.876427854899248,
+    "new_latt_constant": 3.362241063864774,
+    "vol_rel_diff_wien2k_fleur": 0.0002848484865558403
+  },
+  "Au-XO2": {
+    "average_vol_wien2k_fleur": 35.00363599367804,
+    "new_latt_constant": 3.6717749299842377,
+    "vol_rel_diff_wien2k_fleur": 0.00021346317729487567
+  },
+  "Au-XO3": {
+    "average_vol_wien2k_fleur": 63.90256201979021,
+    "new_latt_constant": 3.997969011024442,
+    "vol_rel_diff_wien2k_fleur": 1.7589898509498802e-05
+  },
+  "B-X2O": {
+    "average_vol_wien2k_fleur": 30.02954016412241,
+    "new_latt_constant": 3.488894951273516,
+    "vol_rel_diff_wien2k_fleur": 0.0006033949123480695
+  },
+  "B-X2O3": {
+    "average_vol_wien2k_fleur": 71.96649878874977,
+    "new_latt_constant": 4.159522311488643,
+    "vol_rel_diff_wien2k_fleur": 9.452207089315226e-05
+  },
+  "B-X2O5": {
+    "average_vol_wien2k_fleur": 108.7463376274012,
+    "new_latt_constant": 4.773147771728013,
+    "vol_rel_diff_wien2k_fleur": 0.0026237641783871547
+  },
+  "B-XO": {
+    "average_vol_wien2k_fleur": 14.710729522491494,
+    "new_latt_constant": 2.7503190022495736,
+    "vol_rel_diff_wien2k_fleur": 0.0005126159790703988
+  },
+  "B-XO2": {
+    "average_vol_wien2k_fleur": 20.370720232215568,
+    "new_latt_constant": 3.0655409887975,
+    "vol_rel_diff_wien2k_fleur": 0.00015510180950134442
+  },
+  "B-XO3": {
+    "average_vol_wien2k_fleur": 33.628051476443744,
+    "new_latt_constant": 3.2277550393987577,
+    "vol_rel_diff_wien2k_fleur": 8.83331324522863e-06
+  },
+  "Ba-X2O": {
+    "average_vol_wien2k_fleur": 79.80533040029282,
+    "new_latt_constant": 4.832616131525074,
+    "vol_rel_diff_wien2k_fleur": 0.0025354095822853876
+  },
+  "Ba-X2O3": {
+    "average_vol_wien2k_fleur": 233.70024191821312,
+    "new_latt_constant": 6.159607710989539,
+    "vol_rel_diff_wien2k_fleur": 0.0006911253589129358
+  },
+  "Ba-X2O5": {
+    "average_vol_wien2k_fleur": 227.0889867371956,
+    "new_latt_constant": 6.100967209681449,
+    "vol_rel_diff_wien2k_fleur": 0.002386846378578925
+  },
+  "Ba-XO": {
+    "average_vol_wien2k_fleur": 43.27864606890332,
+    "new_latt_constant": 3.94090731747193,
+    "vol_rel_diff_wien2k_fleur": 0.0013195390193686202
+  },
+  "Ba-XO2": {
+    "average_vol_wien2k_fleur": 60.310470978354275,
+    "new_latt_constant": 4.40185675786225,
+    "vol_rel_diff_wien2k_fleur": 0.0002961018708983999
+  },
+  "Ba-XO3": {
+    "average_vol_wien2k_fleur": 91.66471320950323,
+    "new_latt_constant": 4.508866685890024,
+    "vol_rel_diff_wien2k_fleur": 0.0030674135242304795
+  },
+  "Be-X2O": {
+    "average_vol_wien2k_fleur": 26.83653268734747,
+    "new_latt_constant": 3.3605766115692455,
+    "vol_rel_diff_wien2k_fleur": 0.0006384813382814254
+  },
+  "Be-X2O3": {
+    "average_vol_wien2k_fleur": 77.58522984578741,
+    "new_latt_constant": 4.2650718362886115,
+    "vol_rel_diff_wien2k_fleur": 5.2325572571799135e-05
+  },
+  "Be-X2O5": {
+    "average_vol_wien2k_fleur": 114.6434147856784,
+    "new_latt_constant": 4.857912683693849,
+    "vol_rel_diff_wien2k_fleur": 0.0007429160131216147
+  },
+  "Be-XO": {
+    "average_vol_wien2k_fleur": 12.124884676258738,
+    "new_latt_constant": 2.578680511885992,
+    "vol_rel_diff_wien2k_fleur": 0.00036541770093706597
+  },
+  "Be-XO2": {
+    "average_vol_wien2k_fleur": 22.183483042738672,
+    "new_latt_constant": 3.1539023637022385,
+    "vol_rel_diff_wien2k_fleur": 0.00020889030427393104
+  },
+  "Be-XO3": {
+    "average_vol_wien2k_fleur": 39.00477986521831,
+    "new_latt_constant": 3.3913499803770084,
+    "vol_rel_diff_wien2k_fleur": 0.0006778725493324777
+  },
+  "Bi-X2O": {
+    "average_vol_wien2k_fleur": 69.26622190569412,
+    "new_latt_constant": 4.609765492552523,
+    "vol_rel_diff_wien2k_fleur": 0.00031536022591180764
+  },
+  "Bi-X2O3": {
+    "average_vol_wien2k_fleur": 174.95091697133319,
+    "new_latt_constant": 5.592921722066947,
+    "vol_rel_diff_wien2k_fleur": 0.0008907294992453512
+  },
+  "Bi-X2O5": {
+    "average_vol_wien2k_fleur": 178.00033558967002,
+    "new_latt_constant": 5.625229863485416,
+    "vol_rel_diff_wien2k_fleur": 6.364493989541977e-05
+  },
+  "Bi-XO": {
+    "average_vol_wien2k_fleur": 36.028539748250324,
+    "new_latt_constant": 3.70726717674843,
+    "vol_rel_diff_wien2k_fleur": 0.00029641768928907134
+  },
+  "Bi-XO2": {
+    "average_vol_wien2k_fleur": 42.09221681853913,
+    "new_latt_constant": 3.9045614805411004,
+    "vol_rel_diff_wien2k_fleur": 0.000993856827702889
+  },
+  "Bi-XO3": {
+    "average_vol_wien2k_fleur": 74.10038189836862,
+    "new_latt_constant": 4.200233960859051,
+    "vol_rel_diff_wien2k_fleur": 0.001376022553798311
+  },
+  "Br-X2O": {
+    "average_vol_wien2k_fleur": 61.627183080548576,
+    "new_latt_constant": 4.433660536607093,
+    "vol_rel_diff_wien2k_fleur": 0.00010764468812698384
+  },
+  "Br-X2O3": {
+    "average_vol_wien2k_fleur": 147.33343385882006,
+    "new_latt_constant": 5.281619417589268,
+    "vol_rel_diff_wien2k_fleur": 0.00023665855554227112
+  },
+  "Br-X2O5": {
+    "average_vol_wien2k_fleur": 155.96465609764198,
+    "new_latt_constant": 5.382806034925571,
+    "vol_rel_diff_wien2k_fleur": 0.001838158797571234
+  },
+  "Br-XO": {
+    "average_vol_wien2k_fleur": 31.10869266491019,
+    "new_latt_constant": 3.530196820030871,
+    "vol_rel_diff_wien2k_fleur": 0.00019240055777511523
+  },
+  "Br-XO2": {
+    "average_vol_wien2k_fleur": 37.01169065457794,
+    "new_latt_constant": 3.7406864556853683,
+    "vol_rel_diff_wien2k_fleur": 0.0002048355268781453
+  },
+  "Br-XO3": {
+    "average_vol_wien2k_fleur": 58.27539885099935,
+    "new_latt_constant": 3.8769936069899558,
+    "vol_rel_diff_wien2k_fleur": 0.00012694382440188846
+  },
+  "C-X2O": {
+    "average_vol_wien2k_fleur": 28.55082908436917,
+    "new_latt_constant": 3.4306618047738,
+    "vol_rel_diff_wien2k_fleur": 1.8977776794604902e-05
+  },
+  "C-X2O3": {
+    "average_vol_wien2k_fleur": 84.53208693178266,
+    "new_latt_constant": 4.388746845641061,
+    "vol_rel_diff_wien2k_fleur": 4.227818920666256e-05
+  },
+  "C-X2O5": {
+    "average_vol_wien2k_fleur": 117.2199024729886,
+    "new_latt_constant": 4.894035537072726,
+    "vol_rel_diff_wien2k_fleur": 0.00201497398513228
+  },
+  "C-XO": {
+    "average_vol_wien2k_fleur": 15.700618957886007,
+    "new_latt_constant": 2.8106747394128586,
+    "vol_rel_diff_wien2k_fleur": 0.00023170524561943347
+  },
+  "C-XO2": {
+    "average_vol_wien2k_fleur": 22.75464273631397,
+    "new_latt_constant": 3.180741239225336,
+    "vol_rel_diff_wien2k_fleur": 2.1335102183846974e-05
+  },
+  "C-XO3": {
+    "average_vol_wien2k_fleur": 32.918182212358744,
+    "new_latt_constant": 3.204881294158153,
+    "vol_rel_diff_wien2k_fleur": 0.00012043267431675496
+  },
+  "Ca-X2O": {
+    "average_vol_wien2k_fleur": 56.094682559851975,
+    "new_latt_constant": 4.296804202930617,
+    "vol_rel_diff_wien2k_fleur": 0.0011879001227067226
+  },
+  "Ca-X2O3": {
+    "average_vol_wien2k_fleur": 159.87198635972322,
+    "new_latt_constant": 5.427387003217251,
+    "vol_rel_diff_wien2k_fleur": 0.0003754709121990248
+  },
+  "Ca-X2O5": {
+    "average_vol_wien2k_fleur": 168.84812969784753,
+    "new_latt_constant": 5.527118189726738,
+    "vol_rel_diff_wien2k_fleur": 0.0017515183901309498
+  },
+  "Ca-XO": {
+    "average_vol_wien2k_fleur": 28.18987272131106,
+    "new_latt_constant": 3.4161429655374054,
+    "vol_rel_diff_wien2k_fleur": 0.00024315673382600787
+  },
+  "Ca-XO2": {
+    "average_vol_wien2k_fleur": 42.31153321203462,
+    "new_latt_constant": 3.9113311513696467,
+    "vol_rel_diff_wien2k_fleur": 0.00020641123749866837
+  },
+  "Ca-XO3": {
+    "average_vol_wien2k_fleur": 94.27512417482586,
+    "new_latt_constant": 4.551267596344441,
+    "vol_rel_diff_wien2k_fleur": 0.000288004397617515
+  },
+  "Cd-X2O": {
+    "average_vol_wien2k_fleur": 53.083172696484695,
+    "new_latt_constant": 4.218492583972173,
+    "vol_rel_diff_wien2k_fleur": 1.0274309949618724e-05
+  },
+  "Cd-X2O3": {
+    "average_vol_wien2k_fleur": 146.50227221504417,
+    "new_latt_constant": 5.271668835199946,
+    "vol_rel_diff_wien2k_fleur": 0.000590737800716862
+  },
+  "Cd-X2O5": {
+    "average_vol_wien2k_fleur": 161.2445699626228,
+    "new_latt_constant": 5.442875070254656,
+    "vol_rel_diff_wien2k_fleur": 0.00015591176342485047
+  },
+  "Cd-XO": {
+    "average_vol_wien2k_fleur": 27.09206854463074,
+    "new_latt_constant": 3.371209337669579,
+    "vol_rel_diff_wien2k_fleur": 0.0004775231260092135
+  },
+  "Cd-XO2": {
+    "average_vol_wien2k_fleur": 38.53620104924951,
+    "new_latt_constant": 3.7913565820183526,
+    "vol_rel_diff_wien2k_fleur": 0.0005657562994118941
+  },
+  "Cd-XO3": {
+    "average_vol_wien2k_fleur": 73.17106267305036,
+    "new_latt_constant": 4.182601165438782,
+    "vol_rel_diff_wien2k_fleur": 0.0004745775834345495
+  },
+  "Ce-X2O": {
+    "average_vol_wien2k_fleur": 56.09745969517917,
+    "new_latt_constant": 4.296875110482419,
+    "vol_rel_diff_wien2k_fleur": 7.630665746592054e-05
+  },
+  "Ce-X2O3": {
+    "average_vol_wien2k_fleur": 164.25992866686124,
+    "new_latt_constant": 5.476593962389435,
+    "vol_rel_diff_wien2k_fleur": 0.00027917541481159983
+  },
+  "Ce-X2O5": {
+    "average_vol_wien2k_fleur": 168.08904086639654,
+    "new_latt_constant": 5.518823009952464,
+    "vol_rel_diff_wien2k_fleur": 0.00017896308193552095
+  },
+  "Ce-XO": {
+    "average_vol_wien2k_fleur": 31.037075279380616,
+    "new_latt_constant": 3.5274857050402244,
+    "vol_rel_diff_wien2k_fleur": 9.506561860856262e-05
+  },
+  "Ce-XO2": {
+    "average_vol_wien2k_fleur": 40.7945964602882,
+    "new_latt_constant": 3.8640186427753456,
+    "vol_rel_diff_wien2k_fleur": 0.00029398306680307923
+  },
+  "Ce-XO3": {
+    "average_vol_wien2k_fleur": 81.66735154337627,
+    "new_latt_constant": 4.338598787804591,
+    "vol_rel_diff_wien2k_fleur": 0.00020200132532420154
+  },
+  "Cl-X2O": {
+    "average_vol_wien2k_fleur": 54.5521447262752,
+    "new_latt_constant": 4.257051876052018,
+    "vol_rel_diff_wien2k_fleur": 3.4635715238724614e-05
+  },
+  "Cl-X2O3": {
+    "average_vol_wien2k_fleur": 135.25282006740446,
+    "new_latt_constant": 5.133128185529203,
+    "vol_rel_diff_wien2k_fleur": 0.00013042341594151778
+  },
+  "Cl-X2O5": {
+    "average_vol_wien2k_fleur": 150.3321186070431,
+    "new_latt_constant": 5.31721138511004,
+    "vol_rel_diff_wien2k_fleur": 0.0019540919707364823
+  },
+  "Cl-XO": {
+    "average_vol_wien2k_fleur": 26.957231651262934,
+    "new_latt_constant": 3.365607210929963,
+    "vol_rel_diff_wien2k_fleur": 0.00041782118696676864
+  },
+  "Cl-XO2": {
+    "average_vol_wien2k_fleur": 34.69697229208128,
+    "new_latt_constant": 3.661020766692284,
+    "vol_rel_diff_wien2k_fleur": 0.00021744214737380113
+  },
+  "Cl-XO3": {
+    "average_vol_wien2k_fleur": 52.00363921972567,
+    "new_latt_constant": 3.732598228043926,
+    "vol_rel_diff_wien2k_fleur": 0.00027539535239373605
+  },
+  "Cm-X2O": {
+    "average_vol_wien2k_fleur": 45.85949972211479,
+    "new_latt_constant": 4.017736373826908,
+    "vol_rel_diff_wien2k_fleur": 6.979046413110476e-05
+  },
+  "Cm-X2O3": {
+    "average_vol_wien2k_fleur": 144.58490198190168,
+    "new_latt_constant": 5.248569853618233,
+    "vol_rel_diff_wien2k_fleur": 0.0003997925302779746
+  },
+  "Cm-X2O5": {
+    "average_vol_wien2k_fleur": 149.17902626307944,
+    "new_latt_constant": 5.303581609743372,
+    "vol_rel_diff_wien2k_fleur": 0.00024167288835403393
+  },
+  "Cm-XO": {
+    "average_vol_wien2k_fleur": 26.791780545507716,
+    "new_latt_constant": 3.3587075589353086,
+    "vol_rel_diff_wien2k_fleur": 0.0002224970081891665
+  },
+  "Cm-XO2": {
+    "average_vol_wien2k_fleur": 36.656829013704886,
+    "new_latt_constant": 3.7286930266749923,
+    "vol_rel_diff_wien2k_fleur": 0.0004707997902195697
+  },
+  "Cm-XO3": {
+    "average_vol_wien2k_fleur": 67.29112792375416,
+    "new_latt_constant": 4.067422337058347,
+    "vol_rel_diff_wien2k_fleur": 7.941838183694972e-05
+  },
+  "Co-X2O": {
+    "average_vol_wien2k_fleur": 29.835433617316696,
+    "new_latt_constant": 3.481361460866628,
+    "vol_rel_diff_wien2k_fleur": 0.0002905013798210266
+  },
+  "Co-X2O3": {
+    "average_vol_wien2k_fleur": 90.6140635342714,
+    "new_latt_constant": 4.491573754911331,
+    "vol_rel_diff_wien2k_fleur": 0.00015530626161466265
+  },
+  "Co-X2O5": {
+    "average_vol_wien2k_fleur": 117.89950793982123,
+    "new_latt_constant": 4.9034753623370495,
+    "vol_rel_diff_wien2k_fleur": 0.00016128888046057865
+  },
+  "Co-XO": {
+    "average_vol_wien2k_fleur": 17.270415556490434,
+    "new_latt_constant": 2.901388788155226,
+    "vol_rel_diff_wien2k_fleur": 0.0004071189229851935
+  },
+  "Co-XO2": {
+    "average_vol_wien2k_fleur": 25.031875375055783,
+    "new_latt_constant": 3.2834932557661802,
+    "vol_rel_diff_wien2k_fleur": 0.0001537739314675799
+  },
+  "Co-XO3": {
+    "average_vol_wien2k_fleur": 47.13241138260635,
+    "new_latt_constant": 3.6122119071536014,
+    "vol_rel_diff_wien2k_fleur": 0.0006072841251502878
+  },
+  "Cr-X2O": {
+    "average_vol_wien2k_fleur": 30.440972536344404,
+    "new_latt_constant": 3.5047564233389563,
+    "vol_rel_diff_wien2k_fleur": 4.765704795821433e-06
+  },
+  "Cr-X2O3": {
+    "average_vol_wien2k_fleur": 96.547464661808,
+    "new_latt_constant": 4.587544512818542,
+    "vol_rel_diff_wien2k_fleur": 0.00015195299467901942
+  },
+  "Cr-X2O5": {
+    "average_vol_wien2k_fleur": 116.2551412135974,
+    "new_latt_constant": 4.880571984789192,
+    "vol_rel_diff_wien2k_fleur": 0.00030723435051838594
+  },
+  "Cr-XO": {
+    "average_vol_wien2k_fleur": 17.663501472364636,
+    "new_latt_constant": 2.9232363621507815,
+    "vol_rel_diff_wien2k_fleur": 4.5124420657708926e-05
+  },
+  "Cr-XO2": {
+    "average_vol_wien2k_fleur": 25.421891742158707,
+    "new_latt_constant": 3.3004585858850612,
+    "vol_rel_diff_wien2k_fleur": 0.0002602684233612107
+  },
+  "Cr-XO3": {
+    "average_vol_wien2k_fleur": 46.89194265317367,
+    "new_latt_constant": 3.6060582829388466,
+    "vol_rel_diff_wien2k_fleur": 0.0007311555974748078
+  },
+  "Cs-X2O": {
+    "average_vol_wien2k_fleur": 96.47951771554114,
+    "new_latt_constant": 5.148136347001323,
+    "vol_rel_diff_wien2k_fleur": 0.0007832187671223714
+  },
+  "Cs-X2O3": {
+    "average_vol_wien2k_fleur": 283.3856330846398,
+    "new_latt_constant": 6.568395218716726,
+    "vol_rel_diff_wien2k_fleur": 0.00047026438083302426
+  },
+  "Cs-X2O5": {
+    "average_vol_wien2k_fleur": 244.23878081345163,
+    "new_latt_constant": 6.250837484049049,
+    "vol_rel_diff_wien2k_fleur": 0.0031872021736435796
+  },
+  "Cs-XO": {
+    "average_vol_wien2k_fleur": 53.27330767554159,
+    "new_latt_constant": 4.223523225620264,
+    "vol_rel_diff_wien2k_fleur": 2.9745645351372382e-05
+  },
+  "Cs-XO2": {
+    "average_vol_wien2k_fleur": 63.56002015072103,
+    "new_latt_constant": 4.479535761210533,
+    "vol_rel_diff_wien2k_fleur": 0.002300822137804359
+  },
+  "Cs-XO3": {
+    "average_vol_wien2k_fleur": 76.18876526840353,
+    "new_latt_constant": 4.239327598746909,
+    "vol_rel_diff_wien2k_fleur": 0.0025760945528059834
+  },
+  "Cu-X2O": {
+    "average_vol_wien2k_fleur": 34.539596244149664,
+    "new_latt_constant": 3.6554772447800112,
+    "vol_rel_diff_wien2k_fleur": 0.00030088621262034987
+  },
+  "Cu-X2O3": {
+    "average_vol_wien2k_fleur": 103.80327264915161,
+    "new_latt_constant": 4.699702299676455,
+    "vol_rel_diff_wien2k_fleur": 0.00012085648152550405
+  },
+  "Cu-X2O5": {
+    "average_vol_wien2k_fleur": 128.48316452192307,
+    "new_latt_constant": 5.046017374588366,
+    "vol_rel_diff_wien2k_fleur": 1.3005253724024938e-05
+  },
+  "Cu-XO": {
+    "average_vol_wien2k_fleur": 19.105940399544448,
+    "new_latt_constant": 3.0007361169524223,
+    "vol_rel_diff_wien2k_fleur": 0.0007265174494748195
+  },
+  "Cu-XO2": {
+    "average_vol_wien2k_fleur": 28.233187602414805,
+    "new_latt_constant": 3.4178917508224114,
+    "vol_rel_diff_wien2k_fleur": 8.78227805480207e-07
+  },
+  "Cu-XO3": {
+    "average_vol_wien2k_fleur": 52.00276684744185,
+    "new_latt_constant": 3.732577356213302,
+    "vol_rel_diff_wien2k_fleur": 0.00033332255059711065
+  },
+  "Dy-X2O": {
+    "average_vol_wien2k_fleur": 51.787002049824665,
+    "new_latt_constant": 4.183873926949561,
+    "vol_rel_diff_wien2k_fleur": 0.00022391526621899757
+  },
+  "Dy-X2O3": {
+    "average_vol_wien2k_fleur": 148.54945773335527,
+    "new_latt_constant": 5.296110326714463,
+    "vol_rel_diff_wien2k_fleur": 0.0005177768258742447
+  },
+  "Dy-X2O5": {
+    "average_vol_wien2k_fleur": 155.3358454867282,
+    "new_latt_constant": 5.375562247142866,
+    "vol_rel_diff_wien2k_fleur": 0.00031099728715043703
+  },
+  "Dy-XO": {
+    "average_vol_wien2k_fleur": 28.173997417190016,
+    "new_latt_constant": 3.4155015709883383,
+    "vol_rel_diff_wien2k_fleur": 0.00019858148977552488
+  },
+  "Dy-XO2": {
+    "average_vol_wien2k_fleur": 36.943494858090055,
+    "new_latt_constant": 3.7383875790717433,
+    "vol_rel_diff_wien2k_fleur": 0.0002704052829459811
+  },
+  "Dy-XO3": {
+    "average_vol_wien2k_fleur": 71.78803516447131,
+    "new_latt_constant": 4.156081183118445,
+    "vol_rel_diff_wien2k_fleur": 0.0002935075308070481
+  },
+  "Er-X2O": {
+    "average_vol_wien2k_fleur": 53.8049344945163,
+    "new_latt_constant": 4.237525925600069,
+    "vol_rel_diff_wien2k_fleur": 7.677754849454702e-05
+  },
+  "Er-X2O3": {
+    "average_vol_wien2k_fleur": 147.36638376525195,
+    "new_latt_constant": 5.28201311843797,
+    "vol_rel_diff_wien2k_fleur": 0.0003173554871131701
+  },
+  "Er-X2O5": {
+    "average_vol_wien2k_fleur": 156.0161744549407,
+    "new_latt_constant": 5.383398653798345,
+    "vol_rel_diff_wien2k_fleur": 0.00035670077357681816
+  },
+  "Er-XO": {
+    "average_vol_wien2k_fleur": 28.02351681493419,
+    "new_latt_constant": 3.409409848624894,
+    "vol_rel_diff_wien2k_fleur": 0.000272400852426497
+  },
+  "Er-XO2": {
+    "average_vol_wien2k_fleur": 36.902642812637964,
+    "new_latt_constant": 3.7370091035803314,
+    "vol_rel_diff_wien2k_fleur": 0.0002733036039489362
+  },
+  "Er-XO3": {
+    "average_vol_wien2k_fleur": 73.17841239966896,
+    "new_latt_constant": 4.1827412023367385,
+    "vol_rel_diff_wien2k_fleur": 0.0002545122082752141
+  },
+  "Eu-X2O": {
+    "average_vol_wien2k_fleur": 49.99782541542636,
+    "new_latt_constant": 4.1351255923931,
+    "vol_rel_diff_wien2k_fleur": 0.00025899464706067107
+  },
+  "Eu-X2O3": {
+    "average_vol_wien2k_fleur": 152.30922791097925,
+    "new_latt_constant": 5.340419899824717,
+    "vol_rel_diff_wien2k_fleur": 0.0005676335120616616
+  },
+  "Eu-X2O5": {
+    "average_vol_wien2k_fleur": 156.7476807665975,
+    "new_latt_constant": 5.391799174792865,
+    "vol_rel_diff_wien2k_fleur": 0.00011890744867076239
+  },
+  "Eu-XO": {
+    "average_vol_wien2k_fleur": 28.502595007813305,
+    "new_latt_constant": 3.428728783539204,
+    "vol_rel_diff_wien2k_fleur": 9.08694673553564e-05
+  },
+  "Eu-XO2": {
+    "average_vol_wien2k_fleur": 37.68823148407679,
+    "new_latt_constant": 3.763341117538853,
+    "vol_rel_diff_wien2k_fleur": 0.00045804664941276004
+  },
+  "Eu-XO3": {
+    "average_vol_wien2k_fleur": 71.0895767899519,
+    "new_latt_constant": 4.1425584314920805,
+    "vol_rel_diff_wien2k_fleur": 0.00013720126556153792
+  },
+  "F-X2O": {
+    "average_vol_wien2k_fleur": 30.962091653893133,
+    "new_latt_constant": 3.5246426862841145,
+    "vol_rel_diff_wien2k_fleur": 0.0002395410586805562
+  },
+  "F-X2O3": {
+    "average_vol_wien2k_fleur": 112.63702851485712,
+    "new_latt_constant": 4.829406121514008,
+    "vol_rel_diff_wien2k_fleur": 0.00031910439008966284
+  },
+  "F-X2O5": {
+    "average_vol_wien2k_fleur": 121.56925701180683,
+    "new_latt_constant": 4.953831771191519,
+    "vol_rel_diff_wien2k_fleur": 0.0009499603701216723
+  },
+  "F-XO": {
+    "average_vol_wien2k_fleur": 18.8546187591107,
+    "new_latt_constant": 2.987520663011059,
+    "vol_rel_diff_wien2k_fleur": 7.624223219628707e-05
+  },
+  "F-XO2": {
+    "average_vol_wien2k_fleur": 30.83430551675977,
+    "new_latt_constant": 3.5197870547444383,
+    "vol_rel_diff_wien2k_fleur": 0.00021368947248964065
+  },
+  "F-XO3": {
+    "average_vol_wien2k_fleur": 53.30451024825277,
+    "new_latt_constant": 3.763465904295454,
+    "vol_rel_diff_wien2k_fleur": 0.003428968817895664
+  },
+  "Fe-X2O": {
+    "average_vol_wien2k_fleur": 29.393923914073003,
+    "new_latt_constant": 3.464103461497655,
+    "vol_rel_diff_wien2k_fleur": 0.00019214270821797425
+  },
+  "Fe-X2O3": {
+    "average_vol_wien2k_fleur": 90.86090852774299,
+    "new_latt_constant": 4.495648608937917,
+    "vol_rel_diff_wien2k_fleur": 2.0134567986743154e-06
+  },
+  "Fe-X2O5": {
+    "average_vol_wien2k_fleur": 116.00543545175259,
+    "new_latt_constant": 4.877075134287447,
+    "vol_rel_diff_wien2k_fleur": 6.145484879272652e-05
+  },
+  "Fe-XO": {
+    "average_vol_wien2k_fleur": 17.135718387483525,
+    "new_latt_constant": 2.8938261580613602,
+    "vol_rel_diff_wien2k_fleur": 0.0003056058023734467
+  },
+  "Fe-XO2": {
+    "average_vol_wien2k_fleur": 24.190098735873185,
+    "new_latt_constant": 3.246266820585903,
+    "vol_rel_diff_wien2k_fleur": 0.0003804254109959705
+  },
+  "Fe-XO3": {
+    "average_vol_wien2k_fleur": 45.938899482172424,
+    "new_latt_constant": 3.5814607472257394,
+    "vol_rel_diff_wien2k_fleur": 0.0007139693095516428
+  },
+  "Fr-X2O": {
+    "average_vol_wien2k_fleur": 106.69692599779557,
+    "new_latt_constant": 5.323806985084707,
+    "vol_rel_diff_wien2k_fleur": 9.511056025215767e-05
+  },
+  "Fr-X2O3": {
+    "average_vol_wien2k_fleur": 262.15980961077787,
+    "new_latt_constant": 6.4001286563555375,
+    "vol_rel_diff_wien2k_fleur": 0.0003723653206061338
+  },
+  "Fr-X2O5": {
+    "average_vol_wien2k_fleur": 229.93116204859652,
+    "new_latt_constant": 6.126314360596053,
+    "vol_rel_diff_wien2k_fleur": 0.006339618735536469
+  },
+  "Fr-XO": {
+    "average_vol_wien2k_fleur": 55.38287352218469,
+    "new_latt_constant": 4.278552128723206,
+    "vol_rel_diff_wien2k_fleur": 2.7933624078834825e-05
+  },
+  "Fr-XO2": {
+    "average_vol_wien2k_fleur": 58.915072127311326,
+    "new_latt_constant": 4.367643041791645,
+    "vol_rel_diff_wien2k_fleur": 9.071116150223409e-05
+  },
+  "Fr-XO3": {
+    "average_vol_wien2k_fleur": 79.53101909585712,
+    "new_latt_constant": 4.30043296696479,
+    "vol_rel_diff_wien2k_fleur": 0.00022177751416673768
+  },
+  "Ga-X2O": {
+    "average_vol_wien2k_fleur": 53.04848561920306,
+    "new_latt_constant": 4.217573528994865,
+    "vol_rel_diff_wien2k_fleur": 0.00022566597832920302
+  },
+  "Ga-X2O3": {
+    "average_vol_wien2k_fleur": 110.99173847095267,
+    "new_latt_constant": 4.805776299379134,
+    "vol_rel_diff_wien2k_fleur": 0.00012142292832781827
+  },
+  "Ga-X2O5": {
+    "average_vol_wien2k_fleur": 135.67758202074563,
+    "new_latt_constant": 5.1384961057796295,
+    "vol_rel_diff_wien2k_fleur": 0.0005810536813421953
+  },
+  "Ga-XO": {
+    "average_vol_wien2k_fleur": 24.35231119688135,
+    "new_latt_constant": 3.253506866116288,
+    "vol_rel_diff_wien2k_fleur": 0.0008139840856351011
+  },
+  "Ga-XO2": {
+    "average_vol_wien2k_fleur": 29.260606060625697,
+    "new_latt_constant": 3.458858309270558,
+    "vol_rel_diff_wien2k_fleur": 1.408450838452699e-05
+  },
+  "Ga-XO3": {
+    "average_vol_wien2k_fleur": 57.48397906926287,
+    "new_latt_constant": 3.8593628099168624,
+    "vol_rel_diff_wien2k_fleur": 0.00036459094977558227
+  },
+  "Gd-X2O": {
+    "average_vol_wien2k_fleur": 50.445105253581744,
+    "new_latt_constant": 4.147419928298102,
+    "vol_rel_diff_wien2k_fleur": 0.000245603468844905
+  },
+  "Gd-X2O3": {
+    "average_vol_wien2k_fleur": 150.99475928200533,
+    "new_latt_constant": 5.3250124155794225,
+    "vol_rel_diff_wien2k_fleur": 0.0005796132556311125
+  },
+  "Gd-X2O5": {
+    "average_vol_wien2k_fleur": 156.1388531232354,
+    "new_latt_constant": 5.384809309142175,
+    "vol_rel_diff_wien2k_fleur": 0.00014278158884388535
+  },
+  "Gd-XO": {
+    "average_vol_wien2k_fleur": 28.360534620897255,
+    "new_latt_constant": 3.423022893502853,
+    "vol_rel_diff_wien2k_fleur": 0.00010822228267333817
+  },
+  "Gd-XO2": {
+    "average_vol_wien2k_fleur": 37.35749541868961,
+    "new_latt_constant": 3.75230025811845,
+    "vol_rel_diff_wien2k_fleur": 0.0004226952905227909
+  },
+  "Gd-XO3": {
+    "average_vol_wien2k_fleur": 71.10646578511904,
+    "new_latt_constant": 4.1428864594661645,
+    "vol_rel_diff_wien2k_fleur": 0.00015373524921216038
+  },
+  "Ge-X2O": {
+    "average_vol_wien2k_fleur": 49.67077884452648,
+    "new_latt_constant": 4.126089611793157,
+    "vol_rel_diff_wien2k_fleur": 0.00010151463424418478
+  },
+  "Ge-X2O3": {
+    "average_vol_wien2k_fleur": 121.20274232053434,
+    "new_latt_constant": 4.948848384555621,
+    "vol_rel_diff_wien2k_fleur": 0.0003092722190192259
+  },
+  "Ge-X2O5": {
+    "average_vol_wien2k_fleur": 139.5198278400827,
+    "new_latt_constant": 5.186550894589855,
+    "vol_rel_diff_wien2k_fleur": 0.0014072861389967824
+  },
+  "Ge-XO": {
+    "average_vol_wien2k_fleur": 27.121811004368617,
+    "new_latt_constant": 3.3724425570008574,
+    "vol_rel_diff_wien2k_fleur": 0.00015566839310817023
+  },
+  "Ge-XO2": {
+    "average_vol_wien2k_fleur": 28.19281950189341,
+    "new_latt_constant": 3.41626199496228,
+    "vol_rel_diff_wien2k_fleur": 4.11805641893488e-05
+  },
+  "Ge-XO3": {
+    "average_vol_wien2k_fleur": 51.09293174343205,
+    "new_latt_constant": 3.710680891669839,
+    "vol_rel_diff_wien2k_fleur": 0.00032614074580363043
+  },
+  "H-X2O": {
+    "average_vol_wien2k_fleur": 11.964633686705024,
+    "new_latt_constant": 2.5672695406806323,
+    "vol_rel_diff_wien2k_fleur": 0.00022293815923626198
+  },
+  "H-X2O3": {
+    "average_vol_wien2k_fleur": 61.83978959468934,
+    "new_latt_constant": 3.9544795538733406,
+    "vol_rel_diff_wien2k_fleur": 8.765894348680392e-05
+  },
+  "H-X2O5": {
+    "average_vol_wien2k_fleur": 103.34402166299742,
+    "new_latt_constant": 4.69276117691905,
+    "vol_rel_diff_wien2k_fleur": 0.0017993945949923416
+  },
+  "H-XO": {
+    "average_vol_wien2k_fleur": 10.025348949324814,
+    "new_latt_constant": 2.420312805435446,
+    "vol_rel_diff_wien2k_fleur": 0.0002894763429224803
+  },
+  "H-XO2": {
+    "average_vol_wien2k_fleur": 19.104771217818588,
+    "new_latt_constant": 3.0006749060179105,
+    "vol_rel_diff_wien2k_fleur": 8.676180122379684e-05
+  },
+  "H-XO3": {
+    "average_vol_wien2k_fleur": 31.075886066642568,
+    "new_latt_constant": 3.143941864937535,
+    "vol_rel_diff_wien2k_fleur": 0.0004063558055201139
+  },
+  "He-X2O": {
+    "average_vol_wien2k_fleur": 92.12726733906212,
+    "new_latt_constant": 5.069530369446658,
+    "vol_rel_diff_wien2k_fleur": 0.0002405278966768924
+  },
+  "He-X2O3": {
+    "average_vol_wien2k_fleur": 94.25712585064821,
+    "new_latt_constant": 4.550977946224562,
+    "vol_rel_diff_wien2k_fleur": 0.0005214279372519334
+  },
+  "He-X2O5": {
+    "average_vol_wien2k_fleur": 112.79324019893255,
+    "new_latt_constant": 4.83163765877558,
+    "vol_rel_diff_wien2k_fleur": 0.001999407072065205
+  },
+  "He-XO": {
+    "average_vol_wien2k_fleur": 31.51877019227478,
+    "new_latt_constant": 3.5456409440848944,
+    "vol_rel_diff_wien2k_fleur": 0.002339930221831306
+  },
+  "He-XO2": {
+    "average_vol_wien2k_fleur": 24.774985493209968,
+    "new_latt_constant": 3.2722223167569955,
+    "vol_rel_diff_wien2k_fleur": 0.0003805860383913559
+  },
+  "He-XO3": {
+    "average_vol_wien2k_fleur": 43.04663047573416,
+    "new_latt_constant": 3.5046639991551958,
+    "vol_rel_diff_wien2k_fleur": 0.0015643279807844297
+  },
+  "Hf-X2O": {
+    "average_vol_wien2k_fleur": 48.64474476321895,
+    "new_latt_constant": 4.097481256519049,
+    "vol_rel_diff_wien2k_fleur": 0.00033529775192557023
+  },
+  "Hf-X2O3": {
+    "average_vol_wien2k_fleur": 128.37187356970333,
+    "new_latt_constant": 5.044560015556845,
+    "vol_rel_diff_wien2k_fleur": 2.918972281443964e-05
+  },
+  "Hf-X2O5": {
+    "average_vol_wien2k_fleur": 142.6672745595795,
+    "new_latt_constant": 5.2252626051429285,
+    "vol_rel_diff_wien2k_fleur": 0.00016437463260847134
+  },
+  "Hf-XO": {
+    "average_vol_wien2k_fleur": 24.232817281869167,
+    "new_latt_constant": 3.2481766136298758,
+    "vol_rel_diff_wien2k_fleur": 0.00010871883808178143
+  },
+  "Hf-XO2": {
+    "average_vol_wien2k_fleur": 33.12186759064753,
+    "new_latt_constant": 3.6047620713665793,
+    "vol_rel_diff_wien2k_fleur": 2.823455810585726e-05
+  },
+  "Hf-XO3": {
+    "average_vol_wien2k_fleur": 70.8217576729627,
+    "new_latt_constant": 4.137349733065646,
+    "vol_rel_diff_wien2k_fleur": 1.574863378214023e-05
+  },
+  "Hg-X2O": {
+    "average_vol_wien2k_fleur": 56.104348720305936,
+    "new_latt_constant": 4.297050995267707,
+    "vol_rel_diff_wien2k_fleur": 0.0024437064597544094
+  },
+  "Hg-X2O3": {
+    "average_vol_wien2k_fleur": 152.65423513826448,
+    "new_latt_constant": 5.344449189562689,
+    "vol_rel_diff_wien2k_fleur": 0.0004878362952819852
+  },
+  "Hg-X2O5": {
+    "average_vol_wien2k_fleur": 166.53038658103588,
+    "new_latt_constant": 5.501711716049424,
+    "vol_rel_diff_wien2k_fleur": 0.000920113386355705
+  },
+  "Hg-XO": {
+    "average_vol_wien2k_fleur": 29.80445685521907,
+    "new_latt_constant": 3.480156197678541,
+    "vol_rel_diff_wien2k_fleur": 0.00025789061009224196
+  },
+  "Hg-XO2": {
+    "average_vol_wien2k_fleur": 39.30434852697151,
+    "new_latt_constant": 3.8163822447346245,
+    "vol_rel_diff_wien2k_fleur": 8.897371599028426e-05
+  },
+  "Hg-XO3": {
+    "average_vol_wien2k_fleur": 72.55805160548687,
+    "new_latt_constant": 4.170888090258642,
+    "vol_rel_diff_wien2k_fleur": 8.687128215603262e-05
+  },
+  "Ho-X2O": {
+    "average_vol_wien2k_fleur": 52.71344185861571,
+    "new_latt_constant": 4.208675649658513,
+    "vol_rel_diff_wien2k_fleur": 0.00011982300046961807
+  },
+  "Ho-X2O3": {
+    "average_vol_wien2k_fleur": 147.76020292430715,
+    "new_latt_constant": 5.286714117552736,
+    "vol_rel_diff_wien2k_fleur": 0.00031406189011587454
+  },
+  "Ho-X2O5": {
+    "average_vol_wien2k_fleur": 155.4857242208119,
+    "new_latt_constant": 5.377290595751822,
+    "vol_rel_diff_wien2k_fleur": 0.0003637090071103493
+  },
+  "Ho-XO": {
+    "average_vol_wien2k_fleur": 28.095405200719945,
+    "new_latt_constant": 3.41232273174459,
+    "vol_rel_diff_wien2k_fleur": 0.0001854538634577941
+  },
+  "Ho-XO2": {
+    "average_vol_wien2k_fleur": 36.87880179201029,
+    "new_latt_constant": 3.7362041629970983,
+    "vol_rel_diff_wien2k_fleur": 0.0002495629893968912
+  },
+  "Ho-XO3": {
+    "average_vol_wien2k_fleur": 72.37002847904748,
+    "new_latt_constant": 4.167282233629566,
+    "vol_rel_diff_wien2k_fleur": 0.00036005178721858303
+  },
+  "I-X2O": {
+    "average_vol_wien2k_fleur": 72.20498792122477,
+    "new_latt_constant": 4.6740576622847,
+    "vol_rel_diff_wien2k_fleur": 0.00013816001825827398
+  },
+  "I-X2O3": {
+    "average_vol_wien2k_fleur": 167.7254552681653,
+    "new_latt_constant": 5.514840967527768,
+    "vol_rel_diff_wien2k_fleur": 0.00027968644506335387
+  },
+  "I-X2O5": {
+    "average_vol_wien2k_fleur": 162.99641151647174,
+    "new_latt_constant": 5.462515484503195,
+    "vol_rel_diff_wien2k_fleur": 3.176123332009945e-05
+  },
+  "I-XO": {
+    "average_vol_wien2k_fleur": 38.009473316707094,
+    "new_latt_constant": 3.7740033662910344,
+    "vol_rel_diff_wien2k_fleur": 0.00024064088807485408
+  },
+  "I-XO2": {
+    "average_vol_wien2k_fleur": 41.44807963953488,
+    "new_latt_constant": 3.8845418427620815,
+    "vol_rel_diff_wien2k_fleur": 9.069851009912763e-05
+  },
+  "I-XO3": {
+    "average_vol_wien2k_fleur": 60.846551905183205,
+    "new_latt_constant": 3.93319360274783,
+    "vol_rel_diff_wien2k_fleur": 0.00022521917737857653
+  },
+  "In-X2O": {
+    "average_vol_wien2k_fleur": 65.89697538854752,
+    "new_latt_constant": 4.533777049797958,
+    "vol_rel_diff_wien2k_fleur": 0.00018588444815153683
+  },
+  "In-X2O3": {
+    "average_vol_wien2k_fleur": 140.37652672890192,
+    "new_latt_constant": 5.197144965398197,
+    "vol_rel_diff_wien2k_fleur": 0.00016422587409038313
+  },
+  "In-X2O5": {
+    "average_vol_wien2k_fleur": 156.84037287707866,
+    "new_latt_constant": 5.39286177161717,
+    "vol_rel_diff_wien2k_fleur": 0.000862368810794786
+  },
+  "In-XO": {
+    "average_vol_wien2k_fleur": 30.506776433272968,
+    "new_latt_constant": 3.507280002904644,
+    "vol_rel_diff_wien2k_fleur": 0.000735808108181049
+  },
+  "In-XO2": {
+    "average_vol_wien2k_fleur": 36.470776443868914,
+    "new_latt_constant": 3.722373968308491,
+    "vol_rel_diff_wien2k_fleur": 0.0002674165095672041
+  },
+  "In-XO3": {
+    "average_vol_wien2k_fleur": 74.75339063582604,
+    "new_latt_constant": 4.212536064607094,
+    "vol_rel_diff_wien2k_fleur": 0.0007221247249511654
+  },
+  "Ir-X2O": {
+    "average_vol_wien2k_fleur": 40.36402767029547,
+    "new_latt_constant": 3.8503762012400142,
+    "vol_rel_diff_wien2k_fleur": 0.0015274823685724214
+  },
+  "Ir-X2O3": {
+    "average_vol_wien2k_fleur": 111.07952402696156,
+    "new_latt_constant": 4.807042959929252,
+    "vol_rel_diff_wien2k_fleur": 0.0007836552657715573
+  },
+  "Ir-X2O5": {
+    "average_vol_wien2k_fleur": 130.9761612213957,
+    "new_latt_constant": 5.0784449900539315,
+    "vol_rel_diff_wien2k_fleur": 0.0010713586463584983
+  },
+  "Ir-XO": {
+    "average_vol_wien2k_fleur": 23.426043170562156,
+    "new_latt_constant": 3.2117222398785286,
+    "vol_rel_diff_wien2k_fleur": 0.0019843872388458014
+  },
+  "Ir-XO2": {
+    "average_vol_wien2k_fleur": 30.429186411433605,
+    "new_latt_constant": 3.5043040415014426,
+    "vol_rel_diff_wien2k_fleur": 0.0012479079247726
+  },
+  "Ir-XO3": {
+    "average_vol_wien2k_fleur": 53.881972945300035,
+    "new_latt_constant": 3.7770073488869276,
+    "vol_rel_diff_wien2k_fleur": 0.0012090479809675684
+  },
+  "K-X2O": {
+    "average_vol_wien2k_fleur": 68.00111029170341,
+    "new_latt_constant": 4.581527881372044,
+    "vol_rel_diff_wien2k_fleur": 0.0004791012448682702
+  },
+  "K-X2O3": {
+    "average_vol_wien2k_fleur": 227.59184352806045,
+    "new_latt_constant": 6.105467135943919,
+    "vol_rel_diff_wien2k_fleur": 0.0008449904921807597
+  },
+  "K-X2O5": {
+    "average_vol_wien2k_fleur": 198.78244896965856,
+    "new_latt_constant": 5.836144177209145,
+    "vol_rel_diff_wien2k_fleur": 0.0015247928690582694
+  },
+  "K-XO": {
+    "average_vol_wien2k_fleur": 42.74207465209129,
+    "new_latt_constant": 3.9245530026492923,
+    "vol_rel_diff_wien2k_fleur": 0.000370845260704995
+  },
+  "K-XO2": {
+    "average_vol_wien2k_fleur": 58.367933630038365,
+    "new_latt_constant": 4.354080345392287,
+    "vol_rel_diff_wien2k_fleur": 0.0005265346571641704
+  },
+  "K-XO3": {
+    "average_vol_wien2k_fleur": 136.60539272171644,
+    "new_latt_constant": 5.150182451470794,
+    "vol_rel_diff_wien2k_fleur": 0.0002839232233817956
+  },
+  "Kr-X2O": {
+    "average_vol_wien2k_fleur": 118.9406088667889,
+    "new_latt_constant": 5.520118299995727,
+    "vol_rel_diff_wien2k_fleur": 0.0015535675172904306
+  },
+  "Kr-X2O3": {
+    "average_vol_wien2k_fleur": 194.3385219515166,
+    "new_latt_constant": 5.792325580665117,
+    "vol_rel_diff_wien2k_fleur": 0.001878391887349299
+  },
+  "Kr-X2O5": {
+    "average_vol_wien2k_fleur": 192.38047564586998,
+    "new_latt_constant": 5.772806467102059,
+    "vol_rel_diff_wien2k_fleur": 0.0013569397174201599
+  },
+  "Kr-XO": {
+    "average_vol_wien2k_fleur": 40.08181407409117,
+    "new_latt_constant": 3.8413816341774574,
+    "vol_rel_diff_wien2k_fleur": 0.0003100695033256501
+  },
+  "Kr-XO2": {
+    "average_vol_wien2k_fleur": 47.53318730666997,
+    "new_latt_constant": 4.066030619642212,
+    "vol_rel_diff_wien2k_fleur": 0.001509979717508785
+  },
+  "Kr-XO3": {
+    "average_vol_wien2k_fleur": 67.92479838488485,
+    "new_latt_constant": 4.08014990448049,
+    "vol_rel_diff_wien2k_fleur": 0.002650037019032795
+  },
+  "La-X2O": {
+    "average_vol_wien2k_fleur": 65.16399364390955,
+    "new_latt_constant": 4.516904379022913,
+    "vol_rel_diff_wien2k_fleur": 0.0009178797804775816
+  },
+  "La-X2O3": {
+    "average_vol_wien2k_fleur": 182.53972407689957,
+    "new_latt_constant": 5.672647491636802,
+    "vol_rel_diff_wien2k_fleur": 7.367247796177051e-05
+  },
+  "La-X2O5": {
+    "average_vol_wien2k_fleur": 189.97053027368082,
+    "new_latt_constant": 5.748599838272099,
+    "vol_rel_diff_wien2k_fleur": 0.000583982433899213
+  },
+  "La-XO": {
+    "average_vol_wien2k_fleur": 34.42877048263569,
+    "new_latt_constant": 3.651563329874269,
+    "vol_rel_diff_wien2k_fleur": 0.00014694206786062863
+  },
+  "La-XO2": {
+    "average_vol_wien2k_fleur": 47.88164520666734,
+    "new_latt_constant": 4.075942237157215,
+    "vol_rel_diff_wien2k_fleur": 8.960455130898625e-05
+  },
+  "La-XO3": {
+    "average_vol_wien2k_fleur": 90.59306948705293,
+    "new_latt_constant": 4.4912268492503085,
+    "vol_rel_diff_wien2k_fleur": 0.00070933710777207
+  },
+  "Li-X2O": {
+    "average_vol_wien2k_fleur": 24.722026132039396,
+    "new_latt_constant": 3.2698890704597736,
+    "vol_rel_diff_wien2k_fleur": 3.833568964546328e-05
+  },
+  "Li-X2O3": {
+    "average_vol_wien2k_fleur": 89.5472411372813,
+    "new_latt_constant": 4.473877310819017,
+    "vol_rel_diff_wien2k_fleur": 0.00013532215268140374
+  },
+  "Li-X2O5": {
+    "average_vol_wien2k_fleur": 123.68747346785048,
+    "new_latt_constant": 4.982438033927649,
+    "vol_rel_diff_wien2k_fleur": 0.0015123040276804592
+  },
+  "Li-XO": {
+    "average_vol_wien2k_fleur": 16.828058321767724,
+    "new_latt_constant": 2.876402574399446,
+    "vol_rel_diff_wien2k_fleur": 0.00015945728338012715
+  },
+  "Li-XO2": {
+    "average_vol_wien2k_fleur": 24.923848447963678,
+    "new_latt_constant": 3.2787630579541647,
+    "vol_rel_diff_wien2k_fleur": 0.000140552293918802
+  },
+  "Li-XO3": {
+    "average_vol_wien2k_fleur": 46.065906876561684,
+    "new_latt_constant": 3.5847582681368393,
+    "vol_rel_diff_wien2k_fleur": 0.00018264598905903004
+  },
+  "Lu-X2O": {
+    "average_vol_wien2k_fleur": 54.06304747131053,
+    "new_latt_constant": 4.244291203990089,
+    "vol_rel_diff_wien2k_fleur": 6.464568285601833e-05
+  },
+  "Lu-X2O3": {
+    "average_vol_wien2k_fleur": 144.44034261621266,
+    "new_latt_constant": 5.246820056038478,
+    "vol_rel_diff_wien2k_fleur": 0.00017090261611270953
+  },
+  "Lu-X2O5": {
+    "average_vol_wien2k_fleur": 157.88633302115846,
+    "new_latt_constant": 5.404823456836035,
+    "vol_rel_diff_wien2k_fleur": 0.0008191586643900765
+  },
+  "Lu-XO": {
+    "average_vol_wien2k_fleur": 26.557355752013628,
+    "new_latt_constant": 3.348882754640992,
+    "vol_rel_diff_wien2k_fleur": 0.00013222340582593365
+  },
+  "Lu-XO2": {
+    "average_vol_wien2k_fleur": 37.26269609592586,
+    "new_latt_constant": 3.7491235922749713,
+    "vol_rel_diff_wien2k_fleur": 0.0003593994330749979
+  },
+  "Lu-XO3": {
+    "average_vol_wien2k_fleur": 78.07350534631225,
+    "new_latt_constant": 4.27400041098185,
+    "vol_rel_diff_wien2k_fleur": 0.0013629552324116985
+  },
+  "Mg-X2O": {
+    "average_vol_wien2k_fleur": 44.83726124766258,
+    "new_latt_constant": 3.987659109681488,
+    "vol_rel_diff_wien2k_fleur": 8.748293753947562e-05
+  },
+  "Mg-X2O3": {
+    "average_vol_wien2k_fleur": 113.543298632035,
+    "new_latt_constant": 4.842323899268483,
+    "vol_rel_diff_wien2k_fleur": 0.00041748598553225465
+  },
+  "Mg-X2O5": {
+    "average_vol_wien2k_fleur": 138.89599147861855,
+    "new_latt_constant": 5.178809119342413,
+    "vol_rel_diff_wien2k_fleur": 0.0007920822018815504
+  },
+  "Mg-XO": {
+    "average_vol_wien2k_fleur": 19.249697791680347,
+    "new_latt_constant": 3.0082433906299593,
+    "vol_rel_diff_wien2k_fleur": 0.0003218535390916266
+  },
+  "Mg-XO2": {
+    "average_vol_wien2k_fleur": 30.590432742172638,
+    "new_latt_constant": 3.510482988674656,
+    "vol_rel_diff_wien2k_fleur": 3.7087270529714576e-05
+  },
+  "Mg-XO3": {
+    "average_vol_wien2k_fleur": 62.139620734681316,
+    "new_latt_constant": 3.9608603701159746,
+    "vol_rel_diff_wien2k_fleur": 0.00022918500618852782
+  },
+  "Mn-X2O": {
+    "average_vol_wien2k_fleur": 29.56956609429266,
+    "new_latt_constant": 3.4709896327736818,
+    "vol_rel_diff_wien2k_fleur": 7.210753713875774e-05
+  },
+  "Mn-X2O3": {
+    "average_vol_wien2k_fleur": 92.91936694852834,
+    "new_latt_constant": 4.5293451248984,
+    "vol_rel_diff_wien2k_fleur": 7.38931308811384e-05
+  },
+  "Mn-X2O5": {
+    "average_vol_wien2k_fleur": 115.31678779043395,
+    "new_latt_constant": 4.86740531643103,
+    "vol_rel_diff_wien2k_fleur": 0.0001250851624335678
+  },
+  "Mn-XO": {
+    "average_vol_wien2k_fleur": 17.292596840478115,
+    "new_latt_constant": 2.90263039109497,
+    "vol_rel_diff_wien2k_fleur": 5.746279551846509e-05
+  },
+  "Mn-XO2": {
+    "average_vol_wien2k_fleur": 24.64946478416378,
+    "new_latt_constant": 3.266686796906199,
+    "vol_rel_diff_wien2k_fleur": 0.00023815655730639277
+  },
+  "Mn-XO3": {
+    "average_vol_wien2k_fleur": 45.62580847196479,
+    "new_latt_constant": 3.573305855405528,
+    "vol_rel_diff_wien2k_fleur": 0.0009077525487581269
+  },
+  "Mo-X2O": {
+    "average_vol_wien2k_fleur": 39.7189141615338,
+    "new_latt_constant": 3.8297532055382857,
+    "vol_rel_diff_wien2k_fleur": 0.0006689930350139861
+  },
+  "Mo-X2O3": {
+    "average_vol_wien2k_fleur": 113.52222769967987,
+    "new_latt_constant": 4.84202434073651,
+    "vol_rel_diff_wien2k_fleur": 0.00041881313997856794
+  },
+  "Mo-X2O5": {
+    "average_vol_wien2k_fleur": 125.790374933157,
+    "new_latt_constant": 5.010516198847904,
+    "vol_rel_diff_wien2k_fleur": 0.0005346206633197329
+  },
+  "Mo-XO": {
+    "average_vol_wien2k_fleur": 21.515458359782514,
+    "new_latt_constant": 3.1219206962339596,
+    "vol_rel_diff_wien2k_fleur": 0.00043147026104390957
+  },
+  "Mo-XO2": {
+    "average_vol_wien2k_fleur": 29.72589684242388,
+    "new_latt_constant": 3.477095786459881,
+    "vol_rel_diff_wien2k_fleur": 0.0003366194535788892
+  },
+  "Mo-XO3": {
+    "average_vol_wien2k_fleur": 55.615627196779414,
+    "new_latt_constant": 3.8170889437094653,
+    "vol_rel_diff_wien2k_fleur": 0.00020400033251477534
+  },
+  "N-X2O": {
+    "average_vol_wien2k_fleur": 26.670621979627125,
+    "new_latt_constant": 3.353636959568844,
+    "vol_rel_diff_wien2k_fleur": 0.0001408306393685987
+  },
+  "N-X2O3": {
+    "average_vol_wien2k_fleur": 91.34079065102308,
+    "new_latt_constant": 4.50354930927999,
+    "vol_rel_diff_wien2k_fleur": 1.0743305802112069e-05
+  },
+  "N-X2O5": {
+    "average_vol_wien2k_fleur": 114.45611845832745,
+    "new_latt_constant": 4.855265736637633,
+    "vol_rel_diff_wien2k_fleur": 0.0016929027993871485
+  },
+  "N-XO": {
+    "average_vol_wien2k_fleur": 15.335796432614615,
+    "new_latt_constant": 2.788734124450037,
+    "vol_rel_diff_wien2k_fleur": 0.0001951555135969988
+  },
+  "N-XO2": {
+    "average_vol_wien2k_fleur": 25.50994091719234,
+    "new_latt_constant": 3.3042645942426216,
+    "vol_rel_diff_wien2k_fleur": 2.8152382542154516e-05
+  },
+  "N-XO3": {
+    "average_vol_wien2k_fleur": 39.68942492107952,
+    "new_latt_constant": 3.411077620593661,
+    "vol_rel_diff_wien2k_fleur": 0.0002758961074072769
+  },
+  "Na-X2O": {
+    "average_vol_wien2k_fleur": 43.71874553388571,
+    "new_latt_constant": 3.9542206205664656,
+    "vol_rel_diff_wien2k_fleur": 0.0009124476762604091
+  },
+  "Na-X2O3": {
+    "average_vol_wien2k_fleur": 141.69767353049184,
+    "new_latt_constant": 5.213398307407468,
+    "vol_rel_diff_wien2k_fleur": 0.000253024189621327
+  },
+  "Na-X2O5": {
+    "average_vol_wien2k_fleur": 148.7004652380736,
+    "new_latt_constant": 5.297904300642941,
+    "vol_rel_diff_wien2k_fleur": 0.0011100807491658626
+  },
+  "Na-XO": {
+    "average_vol_wien2k_fleur": 27.761904059076613,
+    "new_latt_constant": 3.398767178115703,
+    "vol_rel_diff_wien2k_fleur": 0.0010953181773308552
+  },
+  "Na-XO2": {
+    "average_vol_wien2k_fleur": 36.67184175238401,
+    "new_latt_constant": 3.7292019837177977,
+    "vol_rel_diff_wien2k_fleur": 0.00015498280142019026
+  },
+  "Na-XO3": {
+    "average_vol_wien2k_fleur": 82.17703193735662,
+    "new_latt_constant": 4.347605709963074,
+    "vol_rel_diff_wien2k_fleur": 0.0003229141362390376
+  },
+  "Nb-X2O": {
+    "average_vol_wien2k_fleur": 43.28803675184231,
+    "new_latt_constant": 3.9411923320470077,
+    "vol_rel_diff_wien2k_fleur": 0.0003355776192543117
+  },
+  "Nb-X2O3": {
+    "average_vol_wien2k_fleur": 120.1569726926606,
+    "new_latt_constant": 4.934573922389328,
+    "vol_rel_diff_wien2k_fleur": 0.0002001932483794885
+  },
+  "Nb-X2O5": {
+    "average_vol_wien2k_fleur": 131.55282744893123,
+    "new_latt_constant": 5.085887260897874,
+    "vol_rel_diff_wien2k_fleur": 0.00035229271036045094
+  },
+  "Nb-XO": {
+    "average_vol_wien2k_fleur": 22.37503477276453,
+    "new_latt_constant": 3.1629542164959203,
+    "vol_rel_diff_wien2k_fleur": 0.000327617567766265
+  },
+  "Nb-XO2": {
+    "average_vol_wien2k_fleur": 31.24815924013349,
+    "new_latt_constant": 3.5354644851678376,
+    "vol_rel_diff_wien2k_fleur": 0.0002522234885084843
+  },
+  "Nb-XO3": {
+    "average_vol_wien2k_fleur": 61.6213536385287,
+    "new_latt_constant": 3.949817940410367,
+    "vol_rel_diff_wien2k_fleur": 0.0001767686410540381
+  },
+  "Nd-X2O": {
+    "average_vol_wien2k_fleur": 50.555195497898026,
+    "new_latt_constant": 4.1504348142957985,
+    "vol_rel_diff_wien2k_fleur": 0.0002256742178836024
+  },
+  "Nd-X2O3": {
+    "average_vol_wien2k_fleur": 157.26922168653277,
+    "new_latt_constant": 5.397772534517883,
+    "vol_rel_diff_wien2k_fleur": 0.000409764684879245
+  },
+  "Nd-X2O5": {
+    "average_vol_wien2k_fleur": 159.42386579709714,
+    "new_latt_constant": 5.42231127621568,
+    "vol_rel_diff_wien2k_fleur": 0.00010204498381948095
+  },
+  "Nd-XO": {
+    "average_vol_wien2k_fleur": 29.46021167717608,
+    "new_latt_constant": 3.466705532945462,
+    "vol_rel_diff_wien2k_fleur": 0.00017051317917220432
+  },
+  "Nd-XO2": {
+    "average_vol_wien2k_fleur": 39.095641603574606,
+    "new_latt_constant": 3.809615229373279,
+    "vol_rel_diff_wien2k_fleur": 0.00035510881980076317
+  },
+  "Nd-XO3": {
+    "average_vol_wien2k_fleur": 72.64543481684976,
+    "new_latt_constant": 4.1725617817561425,
+    "vol_rel_diff_wien2k_fleur": 0.0001826630088038285
+  },
+  "Ne-X2O": {
+    "average_vol_wien2k_fleur": 95.78890185320728,
+    "new_latt_constant": 5.135823191688213,
+    "vol_rel_diff_wien2k_fleur": 0.00024791037512263044
+  },
+  "Ne-X2O3": {
+    "average_vol_wien2k_fleur": 163.89002992204084,
+    "new_latt_constant": 5.472479938590564,
+    "vol_rel_diff_wien2k_fleur": 0.00092708602219802
+  },
+  "Ne-X2O5": {
+    "average_vol_wien2k_fleur": 139.03611393254357,
+    "new_latt_constant": 5.18055004684295,
+    "vol_rel_diff_wien2k_fleur": 0.002400614671054251
+  },
+  "Ne-XO": {
+    "average_vol_wien2k_fleur": 47.117807382174604,
+    "new_latt_constant": 4.05415196273385,
+    "vol_rel_diff_wien2k_fleur": 0.004465098183842477
+  },
+  "Ne-XO2": {
+    "average_vol_wien2k_fleur": 38.90826652244529,
+    "new_latt_constant": 3.8035193205181774,
+    "vol_rel_diff_wien2k_fleur": 0.0002792968199481446
+  },
+  "Ne-XO3": {
+    "average_vol_wien2k_fleur": 80.7793536016801,
+    "new_latt_constant": 4.322816407654767,
+    "vol_rel_diff_wien2k_fleur": 0.0009518867533773619
+  },
+  "Ni-X2O": {
+    "average_vol_wien2k_fleur": 31.63921806409013,
+    "new_latt_constant": 3.550151717092378,
+    "vol_rel_diff_wien2k_fleur": 0.000253992629147258
+  },
+  "Ni-X2O3": {
+    "average_vol_wien2k_fleur": 95.99295662654052,
+    "new_latt_constant": 4.578744986225769,
+    "vol_rel_diff_wien2k_fleur": 3.659907147853064e-05
+  },
+  "Ni-X2O5": {
+    "average_vol_wien2k_fleur": 121.42236032885535,
+    "new_latt_constant": 4.951835666877901,
+    "vol_rel_diff_wien2k_fleur": 7.182085480025238e-05
+  },
+  "Ni-XO": {
+    "average_vol_wien2k_fleur": 17.99341772318988,
+    "new_latt_constant": 2.941324136194353,
+    "vol_rel_diff_wien2k_fleur": 0.0005354983988027631
+  },
+  "Ni-XO2": {
+    "average_vol_wien2k_fleur": 26.200006813309795,
+    "new_latt_constant": 3.3337943075596184,
+    "vol_rel_diff_wien2k_fleur": 9.871651556579849e-05
+  },
+  "Ni-XO3": {
+    "average_vol_wien2k_fleur": 49.206955109718265,
+    "new_latt_constant": 3.664450256429285,
+    "vol_rel_diff_wien2k_fleur": 0.0001444962286462492
+  },
+  "Np-X2O": {
+    "average_vol_wien2k_fleur": 47.246442041587024,
+    "new_latt_constant": 4.057837976041623,
+    "vol_rel_diff_wien2k_fleur": 2.2945287035482678e-05
+  },
+  "Np-X2O3": {
+    "average_vol_wien2k_fleur": 147.25339728440713,
+    "new_latt_constant": 5.280662858752168,
+    "vol_rel_diff_wien2k_fleur": 0.0005758411715991176
+  },
+  "Np-X2O5": {
+    "average_vol_wien2k_fleur": 149.61135068823637,
+    "new_latt_constant": 5.308699971125292,
+    "vol_rel_diff_wien2k_fleur": 0.00025867941365848756
+  },
+  "Np-XO": {
+    "average_vol_wien2k_fleur": 27.331278376401826,
+    "new_latt_constant": 3.381102325847095,
+    "vol_rel_diff_wien2k_fleur": 0.00026916972936034934
+  },
+  "Np-XO2": {
+    "average_vol_wien2k_fleur": 38.06635694391409,
+    "new_latt_constant": 3.7758851076670594,
+    "vol_rel_diff_wien2k_fleur": 0.0006439777745031671
+  },
+  "Np-XO3": {
+    "average_vol_wien2k_fleur": 70.29134277467182,
+    "new_latt_constant": 4.126995036662119,
+    "vol_rel_diff_wien2k_fleur": 0.00010364788971204592
+  },
+  "O-X2O": {
+    "average_vol_wien2k_fleur": 27.11224819395599,
+    "new_latt_constant": 3.3720461500911063,
+    "vol_rel_diff_wien2k_fleur": 0.00021340065380214354
+  },
+  "O-X2O3": {
+    "average_vol_wien2k_fleur": 95.74489272152918,
+    "new_latt_constant": 4.574797470350453,
+    "vol_rel_diff_wien2k_fleur": 0.00016805207987846346
+  },
+  "O-X2O5": {
+    "average_vol_wien2k_fleur": 115.86409846418829,
+    "new_latt_constant": 4.875093643107645,
+    "vol_rel_diff_wien2k_fleur": 0.00013403241757861233
+  },
+  "O-XO": {
+    "average_vol_wien2k_fleur": 15.906182447586513,
+    "new_latt_constant": 2.8228880319695935,
+    "vol_rel_diff_wien2k_fleur": 4.077697320115029e-05
+  },
+  "O-XO2": {
+    "average_vol_wien2k_fleur": 27.1122269540707,
+    "new_latt_constant": 3.372045269531004,
+    "vol_rel_diff_wien2k_fleur": 0.00021126330960111723
+  },
+  "O-XO3": {
+    "average_vol_wien2k_fleur": 44.790825579685354,
+    "new_latt_constant": 3.5513735498085772,
+    "vol_rel_diff_wien2k_fleur": 0.00018709046376742203
+  },
+  "Os-X2O": {
+    "average_vol_wien2k_fleur": 39.5761212042443,
+    "new_latt_constant": 3.8251582625655653,
+    "vol_rel_diff_wien2k_fleur": 0.00044073062134098367
+  },
+  "Os-X2O3": {
+    "average_vol_wien2k_fleur": 109.42203562414838,
+    "new_latt_constant": 4.783013389445016,
+    "vol_rel_diff_wien2k_fleur": 0.00025654109007065124
+  },
+  "Os-X2O5": {
+    "average_vol_wien2k_fleur": 126.40206556384753,
+    "new_latt_constant": 5.018624745150612,
+    "vol_rel_diff_wien2k_fleur": 0.00045989064684774325
+  },
+  "Os-XO": {
+    "average_vol_wien2k_fleur": 22.545124840166622,
+    "new_latt_constant": 3.1709486860735763,
+    "vol_rel_diff_wien2k_fleur": 0.0012441572416254576
+  },
+  "Os-XO2": {
+    "average_vol_wien2k_fleur": 28.802047360513615,
+    "new_latt_constant": 3.4406945483671914,
+    "vol_rel_diff_wien2k_fleur": 0.00030882252625647047
+  },
+  "Os-XO3": {
+    "average_vol_wien2k_fleur": 53.11224375158636,
+    "new_latt_constant": 3.7589355801236612,
+    "vol_rel_diff_wien2k_fleur": 0.00034431803066469
+  },
+  "P-X2O": {
+    "average_vol_wien2k_fleur": 40.0140894327115,
+    "new_latt_constant": 3.839216871408545,
+    "vol_rel_diff_wien2k_fleur": 0.0003293556247273771
+  },
+  "P-X2O3": {
+    "average_vol_wien2k_fleur": 112.86281478238939,
+    "new_latt_constant": 4.832630892302079,
+    "vol_rel_diff_wien2k_fleur": 0.00010304159790116587
+  },
+  "P-X2O5": {
+    "average_vol_wien2k_fleur": 130.54282038918217,
+    "new_latt_constant": 5.07283804329828,
+    "vol_rel_diff_wien2k_fleur": 0.0013050064425431465
+  },
+  "P-XO": {
+    "average_vol_wien2k_fleur": 24.30167721044885,
+    "new_latt_constant": 3.251250374878454,
+    "vol_rel_diff_wien2k_fleur": 0.00010063416944922138
+  },
+  "P-XO2": {
+    "average_vol_wien2k_fleur": 27.200591525828578,
+    "new_latt_constant": 3.3757047034118743,
+    "vol_rel_diff_wien2k_fleur": 7.415090002473547e-05
+  },
+  "P-XO3": {
+    "average_vol_wien2k_fleur": 37.00066317301115,
+    "new_latt_constant": 3.332241759991868,
+    "vol_rel_diff_wien2k_fleur": 0.00020198702771222852
+  },
+  "Pa-X2O": {
+    "average_vol_wien2k_fleur": 56.29059117108365,
+    "new_latt_constant": 4.301800534369725,
+    "vol_rel_diff_wien2k_fleur": 0.00013888036473005068
+  },
+  "Pa-X2O3": {
+    "average_vol_wien2k_fleur": 157.61499877743495,
+    "new_latt_constant": 5.401725543401882,
+    "vol_rel_diff_wien2k_fleur": 0.0001776325545607607
+  },
+  "Pa-X2O5": {
+    "average_vol_wien2k_fleur": 159.66395763173372,
+    "new_latt_constant": 5.425031905429196,
+    "vol_rel_diff_wien2k_fleur": 0.00019989021906288078
+  },
+  "Pa-XO": {
+    "average_vol_wien2k_fleur": 30.087985082398326,
+    "new_latt_constant": 3.491156902192187,
+    "vol_rel_diff_wien2k_fleur": 0.0001718348630687627
+  },
+  "Pa-XO2": {
+    "average_vol_wien2k_fleur": 40.64908467609632,
+    "new_latt_constant": 3.8594189315441665,
+    "vol_rel_diff_wien2k_fleur": 0.0006093458780194333
+  },
+  "Pa-XO3": {
+    "average_vol_wien2k_fleur": 77.67438570582243,
+    "new_latt_constant": 4.266704924554688,
+    "vol_rel_diff_wien2k_fleur": 0.0010707701243992036
+  },
+  "Pb-X2O": {
+    "average_vol_wien2k_fleur": 70.32680086877798,
+    "new_latt_constant": 4.633174100335065,
+    "vol_rel_diff_wien2k_fleur": 0.00038679048698249624
+  },
+  "Pb-X2O3": {
+    "average_vol_wien2k_fleur": 172.6897324182171,
+    "new_latt_constant": 5.5687215871820825,
+    "vol_rel_diff_wien2k_fleur": 0.000807603523852767
+  },
+  "Pb-X2O5": {
+    "average_vol_wien2k_fleur": 176.5352565543868,
+    "new_latt_constant": 5.609754010017341,
+    "vol_rel_diff_wien2k_fleur": 0.0012886201638500224
+  },
+  "Pb-XO": {
+    "average_vol_wien2k_fleur": 36.51455332560897,
+    "new_latt_constant": 3.72386272894519,
+    "vol_rel_diff_wien2k_fleur": 0.00039180682536032823
+  },
+  "Pb-XO2": {
+    "average_vol_wien2k_fleur": 39.60503061485885,
+    "new_latt_constant": 3.826089431431531,
+    "vol_rel_diff_wien2k_fleur": 0.0011983636669601284
+  },
+  "Pb-XO3": {
+    "average_vol_wien2k_fleur": 79.29789494394419,
+    "new_latt_constant": 4.296226994028298,
+    "vol_rel_diff_wien2k_fleur": 0.0015963839642634168
+  },
+  "Pd-X2O": {
+    "average_vol_wien2k_fleur": 42.2105554425506,
+    "new_latt_constant": 3.9082171690002476,
+    "vol_rel_diff_wien2k_fleur": 0.00023005821646728537
+  },
+  "Pd-X2O3": {
+    "average_vol_wien2k_fleur": 118.03383357199559,
+    "new_latt_constant": 4.9053368698036115,
+    "vol_rel_diff_wien2k_fleur": 0.00018920724111865948
+  },
+  "Pd-X2O5": {
+    "average_vol_wien2k_fleur": 137.9008854060761,
+    "new_latt_constant": 5.16641178345541,
+    "vol_rel_diff_wien2k_fleur": 0.00037874439815245006
+  },
+  "Pd-XO": {
+    "average_vol_wien2k_fleur": 23.31050250290115,
+    "new_latt_constant": 3.2064333072795614,
+    "vol_rel_diff_wien2k_fleur": 0.000583642750756133
+  },
+  "Pd-XO2": {
+    "average_vol_wien2k_fleur": 31.393464104486863,
+    "new_latt_constant": 3.540936017777066,
+    "vol_rel_diff_wien2k_fleur": 0.0004755196471482987
+  },
+  "Pd-XO3": {
+    "average_vol_wien2k_fleur": 58.57563697053152,
+    "new_latt_constant": 3.883640367949194,
+    "vol_rel_diff_wien2k_fleur": 0.0003948067854321124
+  },
+  "Pm-X2O": {
+    "average_vol_wien2k_fleur": 49.83014434693132,
+    "new_latt_constant": 4.130497665298217,
+    "vol_rel_diff_wien2k_fleur": 0.00024305179718178119
+  },
+  "Pm-X2O3": {
+    "average_vol_wien2k_fleur": 155.19831129613866,
+    "new_latt_constant": 5.373975273004188,
+    "vol_rel_diff_wien2k_fleur": 0.0004035004746785891
+  },
+  "Pm-X2O5": {
+    "average_vol_wien2k_fleur": 158.29292593550883,
+    "new_latt_constant": 5.409459026333755,
+    "vol_rel_diff_wien2k_fleur": 0.00017782303799100633
+  },
+  "Pm-XO": {
+    "average_vol_wien2k_fleur": 29.020855733665606,
+    "new_latt_constant": 3.4493855314034376,
+    "vol_rel_diff_wien2k_fleur": 0.00010721487194476581
+  },
+  "Pm-XO2": {
+    "average_vol_wien2k_fleur": 38.53757229758666,
+    "new_latt_constant": 3.7914015512473163,
+    "vol_rel_diff_wien2k_fleur": 0.0004656389622768826
+  },
+  "Pm-XO3": {
+    "average_vol_wien2k_fleur": 71.71783716569817,
+    "new_latt_constant": 4.154726065336108,
+    "vol_rel_diff_wien2k_fleur": 5.402186609979585e-05
+  },
+  "Po-X2O": {
+    "average_vol_wien2k_fleur": 70.3580194743962,
+    "new_latt_constant": 4.633859566075192,
+    "vol_rel_diff_wien2k_fleur": 0.00016258201805361566
+  },
+  "Po-X2O3": {
+    "average_vol_wien2k_fleur": 169.31096832797346,
+    "new_latt_constant": 5.532163808590117,
+    "vol_rel_diff_wien2k_fleur": 0.000495754390727396
+  },
+  "Po-X2O5": {
+    "average_vol_wien2k_fleur": 170.71052144890632,
+    "new_latt_constant": 5.547365266735963,
+    "vol_rel_diff_wien2k_fleur": 0.0009316525804197117
+  },
+  "Po-XO": {
+    "average_vol_wien2k_fleur": 37.340677262545576,
+    "new_latt_constant": 3.751737084709571,
+    "vol_rel_diff_wien2k_fleur": 0.00015410874984104467
+  },
+  "Po-XO2": {
+    "average_vol_wien2k_fleur": 41.79777158776688,
+    "new_latt_constant": 3.8954357179318557,
+    "vol_rel_diff_wien2k_fleur": 0.0004675650110373148
+  },
+  "Po-XO3": {
+    "average_vol_wien2k_fleur": 70.91823477408164,
+    "new_latt_constant": 4.139227585328072,
+    "vol_rel_diff_wien2k_fleur": 0.0007398597600523396
+  },
+  "Pr-X2O": {
+    "average_vol_wien2k_fleur": 52.30442943059808,
+    "new_latt_constant": 4.197762100924479,
+    "vol_rel_diff_wien2k_fleur": 0.00014035405574179847
+  },
+  "Pr-X2O3": {
+    "average_vol_wien2k_fleur": 159.9920889632732,
+    "new_latt_constant": 5.428745757309046,
+    "vol_rel_diff_wien2k_fleur": 0.00023862383942712228
+  },
+  "Pr-X2O5": {
+    "average_vol_wien2k_fleur": 161.13405740412395,
+    "new_latt_constant": 5.441631320835963,
+    "vol_rel_diff_wien2k_fleur": 7.125014399720478e-07
+  },
+  "Pr-XO": {
+    "average_vol_wien2k_fleur": 30.077127501582005,
+    "new_latt_constant": 3.4907369108616524,
+    "vol_rel_diff_wien2k_fleur": 0.00015476887424713379
+  },
+  "Pr-XO2": {
+    "average_vol_wien2k_fleur": 39.81496638341873,
+    "new_latt_constant": 3.8328378834663988,
+    "vol_rel_diff_wien2k_fleur": 0.0002544964308114519
+  },
+  "Pr-XO3": {
+    "average_vol_wien2k_fleur": 76.65651528395074,
+    "new_latt_constant": 4.247985486491378,
+    "vol_rel_diff_wien2k_fleur": 0.0009213902776539091
+  },
+  "Pt-X2O": {
+    "average_vol_wien2k_fleur": 43.220130176767015,
+    "new_latt_constant": 3.939130384823259,
+    "vol_rel_diff_wien2k_fleur": 0.00023460471832228403
+  },
+  "Pt-X2O3": {
+    "average_vol_wien2k_fleur": 121.24188327145296,
+    "new_latt_constant": 4.9493810506775615,
+    "vol_rel_diff_wien2k_fleur": 0.0003609853437193599
+  },
+  "Pt-X2O5": {
+    "average_vol_wien2k_fleur": 138.52689506745708,
+    "new_latt_constant": 5.174217732876392,
+    "vol_rel_diff_wien2k_fleur": 0.000636770679389448
+  },
+  "Pt-XO": {
+    "average_vol_wien2k_fleur": 24.6497841428217,
+    "new_latt_constant": 3.266700904585142,
+    "vol_rel_diff_wien2k_fleur": 2.562758168306777e-05
+  },
+  "Pt-XO2": {
+    "average_vol_wien2k_fleur": 32.29064649854118,
+    "new_latt_constant": 3.5743513965982032,
+    "vol_rel_diff_wien2k_fleur": 0.0001886923224853205
+  },
+  "Pt-XO3": {
+    "average_vol_wien2k_fleur": 57.335997316587296,
+    "new_latt_constant": 3.8560482281228783,
+    "vol_rel_diff_wien2k_fleur": 0.00048476758886943877
+  },
+  "Pu-X2O": {
+    "average_vol_wien2k_fleur": 45.85350598126201,
+    "new_latt_constant": 4.017561329615891,
+    "vol_rel_diff_wien2k_fleur": 4.622602339424171e-06
+  },
+  "Pu-X2O3": {
+    "average_vol_wien2k_fleur": 145.35217914296263,
+    "new_latt_constant": 5.257837776294731,
+    "vol_rel_diff_wien2k_fleur": 0.0004290151430335514
+  },
+  "Pu-X2O5": {
+    "average_vol_wien2k_fleur": 148.46339351311178,
+    "new_latt_constant": 5.295087337094954,
+    "vol_rel_diff_wien2k_fleur": 0.00022084249489193837
+  },
+  "Pu-XO": {
+    "average_vol_wien2k_fleur": 26.84159786846476,
+    "new_latt_constant": 3.3607880255968947,
+    "vol_rel_diff_wien2k_fleur": 0.00021592369269244266
+  },
+  "Pu-XO2": {
+    "average_vol_wien2k_fleur": 37.40308216733585,
+    "new_latt_constant": 3.7538259281819526,
+    "vol_rel_diff_wien2k_fleur": 0.0006246633517306391
+  },
+  "Pu-XO3": {
+    "average_vol_wien2k_fleur": 68.83835855593712,
+    "new_latt_constant": 4.09836060882056,
+    "vol_rel_diff_wien2k_fleur": 4.52816124561341e-05
+  },
+  "Ra-X2O": {
+    "average_vol_wien2k_fleur": 93.80195939897797,
+    "new_latt_constant": 5.100064117599711,
+    "vol_rel_diff_wien2k_fleur": 0.0001803672126293661
+  },
+  "Ra-X2O3": {
+    "average_vol_wien2k_fleur": 253.11277715207774,
+    "new_latt_constant": 6.3256431693666695,
+    "vol_rel_diff_wien2k_fleur": 0.00013608833276655628
+  },
+  "Ra-X2O5": {
+    "average_vol_wien2k_fleur": 243.06976405432744,
+    "new_latt_constant": 6.240848593418207,
+    "vol_rel_diff_wien2k_fleur": 0.003400142730876172
+  },
+  "Ra-XO": {
+    "average_vol_wien2k_fleur": 47.84186455969541,
+    "new_latt_constant": 4.074813143793256,
+    "vol_rel_diff_wien2k_fleur": 0.00023976658758483697
+  },
+  "Ra-XO2": {
+    "average_vol_wien2k_fleur": 63.85000274192104,
+    "new_latt_constant": 4.486337819596048,
+    "vol_rel_diff_wien2k_fleur": 7.195796336130867e-05
+  },
+  "Ra-XO3": {
+    "average_vol_wien2k_fleur": 87.62983694588442,
+    "new_latt_constant": 4.441714785284175,
+    "vol_rel_diff_wien2k_fleur": 0.000508115840254846
+  },
+  "Rb-X2O": {
+    "average_vol_wien2k_fleur": 81.07466938870326,
+    "new_latt_constant": 4.858103108711105,
+    "vol_rel_diff_wien2k_fleur": 0.0004620582837520206
+  },
+  "Rb-X2O3": {
+    "average_vol_wien2k_fleur": 269.0466093808412,
+    "new_latt_constant": 6.455687624880044,
+    "vol_rel_diff_wien2k_fleur": 0.0005901625695376941
+  },
+  "Rb-X2O5": {
+    "average_vol_wien2k_fleur": 228.6961167542139,
+    "new_latt_constant": 6.11532576250899,
+    "vol_rel_diff_wien2k_fleur": 0.0020366174038396133
+  },
+  "Rb-XO": {
+    "average_vol_wien2k_fleur": 48.78266750076256,
+    "new_latt_constant": 4.101350140084316,
+    "vol_rel_diff_wien2k_fleur": 0.0006204047467149673
+  },
+  "Rb-XO2": {
+    "average_vol_wien2k_fleur": 69.07030487291422,
+    "new_latt_constant": 4.605415202783706,
+    "vol_rel_diff_wien2k_fleur": 0.0010306926298147248
+  },
+  "Rb-XO3": {
+    "average_vol_wien2k_fleur": 109.6412796831643,
+    "new_latt_constant": 4.78620576188471,
+    "vol_rel_diff_wien2k_fleur": 0.002447187809751843
+  },
+  "Re-X2O": {
+    "average_vol_wien2k_fleur": 40.194750944423745,
+    "new_latt_constant": 3.8449861515972064,
+    "vol_rel_diff_wien2k_fleur": 0.00011200190924724113
+  },
+  "Re-X2O3": {
+    "average_vol_wien2k_fleur": 110.68968560762539,
+    "new_latt_constant": 4.801412859663225,
+    "vol_rel_diff_wien2k_fleur": 3.0456453392743855e-05
+  },
+  "Re-X2O5": {
+    "average_vol_wien2k_fleur": 124.47464952017353,
+    "new_latt_constant": 4.99298549086981,
+    "vol_rel_diff_wien2k_fleur": 0.00013417157402985993
+  },
+  "Re-XO": {
+    "average_vol_wien2k_fleur": 22.11251664659807,
+    "new_latt_constant": 3.150535591798191,
+    "vol_rel_diff_wien2k_fleur": 0.000200487952909039
+  },
+  "Re-XO2": {
+    "average_vol_wien2k_fleur": 29.304099960517163,
+    "new_latt_constant": 3.4605712466694403,
+    "vol_rel_diff_wien2k_fleur": 6.142215719818616e-05
+  },
+  "Re-XO3": {
+    "average_vol_wien2k_fleur": 53.81481487389371,
+    "new_latt_constant": 3.775437485637215,
+    "vol_rel_diff_wien2k_fleur": 0.0002644206399439103
+  },
+  "Rh-X2O": {
+    "average_vol_wien2k_fleur": 38.861987969016994,
+    "new_latt_constant": 3.802010719029017,
+    "vol_rel_diff_wien2k_fleur": 0.0003956549532733426
+  },
+  "Rh-X2O3": {
+    "average_vol_wien2k_fleur": 108.83863360504175,
+    "new_latt_constant": 4.774497756702007,
+    "vol_rel_diff_wien2k_fleur": 0.0004293768523966951
+  },
+  "Rh-X2O5": {
+    "average_vol_wien2k_fleur": 130.80920469551745,
+    "new_latt_constant": 5.0762862255722325,
+    "vol_rel_diff_wien2k_fleur": 0.0007766319595136118
+  },
+  "Rh-XO": {
+    "average_vol_wien2k_fleur": 22.007321787522205,
+    "new_latt_constant": 3.1455316823796875,
+    "vol_rel_diff_wien2k_fleur": 0.0007290107901045467
+  },
+  "Rh-XO2": {
+    "average_vol_wien2k_fleur": 29.593067464823648,
+    "new_latt_constant": 3.4719089497477005,
+    "vol_rel_diff_wien2k_fleur": 0.00030632412011642827
+  },
+  "Rh-XO3": {
+    "average_vol_wien2k_fleur": 54.27740454704053,
+    "new_latt_constant": 3.7862244652837767,
+    "vol_rel_diff_wien2k_fleur": 0.0004570795948721161
+  },
+  "Rn-X2O": {
+    "average_vol_wien2k_fleur": 136.67664251803666,
+    "new_latt_constant": 5.781889221599753,
+    "vol_rel_diff_wien2k_fleur": 0.0004734895643792961
+  },
+  "Rn-X2O3": {
+    "average_vol_wien2k_fleur": 203.14111109223754,
+    "new_latt_constant": 5.878492130865022,
+    "vol_rel_diff_wien2k_fleur": 3.0629863357588005e-05
+  },
+  "Rn-X2O5": {
+    "average_vol_wien2k_fleur": 182.23526147755467,
+    "new_latt_constant": 5.669491886047398,
+    "vol_rel_diff_wien2k_fleur": 0.0005458715513346013
+  },
+  "Rn-XO": {
+    "average_vol_wien2k_fleur": 47.53837915687505,
+    "new_latt_constant": 4.066178652729237,
+    "vol_rel_diff_wien2k_fleur": 0.00011692266014688769
+  },
+  "Rn-XO2": {
+    "average_vol_wien2k_fleur": 48.6843769916552,
+    "new_latt_constant": 4.098593731820446,
+    "vol_rel_diff_wien2k_fleur": 7.300048865776533e-05
+  },
+  "Rn-XO3": {
+    "average_vol_wien2k_fleur": 72.06565720753031,
+    "new_latt_constant": 4.1614318220531175,
+    "vol_rel_diff_wien2k_fleur": 6.224303105251668e-05
+  },
+  "Ru-X2O": {
+    "average_vol_wien2k_fleur": 37.88282848125194,
+    "new_latt_constant": 3.76980713292247,
+    "vol_rel_diff_wien2k_fleur": 0.00023079157092095596
+  },
+  "Ru-X2O3": {
+    "average_vol_wien2k_fleur": 107.28010007950064,
+    "new_latt_constant": 4.751598355241066,
+    "vol_rel_diff_wien2k_fleur": 0.0005014894743652579
+  },
+  "Ru-X2O5": {
+    "average_vol_wien2k_fleur": 126.5536163860003,
+    "new_latt_constant": 5.020629651580217,
+    "vol_rel_diff_wien2k_fleur": 0.0007804378161594791
+  },
+  "Ru-XO": {
+    "average_vol_wien2k_fleur": 21.406434314715064,
+    "new_latt_constant": 3.1166385878397347,
+    "vol_rel_diff_wien2k_fleur": 0.0002770835386533631
+  },
+  "Ru-XO2": {
+    "average_vol_wien2k_fleur": 28.1928314386587,
+    "new_latt_constant": 3.4162624771076464,
+    "vol_rel_diff_wien2k_fleur": 0.0004517858630237615
+  },
+  "Ru-XO3": {
+    "average_vol_wien2k_fleur": 52.52389656630183,
+    "new_latt_constant": 3.7450042291333023,
+    "vol_rel_diff_wien2k_fleur": 0.00012171855139483423
+  },
+  "S-X2O": {
+    "average_vol_wien2k_fleur": 42.691701625838476,
+    "new_latt_constant": 3.923010655706728,
+    "vol_rel_diff_wien2k_fleur": 0.000262422233134072
+  },
+  "S-X2O3": {
+    "average_vol_wien2k_fleur": 117.25493364644859,
+    "new_latt_constant": 4.894523016099677,
+    "vol_rel_diff_wien2k_fleur": 0.00011826617836801076
+  },
+  "S-X2O5": {
+    "average_vol_wien2k_fleur": 134.15523538612848,
+    "new_latt_constant": 5.1192052419616045,
+    "vol_rel_diff_wien2k_fleur": 0.001472392986934022
+  },
+  "S-XO": {
+    "average_vol_wien2k_fleur": 24.68481381519264,
+    "new_latt_constant": 3.268247602364728,
+    "vol_rel_diff_wien2k_fleur": 0.0002014343576560796
+  },
+  "S-XO2": {
+    "average_vol_wien2k_fleur": 29.73935864017691,
+    "new_latt_constant": 3.477620591440374,
+    "vol_rel_diff_wien2k_fleur": 8.464474248694584e-05
+  },
+  "S-XO3": {
+    "average_vol_wien2k_fleur": 39.13269943956547,
+    "new_latt_constant": 3.395053344079535,
+    "vol_rel_diff_wien2k_fleur": 0.0005162209905878165
+  },
+  "Sb-X2O": {
+    "average_vol_wien2k_fleur": 61.56830904214437,
+    "new_latt_constant": 4.432248223328558,
+    "vol_rel_diff_wien2k_fleur": 0.00019195076935861054
+  },
+  "Sb-X2O3": {
+    "average_vol_wien2k_fleur": 157.38080449229687,
+    "new_latt_constant": 5.399048809281941,
+    "vol_rel_diff_wien2k_fleur": 0.0005439607763472856
+  },
+  "Sb-X2O5": {
+    "average_vol_wien2k_fleur": 157.73443591046282,
+    "new_latt_constant": 5.403089634640213,
+    "vol_rel_diff_wien2k_fleur": 8.160438049750336e-05
+  },
+  "Sb-XO": {
+    "average_vol_wien2k_fleur": 33.62450640260593,
+    "new_latt_constant": 3.6229052149601206,
+    "vol_rel_diff_wien2k_fleur": 0.00014908189734695146
+  },
+  "Sb-XO2": {
+    "average_vol_wien2k_fleur": 37.56725723239066,
+    "new_latt_constant": 3.7593101920202034,
+    "vol_rel_diff_wien2k_fleur": 0.0006578724826363591
+  },
+  "Sb-XO3": {
+    "average_vol_wien2k_fleur": 60.24063229506646,
+    "new_latt_constant": 3.9200942357054456,
+    "vol_rel_diff_wien2k_fleur": 0.0006053155278039144
+  },
+  "Sc-X2O": {
+    "average_vol_wien2k_fleur": 43.11860314441281,
+    "new_latt_constant": 3.936043537879554,
+    "vol_rel_diff_wien2k_fleur": 5.0876211528423e-05
+  },
+  "Sc-X2O3": {
+    "average_vol_wien2k_fleur": 124.4333606497396,
+    "new_latt_constant": 4.992433363642308,
+    "vol_rel_diff_wien2k_fleur": 9.064048790382342e-05
+  },
+  "Sc-X2O5": {
+    "average_vol_wien2k_fleur": 142.74435951385928,
+    "new_latt_constant": 5.226203527784994,
+    "vol_rel_diff_wien2k_fleur": 0.0006674937812319836
+  },
+  "Sc-XO": {
+    "average_vol_wien2k_fleur": 22.33170210497012,
+    "new_latt_constant": 3.16091104919309,
+    "vol_rel_diff_wien2k_fleur": 1.7723237481217894e-05
+  },
+  "Sc-XO2": {
+    "average_vol_wien2k_fleur": 32.9876454127194,
+    "new_latt_constant": 3.5998861983939086,
+    "vol_rel_diff_wien2k_fleur": 8.818982151647341e-05
+  },
+  "Sc-XO3": {
+    "average_vol_wien2k_fleur": 70.50444584293004,
+    "new_latt_constant": 4.131161448401512,
+    "vol_rel_diff_wien2k_fleur": 0.0001232785501132904
+  },
+  "Se-X2O": {
+    "average_vol_wien2k_fleur": 49.9174369642434,
+    "new_latt_constant": 4.132908198231929,
+    "vol_rel_diff_wien2k_fleur": 0.00011471084778043126
+  },
+  "Se-X2O3": {
+    "average_vol_wien2k_fleur": 132.2867486242458,
+    "new_latt_constant": 5.095327626692838,
+    "vol_rel_diff_wien2k_fleur": 0.00010203023834187411
+  },
+  "Se-X2O5": {
+    "average_vol_wien2k_fleur": 143.866596940531,
+    "new_latt_constant": 5.2398637007421796,
+    "vol_rel_diff_wien2k_fleur": 0.00047826333840676874
+  },
+  "Se-XO": {
+    "average_vol_wien2k_fleur": 28.352445817826162,
+    "new_latt_constant": 3.422697431950678,
+    "vol_rel_diff_wien2k_fleur": 0.00016547551779012417
+  },
+  "Se-XO2": {
+    "average_vol_wien2k_fleur": 33.07453379004292,
+    "new_latt_constant": 3.6030440881926533,
+    "vol_rel_diff_wien2k_fleur": 9.274749283863809e-05
+  },
+  "Se-XO3": {
+    "average_vol_wien2k_fleur": 49.87192813207365,
+    "new_latt_constant": 3.680883337198781,
+    "vol_rel_diff_wien2k_fleur": 0.0008633366657343765
+  },
+  "Si-X2O": {
+    "average_vol_wien2k_fleur": 42.690260293261716,
+    "new_latt_constant": 3.9229665064031085,
+    "vol_rel_diff_wien2k_fleur": 0.0006671173537228821
+  },
+  "Si-X2O3": {
+    "average_vol_wien2k_fleur": 97.64437029767157,
+    "new_latt_constant": 4.6048526342184815,
+    "vol_rel_diff_wien2k_fleur": 0.0005331531607827491
+  },
+  "Si-X2O5": {
+    "average_vol_wien2k_fleur": 122.0143126935985,
+    "new_latt_constant": 4.959869607947039,
+    "vol_rel_diff_wien2k_fleur": 0.0012734130068264304
+  },
+  "Si-XO": {
+    "average_vol_wien2k_fleur": 24.59466850346017,
+    "new_latt_constant": 3.26426436306873,
+    "vol_rel_diff_wien2k_fleur": 1.3702438001653718e-05
+  },
+  "Si-XO2": {
+    "average_vol_wien2k_fleur": 24.053352142230203,
+    "new_latt_constant": 3.2401382104608842,
+    "vol_rel_diff_wien2k_fleur": 0.00040309207141943587
+  },
+  "Si-XO3": {
+    "average_vol_wien2k_fleur": 41.7769966631821,
+    "new_latt_constant": 3.4698636167715766,
+    "vol_rel_diff_wien2k_fleur": 0.0004070822460718391
+  },
+  "Sm-X2O": {
+    "average_vol_wien2k_fleur": 49.72505334201908,
+    "new_latt_constant": 4.12759190300732,
+    "vol_rel_diff_wien2k_fleur": 0.00025929214943506995
+  },
+  "Sm-X2O3": {
+    "average_vol_wien2k_fleur": 153.55934871710872,
+    "new_latt_constant": 5.354991105704014,
+    "vol_rel_diff_wien2k_fleur": 0.0005906344027576917
+  },
+  "Sm-X2O5": {
+    "average_vol_wien2k_fleur": 157.4444932338444,
+    "new_latt_constant": 5.3997770053530445,
+    "vol_rel_diff_wien2k_fleur": 0.00022238651598390413
+  },
+  "Sm-XO": {
+    "average_vol_wien2k_fleur": 28.712524376467552,
+    "new_latt_constant": 3.437126041312778,
+    "vol_rel_diff_wien2k_fleur": 7.831958296727011e-05
+  },
+  "Sm-XO2": {
+    "average_vol_wien2k_fleur": 38.07923904401255,
+    "new_latt_constant": 3.7763109941796453,
+    "vol_rel_diff_wien2k_fleur": 0.00045899257610931
+  },
+  "Sm-XO3": {
+    "average_vol_wien2k_fleur": 71.28495079150417,
+    "new_latt_constant": 4.146349929231669,
+    "vol_rel_diff_wien2k_fleur": 1.5408820227021664e-05
+  },
+  "Sn-X2O": {
+    "average_vol_wien2k_fleur": 63.454028679534275,
+    "new_latt_constant": 4.477044379848733,
+    "vol_rel_diff_wien2k_fleur": 0.001152687109920909
+  },
+  "Sn-X2O3": {
+    "average_vol_wien2k_fleur": 144.99708048189126,
+    "new_latt_constant": 5.253552612612736,
+    "vol_rel_diff_wien2k_fleur": 0.00013904392912984404
+  },
+  "Sn-X2O5": {
+    "average_vol_wien2k_fleur": 153.55615645536233,
+    "new_latt_constant": 5.354953998114755,
+    "vol_rel_diff_wien2k_fleur": 0.00019333050501299862
+  },
+  "Sn-XO": {
+    "average_vol_wien2k_fleur": 33.52195055023884,
+    "new_latt_constant": 3.619218137088906,
+    "vol_rel_diff_wien2k_fleur": 0.00011637450726017159
+  },
+  "Sn-XO2": {
+    "average_vol_wien2k_fleur": 34.006397110552754,
+    "new_latt_constant": 3.6365693434687705,
+    "vol_rel_diff_wien2k_fleur": 3.511754278540043e-05
+  },
+  "Sn-XO3": {
+    "average_vol_wien2k_fleur": 67.66216797787456,
+    "new_latt_constant": 4.074884495761317,
+    "vol_rel_diff_wien2k_fleur": 9.465296897305476e-07
+  },
+  "Sr-X2O": {
+    "average_vol_wien2k_fleur": 70.15512421909094,
+    "new_latt_constant": 4.6294009730360255,
+    "vol_rel_diff_wien2k_fleur": 0.0005751762578610404
+  },
+  "Sr-X2O3": {
+    "average_vol_wien2k_fleur": 195.29634835891972,
+    "new_latt_constant": 5.801826103149753,
+    "vol_rel_diff_wien2k_fleur": 0.00012956351909899216
+  },
+  "Sr-X2O5": {
+    "average_vol_wien2k_fleur": 195.56010648030747,
+    "new_latt_constant": 5.804436819931725,
+    "vol_rel_diff_wien2k_fleur": 0.001369333675485488
+  },
+  "Sr-XO": {
+    "average_vol_wien2k_fleur": 35.05585663489612,
+    "new_latt_constant": 3.673599951524513,
+    "vol_rel_diff_wien2k_fleur": 8.234658869780093e-05
+  },
+  "Sr-XO2": {
+    "average_vol_wien2k_fleur": 51.29071935585182,
+    "new_latt_constant": 4.170466106135857,
+    "vol_rel_diff_wien2k_fleur": 0.0001045274537709815
+  },
+  "Sr-XO3": {
+    "average_vol_wien2k_fleur": 113.81785462673339,
+    "new_latt_constant": 4.846223788583825,
+    "vol_rel_diff_wien2k_fleur": 6.773325232743402e-05
+  },
+  "Ta-X2O": {
+    "average_vol_wien2k_fleur": 45.02289801521058,
+    "new_latt_constant": 3.9931548131708507,
+    "vol_rel_diff_wien2k_fleur": 0.00021775518705010788
+  },
+  "Ta-X2O3": {
+    "average_vol_wien2k_fleur": 119.93092800852418,
+    "new_latt_constant": 4.9314775993632685,
+    "vol_rel_diff_wien2k_fleur": 8.21807786532675e-05
+  },
+  "Ta-X2O5": {
+    "average_vol_wien2k_fleur": 131.27828545346375,
+    "new_latt_constant": 5.08234682746305,
+    "vol_rel_diff_wien2k_fleur": 4.135560617494766e-05
+  },
+  "Ta-XO": {
+    "average_vol_wien2k_fleur": 22.85915894450202,
+    "new_latt_constant": 3.185603709534964,
+    "vol_rel_diff_wien2k_fleur": 0.00012608123522652362
+  },
+  "Ta-XO2": {
+    "average_vol_wien2k_fleur": 31.39845783792608,
+    "new_latt_constant": 3.5411237591175584,
+    "vol_rel_diff_wien2k_fleur": 4.727379145500337e-05
+  },
+  "Ta-XO3": {
+    "average_vol_wien2k_fleur": 61.75019641743469,
+    "new_latt_constant": 3.952568887468155,
+    "vol_rel_diff_wien2k_fleur": 0.00012619935354856918
+  },
+  "Tb-X2O": {
+    "average_vol_wien2k_fleur": 51.030939038210505,
+    "new_latt_constant": 4.163413242993881,
+    "vol_rel_diff_wien2k_fleur": 0.00027673258311818164
+  },
+  "Tb-X2O3": {
+    "average_vol_wien2k_fleur": 149.6774897612962,
+    "new_latt_constant": 5.309482132744412,
+    "vol_rel_diff_wien2k_fleur": 0.0005677508537049597
+  },
+  "Tb-X2O5": {
+    "average_vol_wien2k_fleur": 155.61732426767986,
+    "new_latt_constant": 5.378807245472815,
+    "vol_rel_diff_wien2k_fleur": 0.00018861309162338224
+  },
+  "Tb-XO": {
+    "average_vol_wien2k_fleur": 28.258289807812844,
+    "new_latt_constant": 3.4189044031092606,
+    "vol_rel_diff_wien2k_fleur": 0.00014083002378254678
+  },
+  "Tb-XO2": {
+    "average_vol_wien2k_fleur": 37.10079254471894,
+    "new_latt_constant": 3.7436858244533675,
+    "vol_rel_diff_wien2k_fleur": 0.0004308557403087888
+  },
+  "Tb-XO3": {
+    "average_vol_wien2k_fleur": 71.34317016608058,
+    "new_latt_constant": 4.14747841525452,
+    "vol_rel_diff_wien2k_fleur": 0.00022903849272662392
+  },
+  "Tc-X2O": {
+    "average_vol_wien2k_fleur": 38.3627198686452,
+    "new_latt_constant": 3.785658749367249,
+    "vol_rel_diff_wien2k_fleur": 0.00020749995664711684
+  },
+  "Tc-X2O3": {
+    "average_vol_wien2k_fleur": 109.20686188353125,
+    "new_latt_constant": 4.779876135214747,
+    "vol_rel_diff_wien2k_fleur": 0.00031386519442404905
+  },
+  "Tc-X2O5": {
+    "average_vol_wien2k_fleur": 124.58611900113513,
+    "new_latt_constant": 4.99447548487646,
+    "vol_rel_diff_wien2k_fleur": 0.0005760031559302191
+  },
+  "Tc-XO": {
+    "average_vol_wien2k_fleur": 21.21283699266686,
+    "new_latt_constant": 3.107214614110505,
+    "vol_rel_diff_wien2k_fleur": 0.0002793598361378369
+  },
+  "Tc-XO2": {
+    "average_vol_wien2k_fleur": 28.720345003176433,
+    "new_latt_constant": 3.437438077495981,
+    "vol_rel_diff_wien2k_fleur": 0.00039379727666504725
+  },
+  "Tc-XO3": {
+    "average_vol_wien2k_fleur": 53.121244464053284,
+    "new_latt_constant": 3.759147905223258,
+    "vol_rel_diff_wien2k_fleur": 0.0002765170179043018
+  },
+  "Te-X2O": {
+    "average_vol_wien2k_fleur": 62.89377627850495,
+    "new_latt_constant": 4.463829073090919,
+    "vol_rel_diff_wien2k_fleur": 0.00015188397922867057
+  },
+  "Te-X2O3": {
+    "average_vol_wien2k_fleur": 157.4355521853238,
+    "new_latt_constant": 5.3996747882030425,
+    "vol_rel_diff_wien2k_fleur": 0.0002737905768376206
+  },
+  "Te-X2O5": {
+    "average_vol_wien2k_fleur": 159.51301648378944,
+    "new_latt_constant": 5.423321816455172,
+    "vol_rel_diff_wien2k_fleur": 0.001015797777201311
+  },
+  "Te-XO": {
+    "average_vol_wien2k_fleur": 34.89162340232445,
+    "new_latt_constant": 3.6678541514474046,
+    "vol_rel_diff_wien2k_fleur": 3.878281430179652e-05
+  },
+  "Te-XO2": {
+    "average_vol_wien2k_fleur": 39.06131437125504,
+    "new_latt_constant": 3.8084999145981593,
+    "vol_rel_diff_wien2k_fleur": 0.00030794515503843967
+  },
+  "Te-XO3": {
+    "average_vol_wien2k_fleur": 56.917250736609375,
+    "new_latt_constant": 3.846637886448238,
+    "vol_rel_diff_wien2k_fleur": 0.0013581378618667676
+  },
+  "Th-X2O": {
+    "average_vol_wien2k_fleur": 68.79223832671946,
+    "new_latt_constant": 4.59922665681928,
+    "vol_rel_diff_wien2k_fleur": 0.00037102073114530224
+  },
+  "Th-X2O3": {
+    "average_vol_wien2k_fleur": 174.95775756549318,
+    "new_latt_constant": 5.592994615671813,
+    "vol_rel_diff_wien2k_fleur": 2.5634010609521026e-05
+  },
+  "Th-X2O5": {
+    "average_vol_wien2k_fleur": 178.2102811614232,
+    "new_latt_constant": 5.627440586077936,
+    "vol_rel_diff_wien2k_fleur": 0.0002051639367165218
+  },
+  "Th-XO": {
+    "average_vol_wien2k_fleur": 33.1421679502967,
+    "new_latt_constant": 3.6054983726550702,
+    "vol_rel_diff_wien2k_fleur": 0.0005812564656448726
+  },
+  "Th-XO2": {
+    "average_vol_wien2k_fleur": 44.32081121964089,
+    "new_latt_constant": 3.972289566302593,
+    "vol_rel_diff_wien2k_fleur": 0.00013137032291468364
+  },
+  "Th-XO3": {
+    "average_vol_wien2k_fleur": 84.96606823507508,
+    "new_latt_constant": 4.396244526873377,
+    "vol_rel_diff_wien2k_fleur": 7.693035921196011e-05
+  },
+  "Ti-X2O": {
+    "average_vol_wien2k_fleur": 36.31629583354412,
+    "new_latt_constant": 3.7171108647773696,
+    "vol_rel_diff_wien2k_fleur": 0.00022602340694069216
+  },
+  "Ti-X2O3": {
+    "average_vol_wien2k_fleur": 108.52061414141542,
+    "new_latt_constant": 4.769842961974389,
+    "vol_rel_diff_wien2k_fleur": 2.5540927786824038e-05
+  },
+  "Ti-X2O5": {
+    "average_vol_wien2k_fleur": 127.4590882503382,
+    "new_latt_constant": 5.032575154311211,
+    "vol_rel_diff_wien2k_fleur": 0.000139837021967323
+  },
+  "Ti-XO": {
+    "average_vol_wien2k_fleur": 19.616449243315863,
+    "new_latt_constant": 3.027228003775096,
+    "vol_rel_diff_wien2k_fleur": 4.58027148839113e-05
+  },
+  "Ti-XO2": {
+    "average_vol_wien2k_fleur": 28.179104284842584,
+    "new_latt_constant": 3.4157079251009765,
+    "vol_rel_diff_wien2k_fleur": 0.00014164503862461642
+  },
+  "Ti-XO3": {
+    "average_vol_wien2k_fleur": 57.35796503031494,
+    "new_latt_constant": 3.8565406340077715,
+    "vol_rel_diff_wien2k_fleur": 0.00013476873919410158
+  },
+  "Tl-X2O": {
+    "average_vol_wien2k_fleur": 72.24320580174825,
+    "new_latt_constant": 4.6748821716671465,
+    "vol_rel_diff_wien2k_fleur": 0.0010078678359916036
+  },
+  "Tl-X2O3": {
+    "average_vol_wien2k_fleur": 159.37412820044517,
+    "new_latt_constant": 5.4217473272292445,
+    "vol_rel_diff_wien2k_fleur": 0.0010682813001882349
+  },
+  "Tl-X2O5": {
+    "average_vol_wien2k_fleur": 172.03845344746324,
+    "new_latt_constant": 5.561712175701123,
+    "vol_rel_diff_wien2k_fleur": 0.0010758821726448687
+  },
+  "Tl-XO": {
+    "average_vol_wien2k_fleur": 33.963145723135874,
+    "new_latt_constant": 3.635026953288347,
+    "vol_rel_diff_wien2k_fleur": 0.0006563422143952384
+  },
+  "Tl-XO2": {
+    "average_vol_wien2k_fleur": 40.729256878153464,
+    "new_latt_constant": 3.861954576300207,
+    "vol_rel_diff_wien2k_fleur": 0.0009996194241581324
+  },
+  "Tl-XO3": {
+    "average_vol_wien2k_fleur": 79.01339683496508,
+    "new_latt_constant": 4.2910829604945775,
+    "vol_rel_diff_wien2k_fleur": 0.0008706583020832254
+  },
+  "Tm-X2O": {
+    "average_vol_wien2k_fleur": 55.14429574267355,
+    "new_latt_constant": 4.2723995845044,
+    "vol_rel_diff_wien2k_fleur": 4.36765874052536e-05
+  },
+  "Tm-X2O3": {
+    "average_vol_wien2k_fleur": 147.36774640323011,
+    "new_latt_constant": 5.282029398608314,
+    "vol_rel_diff_wien2k_fleur": 0.0003222740906294506
+  },
+  "Tm-X2O5": {
+    "average_vol_wien2k_fleur": 156.90532555479498,
+    "new_latt_constant": 5.393606121776313,
+    "vol_rel_diff_wien2k_fleur": 0.0004802188207674405
+  },
+  "Tm-XO": {
+    "average_vol_wien2k_fleur": 27.97309173212946,
+    "new_latt_constant": 3.407363674395971,
+    "vol_rel_diff_wien2k_fleur": 0.00031399690613523356
+  },
+  "Tm-XO2": {
+    "average_vol_wien2k_fleur": 37.02748038289934,
+    "new_latt_constant": 3.741218323901129,
+    "vol_rel_diff_wien2k_fleur": 0.0003824393572624852
+  },
+  "Tm-XO3": {
+    "average_vol_wien2k_fleur": 74.23838835764714,
+    "new_latt_constant": 4.202839885041776,
+    "vol_rel_diff_wien2k_fleur": 0.000745931000380726
+  },
+  "U-X2O": {
+    "average_vol_wien2k_fleur": 50.132997123943596,
+    "new_latt_constant": 4.138848747838914,
+    "vol_rel_diff_wien2k_fleur": 7.864039849932288e-06
+  },
+  "U-X2O3": {
+    "average_vol_wien2k_fleur": 150.81007322774795,
+    "new_latt_constant": 5.322840470951316,
+    "vol_rel_diff_wien2k_fleur": 0.000703841946522964
+  },
+  "U-X2O5": {
+    "average_vol_wien2k_fleur": 152.52647429413173,
+    "new_latt_constant": 5.342957797559015,
+    "vol_rel_diff_wien2k_fleur": 0.0002684687261864854
+  },
+  "U-XO": {
+    "average_vol_wien2k_fleur": 28.357817592041684,
+    "new_latt_constant": 3.4229135778744126,
+    "vol_rel_diff_wien2k_fleur": 0.00026924441764912923
+  },
+  "U-XO2": {
+    "average_vol_wien2k_fleur": 39.025582001868564,
+    "new_latt_constant": 3.8073382516642225,
+    "vol_rel_diff_wien2k_fleur": 0.0005986843126647052
+  },
+  "U-XO3": {
+    "average_vol_wien2k_fleur": 72.23740892947004,
+    "new_latt_constant": 4.164735133965503,
+    "vol_rel_diff_wien2k_fleur": 0.0001774407350709725
+  },
+  "V-X2O": {
+    "average_vol_wien2k_fleur": 32.71378028184597,
+    "new_latt_constant": 3.5898963549162044,
+    "vol_rel_diff_wien2k_fleur": 0.000160159916185966
+  },
+  "V-X2O3": {
+    "average_vol_wien2k_fleur": 101.56140408931876,
+    "new_latt_constant": 4.665622164427478,
+    "vol_rel_diff_wien2k_fleur": 0.00012989010422582626
+  },
+  "V-X2O5": {
+    "average_vol_wien2k_fleur": 119.92612465911319,
+    "new_latt_constant": 4.931411761671913,
+    "vol_rel_diff_wien2k_fleur": 0.00011465960242382248
+  },
+  "V-XO": {
+    "average_vol_wien2k_fleur": 18.31773898271529,
+    "new_latt_constant": 2.958890917174789,
+    "vol_rel_diff_wien2k_fleur": 0.00010492750067178393
+  },
+  "V-XO2": {
+    "average_vol_wien2k_fleur": 26.57435494127432,
+    "new_latt_constant": 3.34959713486935,
+    "vol_rel_diff_wien2k_fleur": 0.0002141206235838979
+  },
+  "V-XO3": {
+    "average_vol_wien2k_fleur": 50.258227489153626,
+    "new_latt_constant": 3.690362733150875,
+    "vol_rel_diff_wien2k_fleur": 9.262121924752552e-05
+  },
+  "W-X2O": {
+    "average_vol_wien2k_fleur": 41.786086838710006,
+    "new_latt_constant": 3.8950726887617164,
+    "vol_rel_diff_wien2k_fleur": 0.00021601263154485517
+  },
+  "W-X2O3": {
+    "average_vol_wien2k_fleur": 114.26911301227526,
+    "new_latt_constant": 4.852620017938888,
+    "vol_rel_diff_wien2k_fleur": 8.553471005288403e-05
+  },
+  "W-X2O5": {
+    "average_vol_wien2k_fleur": 125.55952452539148,
+    "new_latt_constant": 5.007449223308116,
+    "vol_rel_diff_wien2k_fleur": 0.00015093199252447473
+  },
+  "W-XO": {
+    "average_vol_wien2k_fleur": 22.235187542467536,
+    "new_latt_constant": 3.156350798182499,
+    "vol_rel_diff_wien2k_fleur": 1.1205241637453693e-06
+  },
+  "W-XO2": {
+    "average_vol_wien2k_fleur": 30.147765079036063,
+    "new_latt_constant": 3.4934674953960316,
+    "vol_rel_diff_wien2k_fleur": 1.5584635433031925e-05
+  },
+  "W-XO3": {
+    "average_vol_wien2k_fleur": 56.045975190857476,
+    "new_latt_constant": 3.826909071727574,
+    "vol_rel_diff_wien2k_fleur": 0.0001882451269518393
+  },
+  "Xe-X2O": {
+    "average_vol_wien2k_fleur": 137.22108841200662,
+    "new_latt_constant": 5.78955635753786,
+    "vol_rel_diff_wien2k_fleur": 0.0012084379879632359
+  },
+  "Xe-X2O3": {
+    "average_vol_wien2k_fleur": 197.88248002726561,
+    "new_latt_constant": 5.827323319645325,
+    "vol_rel_diff_wien2k_fleur": 0.0010559805724209789
+  },
+  "Xe-X2O5": {
+    "average_vol_wien2k_fleur": 183.5491712037453,
+    "new_latt_constant": 5.683084881196732,
+    "vol_rel_diff_wien2k_fleur": 0.0020030468680312993
+  },
+  "Xe-XO": {
+    "average_vol_wien2k_fleur": 45.253465525583536,
+    "new_latt_constant": 3.999959680649079,
+    "vol_rel_diff_wien2k_fleur": 0.00034762091663851887
+  },
+  "Xe-XO2": {
+    "average_vol_wien2k_fleur": 47.37046014983491,
+    "new_latt_constant": 4.061385373351156,
+    "vol_rel_diff_wien2k_fleur": 0.0008511696855445761
+  },
+  "Xe-XO3": {
+    "average_vol_wien2k_fleur": 66.83409391138397,
+    "new_latt_constant": 4.058192913820579,
+    "vol_rel_diff_wien2k_fleur": 0.0014156274394547523
+  },
+  "Y-X2O": {
+    "average_vol_wien2k_fleur": 56.026642284788785,
+    "new_latt_constant": 4.295066224623648,
+    "vol_rel_diff_wien2k_fleur": 0.00015555867828248023
+  },
+  "Y-X2O3": {
+    "average_vol_wien2k_fleur": 152.51848487615214,
+    "new_latt_constant": 5.342864506938187,
+    "vol_rel_diff_wien2k_fleur": 0.0002686215532338565
+  },
+  "Y-X2O5": {
+    "average_vol_wien2k_fleur": 164.96483241625907,
+    "new_latt_constant": 5.484416853242388,
+    "vol_rel_diff_wien2k_fleur": 0.0007052119277657357
+  },
+  "Y-XO": {
+    "average_vol_wien2k_fleur": 28.057498230807223,
+    "new_latt_constant": 3.4107873794664654,
+    "vol_rel_diff_wien2k_fleur": 0.0003208959798015968
+  },
+  "Y-XO2": {
+    "average_vol_wien2k_fleur": 40.19377519980765,
+    "new_latt_constant": 3.844955038455922,
+    "vol_rel_diff_wien2k_fleur": 2.113761099774326e-05
+  },
+  "Y-XO3": {
+    "average_vol_wien2k_fleur": 88.92291516265979,
+    "new_latt_constant": 4.463455718955381,
+    "vol_rel_diff_wien2k_fleur": 0.00011504712031632633
+  },
+  "Yb-X2O": {
+    "average_vol_wien2k_fleur": 57.46052068133051,
+    "new_latt_constant": 4.331398930502669,
+    "vol_rel_diff_wien2k_fleur": 4.20049554290505e-06
+  },
+  "Yb-X2O3": {
+    "average_vol_wien2k_fleur": 147.82631144693528,
+    "new_latt_constant": 5.287502432547332,
+    "vol_rel_diff_wien2k_fleur": 0.0005318599449651851
+  },
+  "Yb-X2O5": {
+    "average_vol_wien2k_fleur": 158.49125048799482,
+    "new_latt_constant": 5.411717246441349,
+    "vol_rel_diff_wien2k_fleur": 0.0008044546536026845
+  },
+  "Yb-XO": {
+    "average_vol_wien2k_fleur": 27.99156424893468,
+    "new_latt_constant": 3.4081135466106023,
+    "vol_rel_diff_wien2k_fleur": 0.0003189710224819544
+  },
+  "Yb-XO2": {
+    "average_vol_wien2k_fleur": 37.29978851369063,
+    "new_latt_constant": 3.7503671768402516,
+    "vol_rel_diff_wien2k_fleur": 0.0003908072394542943
+  },
+  "Yb-XO3": {
+    "average_vol_wien2k_fleur": 75.71633984534147,
+    "new_latt_constant": 4.230547126634162,
+    "vol_rel_diff_wien2k_fleur": 0.000851595452377075
+  },
+  "Zn-X2O": {
+    "average_vol_wien2k_fleur": 40.67075247011292,
+    "new_latt_constant": 3.860104557808155,
+    "vol_rel_diff_wien2k_fleur": 0.0002484571740655553
+  },
+  "Zn-X2O3": {
+    "average_vol_wien2k_fleur": 113.26388333493486,
+    "new_latt_constant": 4.838348526656175,
+    "vol_rel_diff_wien2k_fleur": 1.5597821809370538e-05
+  },
+  "Zn-X2O5": {
+    "average_vol_wien2k_fleur": 137.03268962648315,
+    "new_latt_constant": 5.155546725968781,
+    "vol_rel_diff_wien2k_fleur": 0.00015601571438580427
+  },
+  "Zn-XO": {
+    "average_vol_wien2k_fleur": 20.279081066940222,
+    "new_latt_constant": 3.0609372254571805,
+    "vol_rel_diff_wien2k_fleur": 0.0005504260199758388
+  },
+  "Zn-XO2": {
+    "average_vol_wien2k_fleur": 30.389095770700095,
+    "new_latt_constant": 3.502764384406312,
+    "vol_rel_diff_wien2k_fleur": 7.267273157706034e-05
+  },
+  "Zn-XO3": {
+    "average_vol_wien2k_fleur": 56.55698356633174,
+    "new_latt_constant": 3.838504724860499,
+    "vol_rel_diff_wien2k_fleur": 0.0005227848233595412
+  },
+  "Zr-X2O": {
+    "average_vol_wien2k_fleur": 48.0858951987028,
+    "new_latt_constant": 4.081729633756553,
+    "vol_rel_diff_wien2k_fleur": 0.0001499317536795698
+  },
+  "Zr-X2O3": {
+    "average_vol_wien2k_fleur": 130.27974648831474,
+    "new_latt_constant": 5.0694281053270736,
+    "vol_rel_diff_wien2k_fleur": 0.00012670444804702315
+  },
+  "Zr-X2O5": {
+    "average_vol_wien2k_fleur": 143.9601234842569,
+    "new_latt_constant": 5.240998919512415,
+    "vol_rel_diff_wien2k_fleur": 0.000456744756080721
+  },
+  "Zr-XO": {
+    "average_vol_wien2k_fleur": 24.283216485881105,
+    "new_latt_constant": 3.2504268975287594,
+    "vol_rel_diff_wien2k_fleur": 0.00013865660011489446
+  },
+  "Zr-XO2": {
+    "average_vol_wien2k_fleur": 33.47639695001703,
+    "new_latt_constant": 3.617577986373998,
+    "vol_rel_diff_wien2k_fleur": 0.00010174631311193903
+  },
+  "Zr-XO3": {
+    "average_vol_wien2k_fleur": 72.31405465711497,
+    "new_latt_constant": 4.16620757661296,
+    "vol_rel_diff_wien2k_fleur": 0.0002474026087305714
+  }
+}
