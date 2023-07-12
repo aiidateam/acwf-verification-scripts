@@ -14,10 +14,10 @@ DRY_RUN = False
 MAX_CONCURRENT = 16
 PLUGIN_NAME = 'cp2k'
 CODE_LABEL = 'cp2k-8.1@daint-hybrid-s904'
-SET_NAME = 'set2'
+SET_NAME = '' # oxides-verification-PBE-v1 or unaries-verification-PBE-v1
 
-STRUCTURES_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/structures/{PLUGIN_NAME}'
-WORKFLOWS_GROUP_LABEL = f'commonwf-oxides/{SET_NAME}/workflows/{PLUGIN_NAME}'
+STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
+WORKFLOWS_GROUP_LABEL = f'acwf-verification/{SET_NAME}/workflows/{PLUGIN_NAME}'
 
 class EosSubmissionController(FromGroupSubmissionController):
     """A SubmissionController for submitting EOS with Quantum ESPRESSO common workflows."""
@@ -42,7 +42,7 @@ class EosSubmissionController(FromGroupSubmissionController):
         """
         structure = self.get_parent_node_from_extras(extras_values)
 
-        sub_process_cls = load_workflow_entry_point('relax', 'cp2k')
+        sub_process_cls = load_workflow_entry_point('relax', 'cp2k') # cp2k or cp2k.sirius
         sub_process_cls_name = get_entry_point_name_from_class(sub_process_cls).name
         generator = sub_process_cls.get_input_generator()
 
@@ -69,7 +69,7 @@ class EosSubmissionController(FromGroupSubmissionController):
             'structure': structure,
             'generator_inputs': {  # code-agnostic inputs for the relaxation
                 'engines': engines,
-                'protocol': 'precise',
+                'protocol': 'verification-pbe-v1', # verification-pbe-v1 or sirius
                 'relax_type': RelaxType.NONE,
                 'electronic_type': ElectronicType.METAL,
                 'spin_type': SpinType.NONE,
