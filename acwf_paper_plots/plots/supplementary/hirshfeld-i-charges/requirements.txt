@@ -5,3 +5,4 @@ bokeh>=2.3.0,<3.0.0
 jupyter-bokeh>=3.0.2,<4.0.0
 plotly>=5.0,<6.0
 seaborn>=0.11.1,<1.0.0
+pandas<2

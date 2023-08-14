@@ -70,6 +70,8 @@ QUANTITIES = ['epsilon', 'nu', 'delta_per_formula_unit', 'delta_per_formula_unit
 ## ------------------------------------------------------------------------------------------------
 ## Override the default variables based on the input argument
 
+EXPORT_SVG = False
+
 if len(sys.argv) == 2:
     if sys.argv[1] == "MAIN":
         # FIGURE 2 IN MAIN TEXT
@@ -78,6 +80,7 @@ if len(sys.argv) == 2:
         LABELS_KEY = 'methods-main'
         ONLY_CODES = ["WIEN2k@(L)APW+lo+LO"]
         CBAR_MAX_DICT = {"nu": 0.4*NU_EPS_FACTOR, "epsilon":0.4}
+        EXPORT_SVG = True
 
     if sys.argv[1] == "SI-all-tables":
         # Section S14
@@ -171,7 +174,7 @@ from bokeh.models import (
     BasicTicker,
 )
 from bokeh.plotting import figure, output_file
-from bokeh.io import show as show_, export_png
+from bokeh.io import show as show_, export_png, export_svg
 from bokeh.sampledata.periodic_table import elements
 from bokeh.transform import dodge
 from bokeh.colors import RGB
@@ -566,7 +569,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         )
 
         # Plot the periodic table
-        p = figure(x_range=[0,19], y_range=[11,0], tools="save", match_aspect=True)
+        p = figure(x_range=[0,19], y_range=[11,0], tools="save", match_aspect=True, output_backend="svg")
         p.toolbar.logo = None
         p.toolbar.tools = []
         p.toolbar_location = None
@@ -647,7 +650,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         )
 
         # Plot the periodic table
-        p = figure(x_range=[0,19], y_range=[11,0], tools="save")
+        p = figure(x_range=[0,19], y_range=[11,0], tools="save", output_backend="svg")
         p.toolbar.logo = None
         p.toolbar.tools = []
         p.toolbar_location = None
@@ -745,7 +748,11 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         show_(p)
     else:
         try:
-            export_png(p, filename=f"periodic-table-{SET_NAME}-{short_labels[plugin].replace(' ', '_')}-vs-{reference_short_label.replace(' ', '_')}-{QUANTITY}.png")
+            if EXPORT_SVG:
+                export_svg(p, filename=f"periodic-table-{SET_NAME}-{short_labels[plugin].replace(' ', '_')}-vs-{reference_short_label.replace(' ', '_')}-{QUANTITY}.svg")
+            else:
+                export_png(p, filename=f"periodic-table-{SET_NAME}-{short_labels[plugin].replace(' ', '_')}-vs-{reference_short_label.replace(' ', '_')}-{QUANTITY}.png")
+
         except RuntimeError as exc:
             msg = str(exc)
             msg = f"""
