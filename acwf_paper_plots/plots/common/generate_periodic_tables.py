@@ -172,6 +172,8 @@ from bokeh.models import (
     LogColorMapper,
     ColorBar,
     BasicTicker,
+    CDSView,
+    BooleanFilter
 )
 from bokeh.plotting import figure, output_file
 from bokeh.io import show as show_, export_png, export_svg
@@ -203,7 +205,7 @@ def make_quality_matching_cmap(quantity):
 
     colorbar_max = 1.04*outl_thresh
     cvals  = [0.0, exc_thresh, good_thresh, outl_thresh, outl_thresh+0.001, colorbar_max]
-    colors = ["#0000be", "#3a50de","#ffff55", "#f53216", "#bf0000", "#bf0000"]
+    colors = ["#555998", "#6B71AD","#EEE992", "#f53216", "#bf0000", "#bf0000"]
 
     norm = Normalize(min(cvals),max(cvals))
     tuples = list(zip(map(norm,cvals), colors))
@@ -428,7 +430,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
 
     width = 1050
     width_cbar = 80 # needs to be manually adjusted to make the quads square...
-    alpha = 0.7
+    alpha = 1.
     extended = True
     cbar_height = None
     cbar_standoff = 12
@@ -611,18 +613,18 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         p.quad(left=6.5,right=8,bottom=1.5,top=3,fill_color="white")
         xx=[5.75,5.75,7.25,7.25]
         yy=[0.75,2.25,0.75,2.25]
-        text=["SC","Diamond","FCC","BCC"]
+        text=["SC","DIA","FCC","BCC"]
         sou = ColumnDataSource(dict(x=xx, y=yy, text=text))
         p.text(
             x="x",
             y="y",
             text="text",
             source=sou,
-            text_font_style="bold",
+            #text_font_style="bold",
             text_font_size="17pt",
             text_align= "center",
             text_baseline= "middle",
-            angle=-45,
+            angle=0,
             angle_units="grad"
             )
 
@@ -684,39 +686,43 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
         p.quad(left=6.5,right=8,bottom=2,top=3,fill_color="white")
         xx=[5.75,5.75,5.75,7.25,7.25,7.25]
         yy=[0.5,1.5,2.5,0.5,1.5,2.5]
-        text=["X2O3","X2O","XO3","X2O5","XO2","XO"]
+        text=["X₂O₃","X₂O","XO₃","X₂O₅","XO₂","XO"]
         sou = ColumnDataSource(dict(x=xx, y=yy, text=text))
         p.text(
             x="x",
             y="y",
             text="text",
             source=sou,
-            text_font_style="bold",
+            #text_font_style="bold",
             text_font_size="17pt",
             text_align= "center",
             text_baseline= "middle",
             )
 
-
-    #Add element name
-    text_props = {
-        "source": source,
-        "angle": 0,
-        "color": "black",
-        "text_align": "center",
-        "text_baseline": "middle",
-    }
-    #x = dodge("group", -0.4, range=p.x_range)
-    #y = dodge("period", 0.3, range=p.y_range)
-    p.text(
-        x="group",
-        y="period",
-        text="sym",
-        text_font_style="bold",
-        text_font_size="16pt",
-        **text_props,
-    )
-    #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
+    for color, view in [
+        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] <= 96)])),
+        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] > 96)]))
+    ]:
+        #Add element name
+        text_props = {
+            "angle": 0,
+            "color": color,
+            "text_align": "center",
+            "text_baseline": "middle",
+        }
+        #x = dodge("group", -0.4, range=p.x_range)
+        #y = dodge("period", 0.3, range=p.y_range)
+        p.text(
+            x="group",
+            y="period",
+            text="sym",
+            source=source,
+            view = view,
+            #text_font_style="bold",
+            text_font_size="16pt",
+            **text_props,
+        )
+        #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
 
     reference_label = 'all-electron average' if USE_AE_AVERAGE_AS_REFERENCE else REFERENCE_CODE_LABEL
     p.title = f"{UNICODE_QUANTITY[QUANTITY]} for {plugin} vs. {reference_label}"
