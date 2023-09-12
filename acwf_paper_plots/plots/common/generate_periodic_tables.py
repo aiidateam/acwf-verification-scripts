@@ -699,9 +699,16 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
             text_baseline= "middle",
             )
 
-    for color, view in [
-        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] <= 96)])),
-        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] > 96)]))
+    for color, view,is_bold in [
+        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] <= 96)]), False),
+        ("#333333", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] > 96)]), False),
+        ## Do not use the following 4 lines, looks ugly
+        ## (it was an attempt of making a white border
+        ## around the black text)
+        #("white", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] <= 96)]), True),
+        #("white", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] > 96)]), True),
+        #("black", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] <= 96)]), False),
+        #("black", CDSView(source=source, filters=[BooleanFilter(elements["atomic number"] > 96)]), False),
     ]:
         #Add element name
         text_props = {
@@ -709,7 +716,11 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
             "color": color,
             "text_align": "center",
             "text_baseline": "middle",
+            "text_font_size": "16pt",
         }
+        if is_bold:
+            text_props['text_font_style'] = "bold"
+
         #x = dodge("group", -0.4, range=p.x_range)
         #y = dodge("period", 0.3, range=p.y_range)
         p.text(
@@ -718,8 +729,7 @@ def create_periodic_table(SET_NAME, QUANTITY, collect, list_confs, short_labels,
             text="sym",
             source=source,
             view = view,
-            #text_font_style="bold",
-            text_font_size="16pt",
+            
             **text_props,
         )
         #p.text(x=x, y=y, text="atomic_number", text_font_size="11pt", **text_props)
