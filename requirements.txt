@@ -1,4 +1,4 @@
-#aiida-common-workflows "master" branch
+#aiida-common-workflows v1.0.*
 numpy
 matplotlib
 tqdm
