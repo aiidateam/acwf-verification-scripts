@@ -19,18 +19,18 @@ These scripts are a template (based on Quantum ESPRESSO) that can be adapted rel
 ## Starting your project
 
 - Create a new virtual environment (if you want) to have different packages than 
-- `pip install aiida-core==1.6.3` (until further notice, do NOT use develop)
+- `pip install aiida-core==1.6.*` (until further notice, do NOT use more modern versions)
 - install your plugin package (e.g.: `pip install aiida_quantumespresso`)
 - `verdi quicksetup` and create a new profile, e.g. `acwf-verification` or any name you want
 - (optional) If you want to avoid having to specify the profile each time: `verdi profile setdefault acwf-verification`
-- `pip install aiida-common-workflows` (you can use the most common develop branch)
+- `pip install aiida-common-workflows==1.0.*` (until further notice, do NOT use more modern versions)
 - `reentry scan`
 - Configure your computer and code (ideally, prepare some .yml config files so it's easy to recreate them if needed)
-- Install needed quantities (e.g. `aiida-pseudo install sssp -v 1.1 -x PBE -p precision`) and document them (if we need to report them in the paper, similarly to the supplementary of the first paper)
+- Install needed quantities (e.g. `aiida-pseudo install sssp -v 1.1 -x PBE -p precision`)
 
 At this point, you can already submit some tests if you want to check if everything is correclty setup:
-  - `aiida-common-workflows launch eos YOUR_CODE_TYPE -p precise -S Si -X YOUR_CODE_LABEL@YOUR_COMPUTER_LABEL -r none -m 1 -w 3600 -d`
-    - Note: if you have to add options in the metadata of the calculations, you can use this command line flag that we recently introduced: `--engine-options='{"relax": {"account": "mr0"}}'`
+  - `aiida-common-workflows launch eos YOUR_CODE_TYPE -p fast -S Si -X YOUR_CODE_LABEL@YOUR_COMPUTER_LABEL -r none -m 1 -w 3600 -d`
+    - Note: if you have to add options in the metadata of the calculations, you can use this command line flag: `--engine-options='{"relax": {"account": "mr0"}}'`
 
 
 ## Adapting your scripts and running

@@ -38,9 +38,12 @@ def get_plugin_name():
 PLUGIN_NAME = get_plugin_name()
 
 BINS = 100
+# The following 3 parameters are used for nu only, however passed as
+# function parameters to every function, just to have the same signature.
 DEFAULT_PREFACTOR = 100
-DEFAULT_wb0 = 1.0/8.0
-DEFAULT_wb1 = 1.0/64.0
+DEFAULT_wb0 = 1.0/20.0  
+DEFAULT_wb1 = 1.0/400.0
+
 EXPECTED_SCRIPT_VERSION = ["0.0.3","0.0.4"]
 
 
@@ -53,7 +56,7 @@ quantity_for_comparison_map = {
     "B0_rel_diff": qc.B0_rel_diff,
     "V0_rel_diff": qc.V0_rel_diff,
     "B1_rel_diff": qc.B1_rel_diff,
-    "rel_errors_vec_length": qc.rel_errors_vec_length,
+    "nu": qc.nu,
     "epsilon": qc.epsilon
 }
 

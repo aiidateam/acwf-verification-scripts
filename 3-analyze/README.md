@@ -33,11 +33,6 @@ for `siesta`, `quantum_espresso` and `cottenier-wien2k` given that the files `re
 `results-cottenier-wien2k` are present in the folder.
 The plots graphs will be gathered in the `plot-many` folder.
 
-## Generating heatmaps with delta comparison
-In the `outputs` folder you will find a file `generate_deltas.py` that can be used to generate heatmaps that visualize the code VS code comparison based on the delta value.
-To obtain them, just run `runanida generate_deltas.py` followed by the list of plugin names you want to consider for the comparison. For instance `runaiida generate_deltas.py siesta quantum_espresso cottenier-wien2k`.
-A png picture with the heatmap will be produced for each material and stored in the `deltas` folder with appropriate name.
-
 ## Interactively inspecting the plots
 In the `outputs` folder you will also find a `show-plots-GUI.ipynb` jupyter notebook.
 You can use it to compare quickly plots for different materials and codes.
@@ -65,16 +60,3 @@ Few quantities are now supported, do `runaiida generate_histos.py` to see them.
 A png picture with the histogram is produced and put in the folder where the script is run.
 It is suggested to not compare with more than 3 plugins since the histograms are all on the same plot.
 
-## Generating (very approximate and preliminary) convex hulls
-
-In order to generate a convex hull, first call the `outputs/compute_convex_hull.py` that will compute the various
-energy differences, the convex hull (with only the systems of this study) and generate a JSON file in
-`outputs/convex-hulls/convex-hull-data-<PLUGIN_NAME>.json`.
-
-You can then plot it using the script `plot_convex_hull.py` (the output files are also stored, properly
-named, in the `outputs/convex-hulls` folder).
-
-**NOTE**: The convex hulls so generated are just a very rough approximation. First of all, they only include the 6 oxides and 2 endpoints (that might not be the lowest-energy ones). In addition, they include no correction, first of all for oxygen, but also not for the various oxygen configurations (see e.g. how the Materials Project applies corrections [here](https://docs.materialsproject.org/methodology/total-energies/#anion-corrections) instead, and the related references).
-
-Therefore, these (and the energy above Hull) should **not** be considered as accurate values.
-Instead, what we will be interested in comparing is the *difference* between these plots between pair of codes (where most if not all of these corrections cancel out) - e.g. how different is the formation energy between two given compounds computed by two different codes. So, the Hull plots should just be considered as a check or benchmark that the routines are working correctly and not used for their values.
