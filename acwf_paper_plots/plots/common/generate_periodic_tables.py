@@ -71,6 +71,7 @@ QUANTITIES = ['epsilon', 'nu', 'delta_per_formula_unit', 'delta_per_formula_unit
 ## Override the default variables based on the input argument
 
 EXPORT_SVG = False
+PRINT_JSON = False
 
 if len(sys.argv) == 2:
     if sys.argv[1] == "MAIN":
@@ -81,6 +82,7 @@ if len(sys.argv) == 2:
         ONLY_CODES = ["WIEN2k@(L)APW+lo+LO"]
         CBAR_MAX_DICT = {"nu": 0.4*NU_EPS_FACTOR, "epsilon":0.4}
         EXPORT_SVG = True
+        PRINT_JSON = True
 
     if sys.argv[1] == "SI-all-tables":
         # Section S14
@@ -993,6 +995,32 @@ if __name__ == "__main__":
             for plugin, plugin_data in ld["code_results"].items():
                 collect = calculate_quantities(plugin_data, ld["compare_plugin_data"], QUANTITY)
                 master_data_dict[SET_NAME]["calculated_quantities"][QUANTITY][plugin] = collect
+
+
+    output_quantity_dict = {}
+    for QUANTITY in QUANTITIES:
+        output_quantity_dict[QUANTITY] = {}
+        for SET_NAME in SET_NAMES:
+            output_quantity_dict[QUANTITY][SET_NAME] = {}
+            intermediate_dict = master_data_dict[SET_NAME]['calculated_quantities'][QUANTITY]['WIEN2k@(L)APW+lo+LO']
+            for configuration, intermediate_data in intermediate_dict.items():
+                output_quantity_dict[QUANTITY][SET_NAME].update(
+                    dict(zip(
+                        [f"{k}-{configuration}" for k in intermediate_data['elements']],
+                        intermediate_data['values']
+                    ))
+                )
+
+    # print(output_quantity_dict['nu']['oxides'])
+    ## {'Ac-X2O3': 0.009737865122023147, 'Ag-X2O3': 0.04770355931373145, ..., 'Hg-X2O5': 0.0754615851710017, ...}
+    print(output_quantity_dict['nu']['unaries'])
+    # {'Ac-X/Diamond': 0.04186021792027553, 'Ag-X/Diamond': 0.037339062070366094, ..., 'As-X/BCC': 0.02878620698279048, ...}
+
+    if PRINT_JSON:
+        fname = 'all-measure-quantities-ae.json'
+        with open(fname, 'w') as fhandle:
+            json.dump(output_quantity_dict, fhandle, indent=2)
+        print(f"{fname} written.")
 
     measures_max_and_avg = find_code_measures_max_and_avg(master_data_dict)
 
