@@ -1,6 +1,12 @@
 # acwf-verification-scripts
 Scripts to facilitate the [AiiDA common workflows (ACWF)](https://github.com/aiidateam/aiida-common-workflows) sub-project focusing on verification of codes (on a set of unaries and oxides for all chemical elements between Z=1 and Z=96).
 
+These scripts were used to manage all simulations, analyze the data and produce the plots and tables of the paper:
+
+>  [E. Bosoni et al., *How to verify the precision of density-functional-theory implementations via reproducible and universal workflows*, **Nat. Rev. Phys. 6**, 45 (2024)](https://doi.org/10.1038/s42254-023-00655-3)
+
+If you use these scripts, we would be grateful if you could cite the paper above.
+
 ## Content of the folders
 
 These scripts are a template (based on Quantum ESPRESSO) that can be adapted relatively simply for any other code.
