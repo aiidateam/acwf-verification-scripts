@@ -9,7 +9,7 @@ SET_NAME = 'oxides-verification-PBE-v1'
 STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
 
 Structure = DataFactory('structure')
-group, _ = orm.Group.objects.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)
+group, _ = orm.Group.collection.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)
 
 query = orm.QueryBuilder()
 query.append(Structure, tag='structure', project=['extras', 'id'])
