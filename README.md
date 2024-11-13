@@ -7,6 +7,8 @@ These scripts were used to manage all simulations, analyze the data and produce 
 
 If you use these scripts, we would be grateful if you could cite the paper above.
 
+Results from the paper above (whose raw files are available the subfolder `acwf_paper_plots`) can be visualized directly in your browser on this Materials Cloud Discover section: [https://acwf-verification.materialscloud.org](https://acwf-verification.materialscloud.org).
+
 ## Content of the folders
 
 These scripts are a template (based on Quantum ESPRESSO) that can be adapted relatively simply for any other code.
