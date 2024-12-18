@@ -7,8 +7,6 @@ from pymatgen.core import Structure
 
 
 Z_max = 103
-Pettifor_max = 103
-
 
 PRIM_CONV_LATTICE_CONST_SCALING = {
     'SC': 1,
@@ -16,7 +14,6 @@ PRIM_CONV_LATTICE_CONST_SCALING = {
     'FCC': np.sqrt(2),
     'Diamond': np.sqrt(2)
 }
-
 
 def plot_lattice_constants(lattice_constants):
     fig, ax = plt.subplots(4, 1, figsize=(12, 9))
@@ -97,7 +94,6 @@ if __name__ == "__main__":
         'PBE': pbe_alat,
         'PBEsol': pbesol_alat
     }
-
 
     plot_lattice_constants(lattice_constants)
     
