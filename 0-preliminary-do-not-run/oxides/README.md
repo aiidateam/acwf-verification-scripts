@@ -14,3 +14,5 @@ only once, when the structures need to be imported.
 
 
 **Note2**: the original structure for the oxides are in cif format, we later on created a script to transform them is xsf
+
+**Note3**: The `conv_lattice_constants_oxides-verification-*.json` files contain the lattice constants of the conventional unit cell for the different configurations (one file for each functional). Moreover, `central_volumes_oxides-verification-*.json` contain the central volumes of the structures that are defined in the `xsfs-oxides-verification-*` subfolders, again, separately for each functional.
