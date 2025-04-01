@@ -39,8 +39,8 @@ if __name__ == "__main__":
     STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures'
     STRUCTURES_GROUP_LABEL = f'acwf-verification/{SET_NAME}/structures/{PLUGIN_NAME}'
 
-    group = orm.Group.objects.get(label=STRUCTURES_FULL_GROUP_LABEL)
-    subgroup, _ = orm.Group.objects.get_or_create(label=STRUCTURES_GROUP_LABEL)
+    group = orm.Group.collection.get(label=STRUCTURES_FULL_GROUP_LABEL)
+    subgroup, _ = orm.Group.collection.get_or_create(label=STRUCTURES_GROUP_LABEL)
 
     #####################################################################################
     ## PLUGIN-SPECIFIC PART: ADD THE ELIF FOR YOUR CODE
