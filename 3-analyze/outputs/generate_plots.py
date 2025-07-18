@@ -216,7 +216,12 @@ if __name__ == "__main__":
             eos_ax.axvline(ref_BM_fit_data['min_volume'] / scaling_ref_plugin, linestyle='--', color='gray')
             if compare_eos_fit_energy is not None:
                 eos_ax.plot(dense_volumes, compare_eos_fit_energy, '-r', label=f'{compare_with} fit')
-                eos_ax.fill_between(dense_volumes, reference_eos_fit_energy, compare_eos_fit_energy, alpha=0.5, color='red')
+                eos_ax.fill_between(
+                    dense_volumes.flatten(), 
+                    reference_eos_fit_energy.flatten(), 
+                    compare_eos_fit_energy.flatten(),
+                    alpha=0.5, color='red'
+                    )
         
         eos_ax.legend(loc='upper center')
         eos_ax.set_xlabel("Cell volume per formula unit ($\\AA^3$)")
