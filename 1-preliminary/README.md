@@ -38,3 +38,7 @@ Then, adapt the `create_starting_subgroup.py`, addign the logic to set the `vali
 
 Then, run the script (passing as parameter the group name you want to operate on)
 to create the appropriate subgroup `acwf-verification/oxides-verification-PBE-v1/structures/PLUGIN_NAME`.
+
+# Magnetic verification
+
+Specific instructions for magnetic verification runs are in the `magnetic-verification` folder.
