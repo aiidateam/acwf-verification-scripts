@@ -1,0 +1,84 @@
+{
+    "total_magnetization_energy_data": {
+        "Ni-X/Diamond": [
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ]
+        ]
+    },
+    "fermi_energies": {
+        "Ni-X/Diamond": [
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ],
+            [
+                null,
+                null
+            ]
+        ]
+    },
+    "script_version": "0.0.1",
+    "set_name": "unaries-verification-PBE-magnetic-v1"
+}
