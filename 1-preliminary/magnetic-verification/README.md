@@ -11,7 +11,10 @@ After several tests, we decided to use the energy as a function of fixed total m
 ## Inputs
 
 * We provide a set of structures with the magnetic minimum volume in `.xsf` format and a corresponding `AiiDA` archive. You can find them in the usual locations in the `0-preliminary-do-not-run/unaries/` and `1-preliminary/magnetic-verification/` folders of this repository.
-* The total magnetizations (in mu_B/cell) to be checked for each structure are provided in the input JSON file `fixed_total_magnetiations-unaries-PBE-magnetic-v1.json`. We explicitly define them as the number of points might change depending on the configuration
+* The total magnetizations (in mu_B/cell) to be checked for each structure are provided in the input JSON file `fixed_total_magnetizations-unaries-{SET_NAME}.json`. We explicitly define them as the number of points might change depending on the configuration
+
+As some configurations are still refined, we start the verification for a subset. This list will be updated:
+* `PBE-magnetic-d-block-OFClBr`: Only d-block elements and `O, F, Cl, Br`. Note, only magnetic configurations are included.
 
 ## Outputs
 
