@@ -100,6 +100,11 @@
             "unaries": "results-unaries-verification-PBE-v1-castep-PseudoDojo-0.4-PBE-SR-standard-upf-trim.json",
             "short_label": "CASTEP"
         },
+        "DFTK@PW|PseudoDojo-v0.5":{
+            "oxides": "results-oxides-verification-PBE-v1-dftk-PseudoDojo-0.5-PBE-SR-standard-upf.json",
+            "unaries": "results-unaries-verification-PBE-v1-dftk-PseudoDojo-0.5-PBE-SR-standard-upf.json",
+            "short_label": "DFTK"
+        },
         "SIRIUS/CP2K@PW|SSSP-prec-v1.2":{
             "oxides": "results-oxides-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
             "unaries": "results-unaries-verification-PBE-v1-cp2k-sirius-SSSP-1.2-PBE-precision.json",
