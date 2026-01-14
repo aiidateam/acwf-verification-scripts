@@ -74,7 +74,7 @@ class EosSubmissionController(FromGroupSubmissionController):
             'sub_process' : {  # optional code-dependent overrides
                 'base': {
                     'pw': {
-                        'settings' : orm.Dict(dict= {
+                        'settings' : orm.Dict({
                             'cmdline': ['-nk', '32'],
                         })
                     }
