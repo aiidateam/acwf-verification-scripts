@@ -15,6 +15,7 @@ After several tests, we decided to use the energy as a function of fixed total m
 
 As some configurations are still refined, we start the verification for a subset. This list will be updated:
 * `PBE-magnetic-d-block-OFClBr`: Only d-block elements and `O, F, Cl, Br`. Note, only magnetic configurations are included.
+* `PBE-magnetic-f-block-Pt`: Only f-block elements and Pt-Diamond, as the Pt-Diamond configuration required some refinement after the first iteration (the central magnetization was too small). Note, only magnetic configurations are included.
 
 ## Outputs
 
