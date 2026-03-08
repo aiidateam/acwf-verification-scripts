@@ -22,7 +22,7 @@ Z = atomic_numbers[element_name]
 STRUCTURES_FULL_GROUP_LABEL = f'acwf-verification/{set_name}/structures/{code_name}'
 
 Structure = DataFactory('structure')
-group, created = orm.Group.objects.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)
+group, created = orm.Group.collection.get_or_create(label=STRUCTURES_FULL_GROUP_LABEL)
 
 if not created and len(group.nodes) > 0:
     print(f"Stopping, non-empty group '{STRUCTURES_FULL_GROUP_LABEL}' already exists")
