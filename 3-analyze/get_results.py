@@ -32,7 +32,7 @@ def extract_from_failed(node):
     streses=[]
     num_atoms = None
     num_attempt_vols = 0
-    for i in node.get_outgoing(link_type=LinkType.CALL_WORK).all():
+    for i in node.base.links.get_outgoing(link_type=LinkType.CALL_WORK).all():
         num_attempt_vols = num_attempt_vols + 1
         if i.node.is_finished_ok:
             if num_atoms is None:
@@ -109,8 +109,8 @@ if __name__ == "__main__":
     progress_bar = tqdm.tqdm(wf_nodes)
     for node in progress_bar:
         structure = node.inputs.structure
-        element = structure.extras['element']
-        configuration = structure.extras['configuration']
+        element = structure.base.extras.all['element']
+        configuration = structure.base.extras.all['configuration']
 
         uuid_mapping[f'{element}-{configuration}'] = {
             'structure': structure.uuid,
@@ -141,7 +141,7 @@ if __name__ == "__main__":
         # For successfully finished workflows, collect the data from outputs
         if node.process_state.value == 'finished' and node.exit_status == 0:
             # Extract volumes and energies for this system
-            outputs = node.get_outgoing(link_type=LinkType.RETURN).nested()
+            outputs = node.base.links.get_outgoing(link_type=LinkType.RETURN).nested()
             for index, sub_structure in sorted(outputs['structures'].items()):
                 if num_atoms is None:
                     num_atoms = len(sub_structure.sites)
@@ -152,7 +152,7 @@ if __name__ == "__main__":
                 volumes.append(sub_structure.get_cell_volume())
                 energy_node = outputs['total_energies'][index]
                 energies.append(energy_node.value)
-                parent_workflows_links = energy_node.get_incoming(link_type=LinkType.RETURN).all()
+                parent_workflows_links = energy_node.base.links.get_incoming(link_type=LinkType.RETURN).all()
                 parent_workflows = [
                     triple.node for triple in parent_workflows_links
                     if issubclass(triple.node.process_class, CommonRelaxWorkChain)]
@@ -214,8 +214,13 @@ if __name__ == "__main__":
             bulk_modulus_GPa = bulk_modulus_internal * echarge * 1.0e21
             #1 eV/Angstrom3 = 160.21766208 GPa
             bulk_modulus_ev_ang3 = bulk_modulus_GPa / 160.21766208
-            data_to_print[(structure.extras['element'], structure.extras['configuration'])] = (
-                min_volume, E0, bulk_modulus_GPa, bulk_deriv)
+            data_to_print[
+                (
+                    structure.base.extras.all['element'], structure.base.extras.all['configuration']
+                    )
+                ] = (
+                    min_volume, E0, bulk_modulus_GPa, bulk_deriv
+                    )
             BM_fit_data = {
                 'min_volume': min_volume,
                 'E0': E0,
@@ -224,11 +229,16 @@ if __name__ == "__main__":
                 'residuals': residuals[0]
             }
             if residuals[0] > 1.e-3:
-                warning_lines.append(f"WARNING! High fit residuals: {residuals[0]} for {structure.extras['element']} {structure.extras['configuration']}")
+                warning_lines.append(
+                    f"WARNING! High fit residuals: {residuals[0]} for {structure.base.extras.all['element']} "
+                    f"{structure.base.extras.all['configuration']}"
+                    )
         except ValueError:
             # If we cannot find a minimum
             # Note that BM_fit_data was already set to None at the top
-            warning_lines.append(f"WARNING! Unable to fit for {structure.extras['element']} {structure.extras['configuration']}")
+            warning_lines.append(
+                f"WARNING! Unable to fit for {structure.base.extras.all['element']} {structure.base.extras.all['configuration']}"
+                )
 
         all_eos_data[f'{element}-{configuration}'] = eos_data
         num_atoms_in_sim_cell[f'{element}-{configuration}'] = num_atoms

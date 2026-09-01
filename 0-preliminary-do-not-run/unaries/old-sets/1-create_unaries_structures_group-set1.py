@@ -112,7 +112,7 @@ if __name__ == "__main__":
     print(f"# {len(existing)} structures already in the group")
     print(f"# {len(missing)} structures that I will add to the group")
 
-    group, _ = Group.objects.get_or_create(label=AIIDA_GROUP_LABEL)
+    group, _ = Group.collection.get_or_create(label=AIIDA_GROUP_LABEL)
     structures_to_add = [all_structures[extras] for extras in missing]
     # I need to store all these structures first
     for structure in structures_to_add:
