@@ -1,0 +1,106 @@
+{
+    "Er-X/BCC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            2.14,
+            2.17,
+            2.2,
+            2.23,
+            2.26,
+            2.29,
+            2.32,
+            2.35,
+            2.38
+        ]
+    },
+    "Tm-X/BCC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            0.99,
+            1.02,
+            1.05,
+            1.08,
+            1.11,
+            1.14,
+            1.17,
+            1.2,
+            1.23
+        ]
+    },
+    "Es-X/BCC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            2.917,
+            2.947,
+            2.977,
+            3.007,
+            3.037,
+            3.067,
+            3.097,
+            3.127,
+            3.157
+        ]
+    },
+    "Er-X/FCC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            2.569,
+            2.599,
+            2.629,
+            2.659,
+            2.689,
+            2.719,
+            2.749,
+            2.779,
+            2.809
+        ]
+    },
+    "Tm-X/FCC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            0.9,
+            0.93,
+            0.96,
+            0.99,
+            1.02,
+            1.05,
+            1.08,
+            1.11,
+            1.14
+        ]
+    },
+    "Er-X/SC": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            2.2,
+            2.23,
+            2.26,
+            2.29,
+            2.32,
+            2.35,
+            2.38,
+            2.41,
+            2.44
+        ]
+    },
+    "Er-X/Diamond": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            4.52,
+            4.58,
+            4.64,
+            4.7,
+            4.76,
+            4.82,
+            4.88,
+            4.94,
+            5.0
+        ]
+    },
+    "Tm-X/Diamond": {
+        "fixed_total_magnetizations_mu_B/cell": [
+            1.81,
+            1.87,
+            1.93,
+            1.99,
+            2.05,
+            2.11,
+            2.17,
+            2.23,
+            2.29
+        ]
+    }
+}
