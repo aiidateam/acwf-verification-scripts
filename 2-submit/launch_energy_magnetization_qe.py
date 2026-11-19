@@ -15,7 +15,7 @@ from aiida_submission_controller import FromGroupSubmissionController
 DRY_RUN = False
 MAX_CONCURRENT = 1
 PLUGIN_NAME = "quantum_espresso"
-CODE_LABEL = "qe-7.3-gf-pw@thor"
+CODE_LABEL = "pw@localhost"
 
 
 class EnergyMagnetizationSubmissionController(FromGroupSubmissionController):
@@ -99,8 +99,11 @@ class EnergyMagnetizationSubmissionController(FromGroupSubmissionController):
                 }
             },
         }
+        
+        builder = self._process_class.get_builder()
+        builder.update(inputs)
 
-        return inputs, self._process_class
+        return builder
 
 
 if __name__ == "__main__":
@@ -110,7 +113,7 @@ if __name__ == "__main__":
     WORKFLOWS_GROUP_LABEL = f"acwf-verification/{SET_NAME}/workflows"
 
     with open(
-        "../1-preliminary/magnetic-verification/fixed_total_magnetiations-unaries-PBE-magnetic-d-block-OFClBr-v1.json",
+        "../1-preliminary/magnetic-verification/fixed_total_magnetizations-unaries-PBE-magnetic-d-block-OFClBr-v1.json",
         "r",
     ) as f:
         configuration_total_magnetizations_mapping = json.load(f)
