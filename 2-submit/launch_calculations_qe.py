@@ -14,9 +14,9 @@ from aiida_common_workflows.plugins import load_workflow_entry_point
 from aiida_submission_controller import FromGroupSubmissionController
 
 DRY_RUN = False
-MAX_CONCURRENT = 24
+MAX_CONCURRENT = 2
 PLUGIN_NAME = 'quantum_espresso'
-CODE_LABEL = 'qe-6.8-pw@eiger-mc'
+CODE_LABEL = 'pw@localhost'
 
 
 class EosSubmissionController(FromGroupSubmissionController):
@@ -82,7 +82,11 @@ class EosSubmissionController(FromGroupSubmissionController):
             }
         }
 
-        return inputs, self._process_class
+        builder = self._process_class.get_builder()
+        builder.update(inputs)
+
+        return builder
+
 
 if __name__ == "__main__":
     try:
